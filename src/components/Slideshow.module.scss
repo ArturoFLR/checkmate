@@ -1,0 +1,98 @@
+@keyframes nextPortraitAnim{
+	0% {
+		right: -105%;
+	}
+	100% {
+		right: 0%;
+	}
+}
+
+@keyframes prevPortraitAnim{
+	0% {
+		left: -105%;
+	}
+	100% {
+		left: 0%;
+	}
+}
+
+.mainContainer {
+	width: 100%;
+}
+
+.imagesContainer {
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+
+	img {
+		width: 100%;
+		scale: 1.018;
+	}
+
+	.prevImageContainer, .actualImageContainer, .nextImageContainer {
+		position: absolute;
+		width: 100%;
+		border: 3px solid #ffa500;
+		border-radius: 50%;
+		overflow: hidden;
+	}
+
+	.prevImageContainer {
+		left: -105%;
+
+	}
+
+	.animatePrevPortrait {
+		animation: prevPortraitAnim forwards .3s;
+	}
+
+	.actualImageContainer {
+		position: static;
+	}
+
+	.nextImageContainer {
+		top: 0%;
+		right: -105%;
+	}
+
+	.animateNextPortrait {
+		animation: nextPortraitAnim forwards .3s;
+	}
+
+	.nextIconContainer, .prevIconContainer {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		top: 70%;
+		width: 35px;
+		height: 35px;
+		background-color: white;
+		border-radius: 100%;
+		cursor: pointer;
+		user-select: none;
+
+		img {
+			width: 10px;
+			transition-property: scale filter;
+			transition-duration: 0.6s;
+		}
+
+		&:hover {
+
+			img {
+				scale: 1.3;
+				filter: invert(75%) sepia(28%) saturate(6645%) hue-rotate(359deg) brightness(104%) contrast(106%);
+			}
+		}
+	}
+
+	.nextIconContainer {
+		right: 0%;
+	}
+
+	.prevIconContainer {
+		left: 0%;
+	}
+}

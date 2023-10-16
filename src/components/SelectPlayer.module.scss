@@ -1,0 +1,40 @@
+@keyframes animateInput {
+	0% {
+		scale: 1
+	}
+	50% {
+		scale: 1.2
+	}
+	100% {
+		scale: 1
+	}
+}
+
+.mainContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.37);
+	z-index: 1;
+}
+
+.playerInfoContainer{
+	width: 25%;
+	height: 450px;
+	border-radius: 15px;
+	border: 3px solid rgb(255,165,0);
+	background-color: black;
+	color: white;
+
+	.slideshowContainer {
+		width: 50%;
+		margin: auto;
+	}
+
+	.animateInputOnError {
+		animation: animateInput 0.5s;
+	}
+}

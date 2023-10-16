@@ -1,9 +1,14 @@
 import { useState } from "react";
 import styles from "./MainMenu.module.scss";
+import { GameState } from "../App";
 
 type OptionSelected = "init" | "load" | "new";
 
-function MainMenu() {
+type MainMenuProps = {
+	setGameState: React.Dispatch<React.SetStateAction<GameState>>
+}
+
+function MainMenu( {setGameState}: MainMenuProps) {
 
 	const [optionSelected, setOptionSelected] = useState<OptionSelected>("init");
 
@@ -17,6 +22,14 @@ function MainMenu() {
 		} else {
 			setOptionSelected("init");
 		}
+	}
+
+	function handlePlayerVsComputerClick () {
+		setGameState("select1Player");
+	}
+
+	function handle2Players () {
+		setGameState("select2Players");
 	}
 
 	function handleBackClick () {
@@ -33,6 +46,9 @@ function MainMenu() {
 				<div className={styles.loadGameContainer}>
 					<button type="button" className={styles.btnLoadGame} onClick={handleLoadGameClick} >LOAD GAME</button>
 				</div>
+
+				<div className={styles.leftFormatter} ></div>
+				<div className={styles.rigthFormatter} ></div>
 			</div>
 		);
 	} else if (optionSelected === "load") {
@@ -45,29 +61,34 @@ function MainMenu() {
 				<div className={styles.loadGameContainer}>
 					<button type="button" className={styles.btnLoadGame} onClick={handleLoadGameClick} >LOAD GAME</button>
 					<div className={styles.loadGameGameList}>
-						Partida 1.
-						Partida 2.
-						Partida 3.
+						<p>Partida 1.</p>
+						<p>Partida 2.</p>
+						<p>Partida 3.</p>
 					</div>
-					<button type="button">Select</button>
+					<button type="button" className={styles.btnSelect}>Select</button>
 				</div>
+
+				<div className={styles.leftFormatter} ></div>
+				<div className={styles.rigthFormatter} ></div>
 			</div>
 		);
 	} else if (optionSelected === "new") {
 		return (
 			<div className={styles.mainContainer} >
 				<div className={styles.playerVsComputerContainer} >
-					<button type="button" className={styles.btnPlayerVsComputer}>PLAYER VS COMPUTER</button>
+					<button type="button" className={styles.btnPlayerVsComputer} onClick={handlePlayerVsComputerClick} >PLAYER VS COMPUTER</button>
 				</div>
 
 				<div className={styles.onePlayerContainer} > 
-					<button type="button" className={styles.btnOnePlayer}>1 PLAYER</button>
+					<button type="button" className={styles.btnOnePlayer} onClick={handle2Players} >2 PLAYERS</button>
 				</div>
 
 				<div className={styles.backContainer} >
-					<button type="button" className={styles.btnPlayerVsComputer} onClick={handleBackClick} >BACK</button>
+					<button type="button" className={styles.btnBack} onClick={handleBackClick} >BACK</button>
 				</div>
 
+				<div className={styles.leftFormatter} ></div>
+				<div className={styles.rigthFormatter} ></div>
 			</div>
 		);
 	}

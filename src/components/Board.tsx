@@ -1,4 +1,4 @@
-import styles from "Board.module.scss";
+import styles from "./Board.module.scss";
 
 
 function Board() {
