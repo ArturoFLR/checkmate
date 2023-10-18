@@ -17,6 +17,18 @@ function SelectPlayer( { howManyPlayers, setGameState }: SelectPlayerProps ) {		
 
 	let inputNameErrorTimeout: number;
 
+	function handleP1EnterKeyPress (event: React.KeyboardEvent<HTMLInputElement>): void {
+		if (event.key === "Enter") {
+			handlePlayer1OkClick();
+		}
+	}
+
+	function handleP2EnterKeyPress (event: React.KeyboardEvent<HTMLInputElement>): void {
+		if (event.key === "Enter") {
+			handlePlayer2OkClick();
+		}
+	}
+
 	function animateInputOnError () {
 		const player1NameInput = document.getElementById("playerInfoInput") as HTMLInputElement;
 		player1NameInput.classList.add(styles.animateInputOnError);
@@ -53,8 +65,8 @@ function SelectPlayer( { howManyPlayers, setGameState }: SelectPlayerProps ) {		
 		if (player2NameInput.value) {
 			const player2Name = player2NameInput.value;
 
-			const player2Portrait = playersData[0].portrait;
-			playersData[0].changePlayerData(player2Name, player2Portrait);
+			const player2Portrait = playersData[1].portrait;
+			playersData[1].changePlayerData(player2Name, player2Portrait);
 			
 			setGameState("gameStarted2P");
 		} else {
@@ -72,17 +84,16 @@ function SelectPlayer( { howManyPlayers, setGameState }: SelectPlayerProps ) {		
 		return (
 			<div className={styles.mainContainer} >
 				<div className={styles.playerInfoContainer} >
-					<div>
-						<p className={styles.playerInfoNumber} >PLAYER 1</p>
-						<img alt="White king" src="../../public/images/pieces/"></img>
+					<div className={styles.playerNumberAndPieceContainer} >
+						<p className={styles.playerInfoNumber} >Player 1</p>
+						<img alt="White king" src="images/pieces/kingW.png" ></img>
 					</div>
 
 					<div className={styles.slideshowContainer} >
 						<Slideshow  player="p1"/ >
 					</div>
 
-					<input className={styles.playerInfoInput} maxLength={8} id="playerInfoInput" placeholder="Enter your name"></input>
-
+					<input className={styles.playerInfoInput} maxLength={10} id="playerInfoInput" placeholder="Enter your name" onKeyDown={handleP1EnterKeyPress}></input>
 					<button type="button" className={styles.playerInfobtnOk} onClick={handlePlayer1OkClick}>Ok!</button>
 				</div>
 			</div>
@@ -91,14 +102,16 @@ function SelectPlayer( { howManyPlayers, setGameState }: SelectPlayerProps ) {		
 		return (
 			<div className={styles.mainContainer} >
 				<div className={styles.playerInfoContainer} >
-					<p className={styles.playerInfoNumber} >PLAYER 2</p>
+					<div className={styles.playerNumberAndPieceContainer}>
+						<p className={styles.playerInfoNumber} >Player 2</p>
+						<img alt="White king" src="images/pieces/kingB.png"></img>
+					</div>
 
 					<div className={styles.slideshowContainer} >
 						<Slideshow  player="p2"/ >
 					</div>
 
-					<input className={styles.playerInfoInput} maxLength={8} id="playerInfoInput" placeholder="Enter your name" ></input>
-
+					<input className={styles.playerInfoInput} maxLength={10} id="playerInfoInput" placeholder="Enter your name" onKeyDown={handleP2EnterKeyPress}></input>
 					<button type="button" className={styles.playerInfobtnOk} onClick={handlePlayer2OkClick} >Ok!</button>
 				</div>
 			</div>

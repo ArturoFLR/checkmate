@@ -40,6 +40,7 @@
 
 	.prevImageContainer {
 		left: -105%;
+		z-index: 1;
 
 	}
 
@@ -49,6 +50,7 @@
 
 	.actualImageContainer {
 		position: static;
+		z-index: 0;
 	}
 
 	.nextImageContainer {
@@ -72,6 +74,7 @@
 		border-radius: 100%;
 		cursor: pointer;
 		user-select: none;
+		z-index: 2;
 
 		img {
 			width: 10px;

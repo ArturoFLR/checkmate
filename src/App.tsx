@@ -33,7 +33,7 @@ function App() {
 				<div className={styles.menuContainer}>
 					{
 						gameState === "gameStarted1P" || gameState === "gameStarted2P"
-							? <PlayerData howManyPlayers={gameState} /> 
+							? <PlayerData howManyPlayers={gameState} setGameState={setGameState} /> 
 							: <MainMenu setGameState={setGameState} />
 					}
 						

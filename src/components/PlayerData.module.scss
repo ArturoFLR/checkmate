@@ -1,0 +1,139 @@
+.mainContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
+
+.computerContainer, .player2Container, .player1Container {
+	position: relative;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	width: 50%;
+	padding: 1rem;
+	padding-left: 2.5rem;
+	color: rgb(157, 166, 240);
+	font-size: 3rem;
+	font-family: 'Tilt Neon', sans-serif;
+	background-color: black;
+	border: 1px solid rgb(255,165,0);
+	border-radius: 15px;
+
+
+	img {
+		position: absolute;
+		right: -2%;
+		width: 25%;
+		border-radius: 50%;
+		border: 2px solid rgb(255,165,0);
+	}
+}
+
+.player1Container {
+	margin: 5rem 0rem 6rem 0rem ;
+}
+
+.activePlayer {
+	border: 3px solid rgb(255,165,0);
+	border: 3px solid rgb(255,165,0);
+	scale: 1.15;
+}
+
+.btnExitGameContainer {
+	width: 100%;
+	text-align: center;
+}
+
+.btnExitGame {									// General styles for buttons. More specific styles for confirmation buttons are given below.
+	position: relative;
+	width: 40%;
+	background-color: rgb(0,102,128);
+	font-size: 2.5rem;
+	font-family: 'Shadows Into Light', cursive;
+	font-weight: 400;
+	color: rgb(255,165,0);
+	border: none;
+	cursor: pointer;
+	transition-property: background-color transform;
+	transition-duration: 0.7s;
+
+	&:hover {
+		background-color: rgb(101, 3, 3);
+		transform: rotate(-2deg);
+	}
+
+	.leftFormatter, .rigthFormatter {
+		position: absolute;
+		bottom: -15%;
+		width: 10%;
+		height: 120%;
+		background-color: rgb(4, 2, 55);
+	}
+
+	.leftFormatter {
+		transform: rotate(155deg);
+		left: -5%;
+	}
+	
+	.rigthFormatter {
+		transform: rotate(-155deg);
+		right: -5%;
+	}
+}
+
+.exitConfirmMainContainer {
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.37);
+	z-index: 1;
+
+	.exitConfirmOptionsContainer {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-around;
+		align-items: center;
+		width: 300px;
+		height: 120px;	
+		background-color: black;
+		border: 2px solid rgb(255,165,0);
+	}
+
+	p {
+		color: rgb(255,165,0);
+		font-family: 'Tilt Neon', sans-serif;
+		font-size: 2.2rem;
+		width: 100%;
+		text-align: center;
+	}
+
+	.btnExitGame {
+		width: 35%;
+		font-size: 2rem;
+
+		.leftFormatter, .rigthFormatter {
+			bottom: -27%;
+			width: 25%;
+			height: 135%;
+			background-color: black;
+		}
+
+		.leftFormatter{
+			left: -13%;
+		}
+
+		.rigthFormatter{
+			right: -13%;
+		}
+	}
+}
+
+.hidden {
+	display: none;
+}

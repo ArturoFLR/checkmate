@@ -1,0 +1,51 @@
+.mainContainer {
+	width: 100%;
+	height: 100%;
+
+}
+
+.blackPiecesContainer {
+	background-color: blue;
+}
+
+.whitePiecesContainer {
+	background-color: aliceblue;
+}
+
+.boardContainer {
+	width: 87vh;
+	height: 87vh;
+	border-radius: 25px;
+	overflow: hidden;
+	box-shadow: 5px 5px 20px 10px;
+}
+
+.frameContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	background-image: url("@/images/board/borders.jpg");
+	border: 2px solid black;
+}
+
+.sqaresContainer {
+	display: flex;
+	flex-wrap: wrap;
+	width: 93%;
+	height: 93%;
+	border: 2px solid black;
+}
+
+.whiteSquare {
+	width: 12.5%;
+	height: 12.5%;
+	background-image: url("@/images/board/squareW.jpg");
+}
+
+.blackSquare {
+	width: 12.5%;
+	height: 12.5%;
+	background-image: url("@/images/board/squareB.jpg");
+}
