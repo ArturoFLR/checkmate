@@ -28,7 +28,7 @@ function PlayerData( {howManyPlayers, setGameState}: SelectPlayerProps ) {
 	return (
 		<div className={styles.mainContainer}>
 			{
-				howManyPlayers === "gameStarted1P"
+				howManyPlayers === "gameStarted1P" || howManyPlayers === "gameIntro1P"
 					? (
 						<div className={styles.computerContainer} >
 							<p>Computer</p>

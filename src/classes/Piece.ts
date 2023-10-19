@@ -1,6 +1,6 @@
 abstract class Piece {
 	protected possibleMoves: string[] = [];
-	constructor( protected id: string, protected image: string, protected square: string ) {}
+	constructor( public id: string, public image: string, public square: string ) {}
 
 	abstract calcPossibleMoves (): void  ;
 	abstract selectPiece (): void;

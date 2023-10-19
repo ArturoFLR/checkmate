@@ -49,7 +49,7 @@ function SelectPlayer( { howManyPlayers, setGameState }: SelectPlayerProps ) {		
 			player1NameInput.value = "";
 			
 			if (howManyPlayers === "select1Player") {
-				setGameState("gameStarted1P");								// If there is only one player, changes the state of the parent component "App" to start the game
+				setGameState("gameIntro1P");								// If there is only one player, changes the state of the parent component "App" to start the game
 			} else if (howManyPlayers === "select2Players") {
 				setPlayerDataToShow("player2");								// If there are two players, changes the state of this component to ask for player 2´s data.
 			}
@@ -68,7 +68,7 @@ function SelectPlayer( { howManyPlayers, setGameState }: SelectPlayerProps ) {		
 			const player2Portrait = playersData[1].portrait;
 			playersData[1].changePlayerData(player2Name, player2Portrait);
 			
-			setGameState("gameStarted2P");
+			setGameState("gameIntro2P");
 		} else {
 			animateInputOnError();
 		}

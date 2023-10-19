@@ -5,8 +5,9 @@ import Board from "./components/Board";
 import SelectPlayer from "./components/SelectPlayer";
 import PlayerData from "./components/PlayerData";
 import Logo from "./components/Logo";
+import PiecesInit from "./components/PiecesInit";
 
-export type GameState = "preGame" | "select1Player" | "select2Players" | "gameStarted1P" | "gameStarted2P";
+export type GameState = "preGame" | "select1Player" | "select2Players" | "gameIntro1P" | "gameIntro2P" | "gameStarted1P" | "gameStarted2P";
 
 function App() {
 
@@ -20,9 +21,48 @@ function App() {
 					: null
 			}
 			<main className={styles.gameZoneContainer}>
+				{
+					gameState !== "gameStarted1P" && gameState !== "gameStarted2P"
+						? (
+							<div className={styles.BlackPiecesInitContainer}>
+																	
+								{
+									gameState === "gameIntro1P" || gameState === "gameIntro2P"
+										? <PiecesInit setGameState={setGameState} gameState={gameState} animate={true} piecesColor="black"/>
+										: <PiecesInit setGameState={setGameState} gameState={gameState} animate={false} piecesColor="black"/>
+								}
+								
+							</div>
+						)	
+						: null					
+				}
+
+
 				<div className={styles.boardContainer}>
-					<Board />
+					{
+						gameState === "gameStarted1P" || gameState === "gameStarted2P"
+							? 	<Board  showPieces={true}/>
+							: 	<Board  showPieces={false}/>
+					}
+
 				</div>
+
+				{
+					gameState !== "gameStarted1P" && gameState !== "gameStarted2P"
+						? (
+							<div className={styles.WhitePiecesInitContainer}>
+																	
+								{
+									gameState === "gameIntro1P" || gameState === "gameIntro2P"
+										? <PiecesInit setGameState={setGameState} gameState={gameState} animate={true} piecesColor="white" />
+										: <PiecesInit setGameState={setGameState} gameState={gameState} animate={false} piecesColor="white" />
+								}
+								
+							</div>
+						)	
+						: null					
+				}
+
 			</main>
 
 			<header className={styles.headerContainer}>
@@ -32,7 +72,7 @@ function App() {
 
 				<div className={styles.menuContainer}>
 					{
-						gameState === "gameStarted1P" || gameState === "gameStarted2P"
+						gameState === "gameIntro1P" || gameState === "gameIntro2P" || gameState === "gameStarted1P" || gameState === "gameStarted2P"
 							? <PlayerData howManyPlayers={gameState} setGameState={setGameState} /> 
 							: <MainMenu setGameState={setGameState} />
 					}

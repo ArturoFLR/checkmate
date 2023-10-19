@@ -1,20 +1,37 @@
+body {
+	overflow: hidden;
+	background-image: url("@/images/background/nebula1.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
 
 .mainContainer {
 	display: flex;
 	align-items: center;
 	width: 100vw;
 	height: 100vh;
-	background-color: rgb(22, 21, 69);
+	backdrop-filter: blur(3px) brightness(70%);
 }
 
 .gameZoneContainer {
 	display: flex;
 	justify-content: center;
+	column-gap: 2rem;
 	align-items: center;
-	width: 70%;
+	width: 75%;
+
+	.BlackPiecesInitContainer {
+		width: 15vh;
+		height: 87vh;
+	}
 
 	.boardContainer {
-		width: 100vh;
+		width: 87vh;
+		height: 87vh;
+	}
+
+	.WhitePiecesInitContainer {
+		width: 15vh;
 		height: 87vh;
 	}
 }
@@ -23,8 +40,10 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	width: 29%;
+	width: 25%;
 	height: 95%;
+	margin-right: 2rem;
+	border: 3px solid rgb(255,165,0);
 	border-radius: 15px;
 	background-color: rgb(4, 2, 55);
 

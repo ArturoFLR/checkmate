@@ -8,7 +8,24 @@ class Pawn extends Piece {
 	calcPossibleMoves () {
 		this.possibleMoves = ["e3", "e4"];
 	}
-
-	
-	
+	selectPiece () {
+		console.log("selected!");
+	}
+	deselectPiece () {
+		console.log("deselected");
+	}
+	movePiece () {
+		console.log("moved");
+	}
+	animateMove () {
+		console.log("animated");
+	}
+	die () {
+		console.log("dead!");
+	}
+	animateDie () {
+		console.log("dying!");
+	}
 }
+
+export default Pawn;

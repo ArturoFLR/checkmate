@@ -1,15 +1,8 @@
 .mainContainer {
+	display: flex;
+	justify-content: center;
 	width: 100%;
 	height: 100%;
-
-}
-
-.blackPiecesContainer {
-	background-color: blue;
-}
-
-.whitePiecesContainer {
-	background-color: aliceblue;
 }
 
 .boardContainer {
@@ -36,16 +29,30 @@
 	width: 93%;
 	height: 93%;
 	border: 2px solid black;
+
+	.whiteSquare, .blackSquare {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 12.5%;
+		height: 12.5%;
+	
+		img {
+			width: 50%;
+			margin-bottom: 2px;
+		}
+
+		.hide {
+			display: none;
+		}
+	}
+	
+	.whiteSquare {
+		background-image: url("@/images/board/squareW.jpg");
+	}
+	
+	.blackSquare {
+		background-image: url("@/images/board/squareB.jpg");
+	}
 }
 
-.whiteSquare {
-	width: 12.5%;
-	height: 12.5%;
-	background-image: url("@/images/board/squareW.jpg");
-}
-
-.blackSquare {
-	width: 12.5%;
-	height: 12.5%;
-	background-image: url("@/images/board/squareB.jpg");
-}
