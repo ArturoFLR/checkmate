@@ -1,19 +1,14 @@
 import Piece from "./Piece";
 
 class Pawn extends Piece {
-	isFirstMove = true;
-	constructor( id: string, image: string, square: string ){
-		super(id, image, square);
+	public isFirstMove = true;
+	constructor( id: string, player: "b" | "w", image: string, square: string ){
+		super(id, player, image, square);
 	}
 	calcPossibleMoves () {
-		this.possibleMoves = ["e3", "e4"];
+		this.possibleMoves = ["a3", "a4", "e1", "e4"];
 	}
-	selectPiece () {
-		console.log("selected!");
-	}
-	deselectPiece () {
-		console.log("deselected");
-	}
+
 	movePiece () {
 		console.log("moved");
 	}
@@ -29,3 +24,7 @@ class Pawn extends Piece {
 }
 
 export default Pawn;
+
+function calcPossibleMoves  (this: Pawn ) {
+	const squareLetter = this.square[0];
+}

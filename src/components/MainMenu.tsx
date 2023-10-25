@@ -1,16 +1,14 @@
 import { useState } from "react";
 import styles from "./MainMenu.module.scss";
-import { GameState } from "../App";
+import { useGameStateContext } from "../context/GameStateContext";
 
 type OptionSelected = "init" | "load" | "new";
 
-type MainMenuProps = {
-	setGameState: React.Dispatch<React.SetStateAction<GameState>>
-}
-
-function MainMenu( {setGameState}: MainMenuProps) {
+function MainMenu() {
 
 	const [optionSelected, setOptionSelected] = useState<OptionSelected>("init");
+	const [, gameStateData] = useGameStateContext();
+	const setGameState = gameStateData.setGameState;
 
 	function handleNewGameClick () {
 		setOptionSelected("new");

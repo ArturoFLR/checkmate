@@ -1,7 +1,7 @@
 import styles from "./Slideshow.module.scss";
 import portraitsPaths from "../data/portraitsPaths";
 import { useEffect, useState } from "react";
-import { usePlayersDataContext } from "../context/PlayersContext";
+import { player1Data, player2Data } from "../globals/playersData";
 
 type SlideshowProps = {
 	player: "p1" |"p2"
@@ -13,8 +13,6 @@ function Slideshow( {player}: SlideshowProps ) {							//	The "player" prop indi
 	
 	let noSelectedPortraitsPaths = portraitsPaths; 			// Later, this variable will be defined as "portraitsPaths" minus the portrait already selected by player 1, if any
 	
-	const playersData = usePlayersDataContext();	
-	
 	let prevPortraitPath: string;		// 	These variables will be defined later, within "if" statements.
 	let nextPortraitPath: string;		
 	let nextPortraitTimeout: number;	
@@ -25,7 +23,7 @@ function Slideshow( {player}: SlideshowProps ) {							//	The "player" prop indi
 		const noSelectedPortraitsPathsCopy = [...noSelectedPortraitsPaths];
 
 		const pathToDeleteIndex = noSelectedPortraitsPathsCopy.findIndex( (element) => {
-			return element === playersData[0].portrait;
+			return element === player1Data.portrait;
 		});
 
 		noSelectedPortraitsPathsCopy.splice(pathToDeleteIndex, 1);
@@ -40,9 +38,9 @@ function Slideshow( {player}: SlideshowProps ) {							//	The "player" prop indi
 	}
 
 	if (player === "p1") {												// Every time a portrait is chosen (the one that appears by default also counts) it is set as the one chosen by player 1 or 2 in the PlayersDataContext context
-		playersData[0].changePlayerData("", actualPortraitPath);
+		player1Data.changePlayerData("", actualPortraitPath);
 	} else {
-		playersData[1].changePlayerData("", actualPortraitPath);
+		player2Data.changePlayerData("", actualPortraitPath);
 	}
 
 	if (actualPortraitIndex < (noSelectedPortraitsPaths.length - 1)) {						// 	Defines the initial portrait that contains the nextPortraitPath variable, based on the portrait that contains the currentPortraitIndex variable

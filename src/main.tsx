@@ -2,12 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import { PlayersDataProvider } from "./context/PlayersContext.tsx";
+import { GameStateProvider } from "./context/GameStateContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
-		<PlayersDataProvider>
+		<GameStateProvider>
 			<App />
-		</PlayersDataProvider>
+		</GameStateProvider>
 	</React.StrictMode>,
 );

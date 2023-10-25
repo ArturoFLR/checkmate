@@ -36,6 +36,7 @@
 		align-items: center;
 		width: 12.5%;
 		height: 12.5%;
+		user-select: none;
 	
 		img {
 			width: 50%;
@@ -53,6 +54,41 @@
 	
 	.blackSquare {
 		background-image: url("@/images/board/squareB.jpg");
+	}
+
+	.increasePieceScale {											// It applies to squares that contain a piece of the player who is going to move.
+		cursor: pointer;
+
+		img {
+			scale: 1;
+			transition-property: scale;
+			transition-duration: 0.2s;
+
+			&:hover {
+				scale: 1.2;
+			}
+		}
+	}
+
+	.targetEmptySquare {
+		border: 5px inset rgb(104, 230, 104);
+		cursor: pointer;
+	}
+
+	.targetSquareWithPiece {
+		position: relative;
+		border: 5px inset rgb(243, 95, 95);
+		cursor: pointer;
+
+		&::after {
+			content: "";
+			position: absolute;
+			top: 5%;
+			border-radius: 50%;
+			border: 3px solid rgb(243, 95, 95);
+			width: 90%;
+			height: 90%;
+		}
 	}
 }
 

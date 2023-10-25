@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
-import { GameState } from "../App";
 import styles from "./SelectPlayer.module.scss";
 import Slideshow from "./Slideshow";
-import { usePlayersDataContext } from "../context/PlayersContext";
+import { useGameStateContext } from "../context/GameStateContext";
+import { player1Data, player2Data } from "../globals/playersData";
 
 type playerDataToShow = "player1" | "player2";
 
-type SelectPlayerProps = {
-	howManyPlayers: GameState,
-	setGameState: React.Dispatch<React.SetStateAction<GameState>>
-}
 
-function SelectPlayer( { howManyPlayers, setGameState }: SelectPlayerProps ) {					// 	The "howManyPlayers" prop is used to decide whether or not to ask to fill in player 2's data when player 1's data has been filled in. "setGameState" changes App`s GameState
+function SelectPlayer () {					
 	const [ playerDataToShow, setPlayerDataToShow ] = useState<playerDataToShow>("player1");		// This state changes the player data form displayed, player 1 or player 2
-	const playersData = usePlayersDataContext();
+
+	const [, gameStateData] = useGameStateContext();
+	const howManyPlayers = gameStateData.gameState;													// The "howManyPlayers" prop is used to decide whether or not to ask to fill in player 2's data when player 1's data has been filled in. "setGameState" changes App`s GameState
+	const setGameState = gameStateData.setGameState;									
 
 	let inputNameErrorTimeout: number;
 
@@ -43,8 +42,8 @@ function SelectPlayer( { howManyPlayers, setGameState }: SelectPlayerProps ) {		
 		if (player1NameInput.value) {
 			const player1Name = player1NameInput.value;
 
-			const player1Portrait = playersData[0].portrait;
-			playersData[0].changePlayerData(player1Name, player1Portrait);		// 	The "SelectPlayer" component only sets the name of the players in the "PlayersDataContext" context. The child component "Slideshow" is responsible for setting the portraits.
+			const player1Portrait = player1Data.portrait;
+			player1Data.changePlayerData(player1Name, player1Portrait);		// 	The "SelectPlayer" component only sets the name of the players in the "PlayersDataContext" context. The child component "Slideshow" is responsible for setting the portraits.
 
 			player1NameInput.value = "";
 			
@@ -65,8 +64,8 @@ function SelectPlayer( { howManyPlayers, setGameState }: SelectPlayerProps ) {		
 		if (player2NameInput.value) {
 			const player2Name = player2NameInput.value;
 
-			const player2Portrait = playersData[1].portrait;
-			playersData[1].changePlayerData(player2Name, player2Portrait);
+			const player2Portrait = player2Data.portrait;
+			player2Data.changePlayerData(player2Name, player2Portrait);
 			
 			setGameState("gameIntro2P");
 		} else {

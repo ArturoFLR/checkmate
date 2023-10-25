@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Pawn from "../classes/Pawn";
 import styles from "./PiecesInit.module.scss";
-import { GameState } from "../App";
+import { useGameStateContext } from "../context/GameStateContext";
 
 type PieceAnimationData = {
 	piece: HTMLImageElement,
@@ -17,14 +17,15 @@ type PieceAnimationData = {
 }
 
 type PiecesInitProps = {
-	setGameState: React.Dispatch<React.SetStateAction<GameState>>,
 	animate: boolean,
-	gameState: GameState,
 	piecesColor: "black" | "white";
 }
 
-function PiecesInit( {setGameState, animate, gameState, piecesColor}: PiecesInitProps ) {
+function PiecesInit( {animate, piecesColor}: PiecesInitProps ) {
 	let piecesAnimationTimeout: number;
+	const [, gameStateData] = useGameStateContext();
+	const gameState = gameStateData.gameState;
+	const setGameState = gameStateData.setGameState;
 
 	function generateInitPieces () {
 		let letters: string[];
@@ -41,14 +42,14 @@ function PiecesInit( {setGameState, animate, gameState, piecesColor}: PiecesInit
 		if (piecesColor === "black") {
 			letters.map( (letter) => {
 				for (let i:number = 7; i <= 8; i++) {
-					piecesList = [...piecesList, new Pawn(`p${idNumber}`, "images/pieces/pawnB.png", `${letter}${i}`)];
+					piecesList = [...piecesList, new Pawn(`p${idNumber}`, "b", "images/pieces/pawnB.png", `${letter}${i}`)];
 					idNumber++;
 				}
 			});
 		} else {
 			letters.map( (letter) => {
 				for (let i:number = 1; i <= 2; i++) {
-					piecesList = [...piecesList, new Pawn(`P${idNumber}`, "images/pieces/pawnW.png", `${letter}${i}`)];
+					piecesList = [...piecesList, new Pawn(`P${idNumber}`, "w", "images/pieces/pawnW.png", `${letter}${i}`)];
 					idNumber++;
 				}
 			});

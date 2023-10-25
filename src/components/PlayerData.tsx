@@ -1,14 +1,18 @@
-import { GameState } from "../App";
-import { usePlayersDataContext } from "../context/PlayersContext";
+import { useGameStateContext } from "../context/GameStateContext";
 import styles from "./PlayerData.module.scss";
+import styles2 from "./Board.module.scss";
+import { player1Data, player2Data } from "../globals/playersData";
+import generateSquares from "../utils/generateSquares";
+import { piecesData } from "../globals/gameData";
+import generatePieces from "../utils/generatePieces.mts";
 
-type SelectPlayerProps = {
-	howManyPlayers: GameState,
-	setGameState: React.Dispatch<React.SetStateAction<GameState>>
-}
 
-function PlayerData( {howManyPlayers, setGameState}: SelectPlayerProps ) {
-	const playersData = usePlayersDataContext();
+function PlayerData() {
+	const [, gameStateData] = useGameStateContext();
+	const howManyPlayers = gameStateData.gameState;
+	const setGameState = gameStateData.setGameState;
+	
+	const squaresToClean = generateSquares(piecesData.pieces, false);
 
 	function handleExitGameClick () {
 		const exitGameDialog = document.getElementById("exitConfirmMainContainer");
@@ -16,6 +20,15 @@ function PlayerData( {howManyPlayers, setGameState}: SelectPlayerProps ) {
 	}
 
 	function handleConfirmExitGame () {
+
+		squaresToClean.map( (element) => {
+			const square = document.getElementById(element.props.id) as HTMLDivElement;
+			square.classList.remove(styles2.targetSquareWithPiece);
+			square.classList.remove(styles2.targetEmptySquare);
+		});
+
+		piecesData.setPieces(generatePieces());
+
 		setGameState("preGame");
 	}
 
@@ -37,15 +50,15 @@ function PlayerData( {howManyPlayers, setGameState}: SelectPlayerProps ) {
 					)
 					: (
 						<div className={styles.player2Container} >
-							<p>{playersData[1].name}</p>
-							<img alt="Player 2 portrait" src={playersData[1].portrait} />
+							<p>{player2Data.name}</p>
+							<img alt="Player 2 portrait" src={player2Data.portrait} />
 						</div>
 					)
 			}
 
 			<div className={styles.player1Container} >
-				<p>{playersData[0].name}</p>
-				<img alt="Player 1 portrait" src={playersData[0].portrait} />
+				<p>{player1Data.name}</p>
+				<img alt="Player 1 portrait" src={player1Data.portrait} />
 			</div>
 
 			<div className={styles.btnExitGameContainer}>
