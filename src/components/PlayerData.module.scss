@@ -1,3 +1,47 @@
+@keyframes playerActiveContainer {
+	0% {
+		border: 1px solid rgb(255,165,0);
+		scale: 1;
+	}
+	100% {
+		border: 4px solid rgb(255,165,0);
+		scale: 1.2;
+	}
+}
+
+@keyframes playerActiveImage {
+	0% {
+		border: 1px solid rgb(255,165,0);
+		scale: 1;
+	}
+	100% {
+		border: 2px solid rgb(255,165,0);
+		scale: 1.2;
+	}
+}
+
+@keyframes playerNoActiveContainer {
+	0% {
+		border: 4px solid rgb(255,165,0);
+		scale: 1.2;
+	}
+	100% {
+		border: 1px solid rgb(255,165,0);
+		scale: 1;
+	}
+}
+
+@keyframes playerNoActiveImage {
+	0% {
+		border: 2px solid rgb(255,165,0);
+		scale: 1.2;
+	}
+	100% {
+		border: 1px solid rgb(255,165,0);
+		scale: 1;
+	}
+}
+
 .mainContainer {
 	display: flex;
 	flex-direction: column;
@@ -10,7 +54,7 @@
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	width: 50%;
+	width: 60%;
 	padding: 1rem;
 	padding-left: 2.5rem;
 	color: rgb(157, 166, 240);
@@ -31,13 +75,23 @@
 }
 
 .player1Container {
-	margin: 5rem 0rem 6rem 0rem ;
+	margin: 7rem 0rem 6rem 0rem ;
 }
 
-.activePlayer {
-	border: 3px solid rgb(255,165,0);
-	border: 3px solid rgb(255,165,0);
-	scale: 1.15;
+.playerHighlighted {								// Highlights the player who is about to move.
+	animation: playerActiveContainer 1s forwards;
+
+	img {
+		animation: playerActiveImage 1s forwards;
+	}
+}
+
+.playerNoHighlight {
+	animation: playerNoActiveContainer 1s;
+
+	img {
+		animation: playerNoActiveImage 1s;
+	}
 }
 
 .btnExitGameContainer {

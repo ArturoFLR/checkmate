@@ -43,13 +43,13 @@ function generateSquares ( piecesList: Pawn[], withPieces: boolean ) {					// Ge
 					
 						? 	squareList = [...squareList, (
 							<div key={squareName} id={squareName} className={`${squareClass} ${styles.increasePieceScale}`}>
-								<img alt="Piece" src={piece.image} id={piece.id} ></img>
+								<img alt="Piece" src={piece.image} id={piece.id} data-player={piece.player} ></img>
 							</div>
 						)]
 					
 						:   squareList = [...squareList, (
 							<div key={squareName} id={squareName} className={squareClass}>
-								<img alt="Piece" src={piece.image} id={piece.id} ></img>
+								<img alt="Piece" src={piece.image} id={piece.id} data-player={piece.player} ></img>
 							</div>
 						)];
 				}											
