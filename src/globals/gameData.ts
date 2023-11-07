@@ -1,16 +1,15 @@
-import Pawn from "../classes/Pawn";
-import Piece from "../classes/Piece";
+import { PiecesType } from "../classes/PiecesType";
 import generatePieces from "../utils/generatePieces.mts";
 
 //  AN ARRAY WITH THE PIECES THAT ARE ON THE BOARD AT EVERY MOMENT 
 
 type PiecesDataType = 	{
-	pieces: Piece[],
-	setPieces: ( newPiecesList: Piece[]) => void
+	pieces: PiecesType[],
+	setPieces: ( newPiecesList: PiecesType[]) => void
 }
 
 const initialPieces = generatePieces();
-function setPieces ( this: PiecesDataType, newPiecesList: Piece[] ) {
+function setPieces ( this: PiecesDataType, newPiecesList: PiecesType[] ) {
 	this.pieces = newPiecesList;
 }
 
@@ -121,11 +120,11 @@ export const isPieceDyingData: IsPieceDyingType = {
 // IF A PAWN CAN TRANSFORM AT THE END OF A TURN, ITS ID IS STORED HERE BY "Board". THIS VARIABLE IS USED AND THEN SET TO null BY THE "SelectPiece" COMPONENT.
 
 type PawnToTransformType = {
-	pawnToTransform: Pawn | null,
-	setPawnToTransform: ( newPawn: Pawn | null ) => void
+	pawnToTransform: PiecesType | null,
+	setPawnToTransform: ( newPawn: PiecesType | null ) => void
 }
 
-function setPawnToTransform ( this: PawnToTransformType, newPawn: Pawn | null) {
+function setPawnToTransform ( this: PawnToTransformType, newPawn: PiecesType | null) {
 	this.pawnToTransform = newPawn;
 }
 
@@ -137,11 +136,11 @@ export const pawnToTransformData: PawnToTransformType = {
 // STORES THE DATA OF PIECE TO ANIMATE IN A PAWN TRANSFORMATION AT THE BEGINNING OF A TURN, IF ANY. IT IS SET BY THE "pawn.transform()" METHOD AND RESET TO "null" BY "Board" ONCE USED.
 
 type TransformedPieceToAnimateType = {
-	transformedPieceToAnimate: Piece | null,
-	setTransformedPieceToAnimate: ( newPiece: Piece | null ) => void
+	transformedPieceToAnimate: PiecesType | null,
+	setTransformedPieceToAnimate: ( newPiece: PiecesType | null ) => void
 }
 
-function setTransformedPieceToAnimate ( this: TransformedPieceToAnimateType, newPiece: Piece | null ) {
+function setTransformedPieceToAnimate ( this: TransformedPieceToAnimateType, newPiece: PiecesType | null ) {
 	this.transformedPieceToAnimate = newPiece;
 }
 

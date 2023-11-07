@@ -3,6 +3,7 @@ import { halfTurnData, isPieceDyingData, piecesData, selectedPieceData } from ".
 
 abstract class Piece {
 	public possibleMoves: string[] = [];
+	impossibleMovesForKings: string[] = [];													// It saves possible capture moves (diagonally), which cannot be made now because there are no enemy pieces, but would affect the king if it moves to those possible capture squares.	
 	constructor( public id: string, public player: "b" | "w", public image: string, public square: string ) {}
 
 	abstract calcPossibleMoves (): void ;
@@ -98,10 +99,11 @@ function getAnimationCoordinates ( this: Piece, targetSquare: string): PieceAnim
 		top: window.scrollY + targetSquareDiv.getBoundingClientRect().top,
 		left: window.scrollY + targetSquareDiv.getBoundingClientRect().left,
 		width: targetSquareDiv.getBoundingClientRect().width,									// The width of the destination square is necessary, because if we do not add it to the "left" property, the piece is positioned at the left edge of the square.
-		height:	targetSquareDiv.getBoundingClientRect().height									// The width of the destination square is necessary, because if we do not add it to the "left" property, the piece is positioned at the left edge of the square.
+		height:	targetSquareDiv.getBoundingClientRect().height									// The height of the destination square is necessary, because if we do not add it to the "top" property, the piece is positioned at the left edge of the square.
 	};
 
 	const pieceToMove = document.getElementById(this.id) as HTMLImageElement;
+	
 	const pieceToMoveCoordinates = {
 		top: window.scrollY + pieceToMove.getBoundingClientRect().top,
 		left: window.scrollY + pieceToMove.getBoundingClientRect().left
@@ -118,6 +120,15 @@ function getAnimationCoordinates ( this: Piece, targetSquare: string): PieceAnim
 
 function animateMove ( this: Piece, targetSquare: string) {
 	const animationsCoordinates = this.getAnimationCoordinates(targetSquare);
+	let animationAdjust = 8.4;
+
+	if (this.id[0] === "Q" || this.id[0] === "q" || this.id[0] === "K" || this.id[0] === "k") {
+		animationAdjust = 47.5;
+	} else if (this.id[0] === "P" || this.id[0] === "p") {
+		animationAdjust = 8.4;
+	} else {
+		animationAdjust = 20.7;
+	}
 
 	const keyframes = [
 		{
@@ -128,7 +139,7 @@ function animateMove ( this: Piece, targetSquare: string) {
 		},
 		{
 			position: "absolute",
-			top: animationsCoordinates.targetCoordinates.top + (animationsCoordinates.targetCoordinates.height / 8.4) + "px",
+			top: (animationsCoordinates.targetCoordinates.top + (animationsCoordinates.targetCoordinates.height / animationAdjust)) + "px",
 			left: animationsCoordinates.targetCoordinates.left + (animationsCoordinates.targetCoordinates.width / 4) + "px",				// The width of the destination square is divided by 4 before adding it so that the piece is right in the center of the square.
 			width: "5.007vh",
 		}

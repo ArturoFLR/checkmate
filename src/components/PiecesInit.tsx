@@ -2,6 +2,12 @@ import { useEffect } from "react";
 import Pawn from "../classes/Pawn";
 import styles from "./PiecesInit.module.scss";
 import { useGameStateContext } from "../context/GameStateContext";
+import { PiecesType } from "../classes/PiecesType";
+import Rook from "../classes/Rook";
+import Knight from "../classes/Knight";
+import Bishop from "../classes/Bishop";
+import Queen from "../classes/Queen";
+import King from "../classes/King";
 
 type PieceAnimationData = {
 	piece: HTMLImageElement,
@@ -36,22 +42,58 @@ function PiecesInit( {animate, piecesColor}: PiecesInitProps ) {
 			letters = ["a", "b", "c", "d", "e", "f", "g", "h"];
 		}
 
-		let piecesList: Pawn[] = [];
+		let piecesList: PiecesType[] = [];
 		let idNumber = 1;
 		
 		if (piecesColor === "black") {
+			// ROOKS
+			piecesList = [...piecesList, new Rook(`r${idNumber}`, "b", "images/pieces/rookB.png", "a8")];
+			piecesList = [...piecesList, new Rook(`r${idNumber}`, "b", "images/pieces/rookB.png", "h8")];
+
+			// KNIGHTS
+			piecesList = [...piecesList, new Knight(`n${idNumber}`, "b", "images/pieces/knightB.png", "b8")];
+			piecesList = [...piecesList, new Knight(`n${idNumber}`, "b", "images/pieces/knightB.png", "g8")];
+
+			// BISHOPS
+			piecesList = [...piecesList, new Bishop(`o${idNumber}`, "b", "images/pieces/bishopB.png", "c8")];
+			piecesList = [...piecesList, new Bishop(`o${idNumber}`, "b", "images/pieces/bishopB.png", "f8")];
+
+			// QUEEN
+			piecesList = [...piecesList, new Queen(`q${idNumber}`, "b", "images/pieces/queenB.png", "d8")];
+
+			// KING
+			piecesList = [...piecesList, new King(`k${idNumber}`, "b", "images/pieces/kingB.png", "e8")];
+
+			// PAWNS
 			letters.map( (letter) => {
-				for (let i:number = 7; i <= 8; i++) {
-					piecesList = [...piecesList, new Pawn(`p${idNumber}`, "b", "images/pieces/pawnB.png", `${letter}${i}`)];
-					idNumber++;
-				}
+				piecesList = [...piecesList, new Pawn(`p${idNumber}`, "b", "images/pieces/pawnB.png", `${letter}7`)];
+				idNumber++;
+				
 			});
 		} else {
+			// ROOKS
+			piecesList = [...piecesList, new Rook(`r${idNumber}`, "w", "images/pieces/rookW.png", "a1")];
+			piecesList = [...piecesList, new Rook(`r${idNumber}`, "w", "images/pieces/rookW.png", "h1")];
+
+			// KNIGHTS
+			piecesList = [...piecesList, new Knight(`N${idNumber}`, "w", "images/pieces/knightW.png", "b1")];
+			piecesList = [...piecesList, new Knight(`N${idNumber}`, "w", "images/pieces/knightW.png", "g1")];
+
+			// BISHOPS
+			piecesList = [...piecesList, new Bishop(`B${idNumber}`, "w", "images/pieces/bishopW.png", "c1")];
+			piecesList = [...piecesList, new Bishop(`B${idNumber}`, "w", "images/pieces/bishopW.png", "f1")];
+
+			// QUEEN
+			piecesList = [...piecesList, new Queen(`Q${idNumber}`, "w", "images/pieces/queenW.png", "d1")];
+
+			// KING
+			piecesList = [...piecesList, new King(`K${idNumber}`, "w", "images/pieces/kingW.png", "e1")];
+
+			// PAWNS
 			letters.map( (letter) => {
-				for (let i:number = 1; i <= 2; i++) {
-					piecesList = [...piecesList, new Pawn(`P${idNumber}`, "w", "images/pieces/pawnW.png", `${letter}${i}`)];
-					idNumber++;
-				}
+				piecesList = [...piecesList, new Pawn(`P${idNumber}`, "w", "images/pieces/pawnW.png", `${letter}2`)];
+				idNumber++;
+				
 			});
 		}
 
@@ -62,9 +104,19 @@ function PiecesInit( {animate, piecesColor}: PiecesInitProps ) {
 		const pieces = 	generateInitPieces ();
 		
 		return pieces.map( (element) => {
+			let pieceClass: string = "";
+
+			if (element.id[0] === "P" || element.id[0] === "p") {
+				pieceClass = styles.pawnPiece;
+			} else if (element.id[0] === "K" || element.id[0] === "k" || element.id[0] === "Q" || element.id[0] === "q") {
+				pieceClass = styles.kingAndQueenPieces;
+			} else {
+				pieceClass = styles.rookBishopKnightPieces;
+			}
+
 			return (
 				<div key={`target ${element.square}`} className={styles.pieceContainer}>
-					<img alt="Piece" src={element.image} id={`target ${element.square}`} ></img>
+					<img alt="Piece" src={element.image} id={`target ${element.square}`} className={pieceClass}></img>
 				</div>
 			);
 		});

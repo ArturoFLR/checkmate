@@ -1,10 +1,15 @@
 import styles from "../components/Board.module.scss";
 import { completeTurnData, enPassantTargetData, halfTurnData, lastPawnMovedData, piecesData, transformedPieceToAnimateData } from "../globals/gameData";
+import Bishop from "./Bishop";
+import Knight from "./Knight";
 import Piece from "./Piece";
+import { PiecesType } from "./PiecesType";
+import Queen from "./Queen";
 import Rook from "./Rook";
 
 class Pawn extends Piece {
 	public isFirstMove = true;
+	possibleMovesForKings: string[] = [];												// A pawn cannot capture in a straight line, so we keep a set of moves that are possible for the pawn but do not entail risk for the kings.
 	constructor( id: string, player: "b" | "w", image: string, square: string ){
 		super(id, player, image, square);
 	}
@@ -27,6 +32,8 @@ function calcPossibleMoves  ( this: Pawn ) {
 	const possibleMoves: string[] = [];										// Save the list of possible moves.
 	let newMove: string = "";												// Saves a new possible move, which will be checked before adding it to "possibleMoves".
 
+	const impossibleMovesForKings: string[] = [];								// It saves possible capture moves (diagonally), which cannot be made now because there are no enemy pieces, but would affect the king if it moves to those possible capture squares.	
+	const possibleMovesForKings: string[] = [];								    // A pawn cannot capture in a straight line, so we keep a set of moves that are possible for the pawn but do not entail risk for the kings.
 
 	// Move one square forward. The white pieces advance in the opposite way to the black pieces.
 
@@ -41,6 +48,7 @@ function calcPossibleMoves  ( this: Pawn ) {
 
 		if (!targetSquare.firstElementChild) {
 			possibleMoves.push(newMove);
+			possibleMovesForKings.push(newMove);
 			isOneSquareMovementPossible = true;
 		}
 	}
@@ -59,6 +67,7 @@ function calcPossibleMoves  ( this: Pawn ) {
 
 			if (!targetSquare.firstElementChild) {
 				possibleMoves.push(newMove);
+				possibleMovesForKings.push(newMove);
 				isOneSquareMovementPossible = true;
 			}
 		}
@@ -74,13 +83,25 @@ function calcPossibleMoves  ( this: Pawn ) {
 	
 	if (this.checkPossibleMove(newMove)) {												// If the square exists, check if there is a piece in it.
 		const targetSquare = document.getElementById(newMove) as HTMLDivElement;
-		const pieceInTargetSquare = targetSquare?.firstElementChild;
+		const pieceInTargetSquare = targetSquare.firstElementChild;
 
 		if (pieceInTargetSquare) {
 			const pieceOwner = pieceInTargetSquare.getAttribute("data-player");
 
 			if (pieceOwner !== this.player) {											// If the piece does not belong to the player who is moving, the move is valid.
 				possibleMoves.push(newMove);
+			}
+		} else {
+			impossibleMovesForKings.push(newMove);									// If the square is empty it is not a valid move, but it is saved because it would affect the king (check) if it moves to that square.
+		}
+	} else {																		// it Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the king.
+		const targetSquare = document.getElementById(newMove);						
+		
+		if (targetSquare) {
+			const pieceInTargetSquare = targetSquare.firstElementChild;
+
+			if (pieceInTargetSquare) {
+				impossibleMovesForKings.push(newMove);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
 			}
 		}
 	}
@@ -102,6 +123,18 @@ function calcPossibleMoves  ( this: Pawn ) {
 
 			if (pieceOwner !== this.player) {											// If the piece does not belong to the player who is moving, the move is valid.
 				possibleMoves.push(newMove);
+			}
+		} else {
+			impossibleMovesForKings.push(newMove);									// If the square is empty it is not a valid move, but it is saved because it would affect the king (check) if it moves to that square.
+		}
+	} else {																		// Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the king: the pawn is "protecting" the piece.
+		const targetSquare = document.getElementById(newMove);						
+		
+		if (targetSquare) {
+			const pieceInTargetSquare = targetSquare.firstElementChild;
+
+			if (pieceInTargetSquare) {
+				impossibleMovesForKings.push(newMove);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
 			}
 		}
 	}
@@ -130,7 +163,11 @@ function calcPossibleMoves  ( this: Pawn ) {
 	}
 	
 	this.possibleMoves = possibleMoves;
+	this.impossibleMovesForKings = impossibleMovesForKings;
+	this.possibleMovesForKings = possibleMovesForKings;
 }
+
+
 
 function movePiece ( this: Pawn, targetSquare: string ) {
 	const targetSquareLetter = targetSquare[0];
@@ -176,42 +213,42 @@ function transform ( this: Pawn, newPiece: string ) {
 	const selectPieceElement = document.getElementById("selectPieceComponent") as HTMLDivElement;
 	selectPieceElement.classList.add(styles.hideSelectPiece);											// Makes the "SelectPiece" component invisible again.
 
-	let newPieceElement: Piece;
-	let newPiecesList: Piece[] = [];
+	let newPieceElement: PiecesType;
+	let newPiecesList: PiecesType[] = [];
 
 	const newId = completeTurnData.completeTurn;														// Generates unique identifiers (id) for the new pieces resulting from the transformation.
 
 	switch (newPiece) {
 	case "Q":
-		newPieceElement = new Rook(`R${newId}`, "w", "images/pieces/rookW.png", this.square, true);
+		newPieceElement = new Queen(`Q${newId}`, "w", "images/pieces/queenW.png", this.square);
 		break;
 
 	case "q":
-		newPieceElement = new Rook(`R${newId}`, "b", "images/pieces/rookB.png", this.square, true);
+		newPieceElement = new Queen(`q${newId}`, "b", "images/pieces/queenB.png", this.square);
 		break;
 
 	case "R":
-		newPieceElement = new Rook(`R${newId}`, "w", "images/pieces/rookW.png", this.square, true);
+		newPieceElement = new Rook(`R${newId}`, "w", "images/pieces/rookW.png", this.square);
 		break;
 
 	case "r":
-		newPieceElement = new Rook(`r${newId}`, "b", "images/pieces/rookB.png", this.square, true);
+		newPieceElement = new Rook(`r${newId}`, "b", "images/pieces/rookB.png", this.square);
 		break;
 	
 	case "B":
-		newPieceElement = new Rook(`R${newId}`, "w", ".images/pieces/rookW.png", this.square, true);	
+		newPieceElement = new Bishop(`B${newId}`, "w", "images/pieces/bishopW.png", this.square);	
 		break;
 
 	case "b":
-		newPieceElement = new Rook(`R${newId}`, "b", "images/pieces/rookB.png", this.square, true);
+		newPieceElement = new Bishop(`o${newId}`, "b", "images/pieces/bishopB.png", this.square);
 		break;
 
 	case "K":
-		newPieceElement = new Rook(`R${newId}`, "w", "images/pieces/rookW.png", this.square, true);
+		newPieceElement = new Knight(`N${newId}`, "w", "images/pieces/knightW.png", this.square);
 		break;
 
 	case "k":
-		newPieceElement = new Rook(`R${newId}`, "b", "images/pieces/rookb.png", this.square, true);
+		newPieceElement = new Knight(`n${newId}`, "b", "images/pieces/knightB.png", this.square);
 		break;
 	
 	default:

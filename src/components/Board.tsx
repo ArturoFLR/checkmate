@@ -4,7 +4,9 @@ import styles from "./Board.module.scss";
 import { completeTurnData, enPassantTargetData, halfTurnData, isPieceDyingData, pawnToTransformData, piecesData, selectedPieceData, transformedPieceToAnimateData } from "../globals/gameData";
 import { useGameStateContext } from "../context/GameStateContext";
 import SelectPiece from "./SelectPiece";
-import Piece from "../classes/Piece";
+import King from "../classes/King";
+import { PiecesType } from "../classes/PiecesType";
+import GameResults from "./GameResults";
 
 type BoardProps = {
 	showPieces: boolean
@@ -21,7 +23,6 @@ function Board( {showPieces}: BoardProps) {
 	let movingPieceTimeout: number;
 	let transformPieceTimeout: number;
 
-	console.log(piecesData.pieces);
 
 	function newTurnChecks () {												// Perform the necessary checks at the beginning of a turn, such as activating the pawn transformation animations, or activating the AI if the game is a single player.
 		
@@ -59,9 +60,9 @@ function Board( {showPieces}: BoardProps) {
 		if (dieAnimationPending) dieAnimationPending.classList.remove(styles.dyingPiece);
 	}
 
-	function checkPawnToTransform () {													// Check if there are any pawns at the ends of the board. If so, it returns its ID. (The color of the piece is not checked, because it is impossible for an own pawn to be on our end of the board).
+	function checkPawnToTransform (): PiecesType | null {													// Check if there are any pawns at the ends of the board. If so, it returns its ID. (The color of the piece is not checked, because it is impossible for an own pawn to be on our end of the board).
 		const squaresList = ["a8","b8","c8","d8","e8","f8","g8","h8", "a1","b1","c1","d1","e1","f1","g1", "h1"];
-		let pawnToTransform: Piece | null = null;
+		let pawnToTransform: PiecesType | null = null;
 
 		squaresList.map( (square) => {
 			piecesData.pieces.map( (piece) => {
@@ -74,16 +75,32 @@ function Board( {showPieces}: BoardProps) {
 			});
 		});
 
-		return pawnToTransform;										// Contains "" or the id of a pawn.
+		return pawnToTransform;										// Contains null or the id of a pawn.
+	}
+
+	function checkFiftyTurnsRule (): boolean {
+		if (halfTurnData.halfTurn === 100) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	function preEndturnCheks () {
-		let fiftyTurnsRule: string = "";
+
+		let fiftyTurnsRule: boolean;
 		let allKingsAlive: string = "";
 		let canNextPlayerMove: boolean = true;
 		let checkMate: boolean = false;
-		let pawnToTransform: Piece | null = null;
+		let pawnToTransform: PiecesType | null = null;
+
 		// COMPROBAR SI ESTAMOS EN EL TUNO 100 O MÁS Y NO SE TERMINADO EL TURNO CON UN JAQUE A UN REY: TABLAS POR REGLA DE LOS 50 MOVIMIENTOS.
+		fiftyTurnsRule = checkFiftyTurnsRule();
+
+		if (fiftyTurnsRule) {
+			setGameState("gameDraw50Moves");
+		}
+
 		// COMPROBAR SI AÚN QUEDAN 2 REYES VIVOS. SI NO: END GAME - WIN.
 		// COMPROBAR LA LISTA DE MOVIMIENTOS POSIBLES DE CADA JUGADOR. SI EL JUGADOR AL QUE SE LE VA A PASAR EL TURNO NO PUEDE MOVER NADA PERO NO ESTÁ EN JAQUE: TABLAS POR REY AHOGADO.
 		// COMPROBAR SI EL JUGADOR AL QUE SE LE VA A PASAR EL TURNO ESTÁ EN JAQUE. SI LO ESTÁ Y NO PUEDE MOVER NADA: END GAME - WIN.
@@ -123,6 +140,13 @@ function Board( {showPieces}: BoardProps) {
 			if (element.id === selectedPiece) {
 				element.deselectPiece();
 				element.movePiece(this.id);
+
+				if (element.id[0] === "K" || element.id[0] === "k") {							// If the piece is a King, remove styles from the squares where it would be checked.
+					(element as King).invalidSquaresDueToCheck.map( (invalidSquare) => {
+						const invalidSquareElement = document.getElementById(invalidSquare.square) as HTMLDivElement;
+						invalidSquareElement.classList.remove(styles.noValidSquareForKings);
+					});
+				}
 			}
 		});
 
@@ -143,10 +167,19 @@ function Board( {showPieces}: BoardProps) {
 
 		if (alreadySelectedPiece)  {									// If a piece was already selected, deselects it (remove classes) and remove event listeners.
 			piecesData.pieces.map( (element) => {
-				if (element.id === alreadySelectedPiece) element.deselectPiece();
+				if (element.id === alreadySelectedPiece) {
+					element.deselectPiece();
+				
+					if (element.id[0] === "K" || element.id[0] === "k") {							// If the piece is a King, remove styles from the squares where it would be checked.
+						(element as King).invalidSquaresDueToCheck.map( (invalidSquare) => {
+							const invalidSquareElement = document.getElementById(invalidSquare.square) as HTMLDivElement;
+							invalidSquareElement.classList.remove(styles.noValidSquareForKings);
+						});
+					}
+				}
 			});
 
-			targetSquares.map( (element) => {
+			targetSquares.map( (element) => {											// Remove event listeners.
 				const square = document.getElementById(element) as HTMLDivElement;
 				square.removeEventListener("click", clickTargetSquare);
 			});
@@ -154,7 +187,6 @@ function Board( {showPieces}: BoardProps) {
 		
 		if (alreadySelectedPiece !== pieceId) {							// Clicking on an already selected piece should deselect it, not reselect it.
 			piecesData.pieces.map( (element) => {
-				
 				if (element.id === pieceId) {
 					targetSquares = element.possibleMoves;
 					element.selectPiece();														// Selects the new piece (applies classes to the target squares).
@@ -163,16 +195,25 @@ function Board( {showPieces}: BoardProps) {
 						const square = document.getElementById(element) as HTMLDivElement;
 						square.addEventListener("click", clickTargetSquare);
 					});
+
+					if (element.id[0] === "K" || element.id[0] === "k") {							// If the piece is a King, apply styles to the squares where it would be checked and to the pieces that generate those squares, so that the player knows why they are not valid.
+						(element as King).invalidSquaresDueToCheck.map( (invalidSquare) => {
+							const invalidSquareElement = document.getElementById(invalidSquare.square) as HTMLDivElement;
+
+							invalidSquareElement.classList.add(styles.noValidSquareForKings);
+						});
+					}
 				} 
 			});
 		}
 	}
 
+
 	function makePiecesSelectable () {						// Assign an event listener to the squares that contain a piece of the player whose turn it is to move, so that he can select any of his pieces, but not the opponent's pieces.
 		piecesData.pieces.map( (element) => {			
 			if (element.player ===  playerTurn) selectableSquares = [...selectableSquares, element.square];
 		});
-
+		
 		selectableSquares.map( (element) => {
 			const square = document.getElementById(element) as HTMLDivElement;
 			square.addEventListener("click", selectPiece);
@@ -180,13 +221,19 @@ function Board( {showPieces}: BoardProps) {
 	}
 
 	useEffect( () => {
-		isPieceDyingData.setIsPieceDying(false);							// Resets the value every turn. It is set to "true" by the "die" method of the pieces
-		
-		newTurnChecks();
-
-		if (showPieces === true) {
+		if (gameState === "gameStarted1P" || gameState === "gameStarted2P") {
+			isPieceDyingData.setIsPieceDying(false);							// Resets the value every turn. It is set to "true" by the "die" method of the pieces
+			
+			newTurnChecks();
+	
 			piecesData.pieces.map( (element) => {							// Updates possible moves for all pieces at the start of the turn.
 				element.calcPossibleMoves();
+			});
+
+			piecesData.pieces.map( (element) => {							// Updates possible moves for all pieces at the start of the turn.
+				if (element.id === "K" || element.id === "k") {
+					element.calcPossibleMoves();
+				}
 			});
 
 			makePiecesSelectable();
@@ -236,6 +283,17 @@ function Board( {showPieces}: BoardProps) {
 			<div className={`${styles.selectPieceContainer} ${styles.hideSelectPiece}`} id="selectPieceComponent">
 				<SelectPiece preEndturnCheks={preEndturnCheks} />
 			</div>
+
+			{
+				gameState === "gameWinP1" || gameState === "gameWinP2" || gameState === "gameDrawStalemate" || gameState === "gameDrawDeadPosition" || gameState === "gameDraw50Moves"
+					? (
+						<div className={styles.gameResultsContainer}>
+							<GameResults />
+						</div>
+					)
+					: null
+			}
+			
 
 		</div>
 	);

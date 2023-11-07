@@ -1,9 +1,9 @@
 import { ReactElement } from "react";
-import Pawn from "../classes/Pawn";
 import styles from "../components/Board.module.scss";
 import { useGameStateContext } from "../context/GameStateContext";
+import { PiecesType } from "../classes/PiecesType";
 
-function generateSquares ( piecesList: Pawn[], withPieces: boolean ) {					// Generates an array with the board squares and the pieces on them, if any.
+function generateSquares ( piecesList: PiecesType[], withPieces: boolean ) {					// Generates an array with the board squares and the pieces on them, if any.
 	const [playerTurnData] = useGameStateContext();
 	const {playerTurn} = playerTurnData;									
 	const letters = ["a", "b", "c", "d", "e", "f", "g", "h"];
@@ -23,7 +23,7 @@ function generateSquares ( piecesList: Pawn[], withPieces: boolean ) {					// Ge
 		return letters.map( (letter) => {
 			const squareName = letter + number;
 			let squareClass: string;
-			let piece: Pawn | undefined;
+			let piece: PiecesType | undefined;
 
 			if (isWhite === true) {
 				squareClass = styles.whiteSquare;

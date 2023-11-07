@@ -21,7 +21,7 @@ function App() {
 			}
 			<main className={styles.gameZoneContainer}>
 				{
-					gameState !== "gameStarted1P" && gameState !== "gameStarted2P"
+					gameState === "preGame" || gameState === "select1Player" || gameState === "select2Players" || gameState === "gameIntro1P" || gameState === "gameIntro2P"
 						? (
 							<div className={styles.BlackPiecesInitContainer}>
 																	
@@ -39,7 +39,7 @@ function App() {
 
 				<div className={styles.boardContainer}>
 					{
-						gameState === "gameStarted1P" || gameState === "gameStarted2P"
+						gameState !== "preGame" && gameState !== "select1Player" && gameState !== "select2Players" && gameState !== "gameIntro1P" && gameState !== "gameIntro2P"
 							? 	<Board  showPieces={true}/>
 							: 	<Board  showPieces={false}/>
 					}
@@ -47,7 +47,7 @@ function App() {
 				</div>
 
 				{
-					gameState !== "gameStarted1P" && gameState !== "gameStarted2P"
+					gameState === "preGame" || gameState === "select1Player" || gameState === "select2Players" || gameState === "gameIntro1P" || gameState === "gameIntro2P"
 						? (
 							<div className={styles.WhitePiecesInitContainer}>
 																	
@@ -71,7 +71,7 @@ function App() {
 
 				<div className={styles.menuContainer}>
 					{
-						gameState === "gameIntro1P" || gameState === "gameIntro2P" || gameState === "gameStarted1P" || gameState === "gameStarted2P"
+						gameState !== "preGame" && gameState !== "select1Player" && gameState !== "select2Players"
 							? <PlayerData /> 
 							: <MainMenu />
 					}
