@@ -1,3 +1,4 @@
+import styles from "../components/Board.module.scss";
 import { piecesData } from "../globals/gameData";
 import Pawn from "./Pawn";
 import Piece from "./Piece";
@@ -340,6 +341,24 @@ function movePiece ( this: King, targetSquare: string ) {
 	this.animateMove(targetSquare);
 }
 
-function testKingCheck ( this: King ): void {
+function testKingCheck ( this: King ): void {												// Check if the king is in check. If so, set "isCheck" to true and modify the styles of the square (not the piece).
+	const kingSquare = document.getElementById(this.square) as HTMLDivElement;
+	this.isCheck = false;
 
+	piecesData.pieces.map( (piece) => {
+		if (piece.player !== this.player) {
+			piece.possibleMoves.map( (move) => {
+				if (move === this.square) {
+					this.isCheck = true;
+				}
+			});
+		}
+	});
+
+	if (this.isCheck) {											// This method assigns styles at the end of a turn (in case there is no next turn and this is the final view), but these are lost at the beginning of a new turn with the re-render. To avoid this, also apply this className in the "generateSquares" function
+		kingSquare.classList.add(styles.checked);
+
+	} else {
+		kingSquare.classList.remove(styles.checked);
+	}
 }

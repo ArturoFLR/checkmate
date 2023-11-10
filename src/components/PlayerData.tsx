@@ -1,10 +1,9 @@
 import { useGameStateContext } from "../context/GameStateContext";
 import styles from "./PlayerData.module.scss";
-import styles2 from "./Board.module.scss";
 import { player1Data, player2Data } from "../globals/playersData";
+import { piecesData } from "../globals/gameData";
+import { resetGameState } from "../utils/resetGameState";
 import generateSquares from "../utils/generateSquares";
-import { completeTurnData, halfTurnData, piecesData } from "../globals/gameData";
-import generatePieces from "../utils/generatePieces.mts";
 
 
 function PlayerData() {
@@ -33,20 +32,8 @@ function PlayerData() {
 	}
 
 	function handleConfirmExitGame () {
-
-		squaresToClean.map( (element) => {
-			const square = document.getElementById(element.props.id) as HTMLDivElement;
-			square.classList.remove(styles2.targetSquareWithPiece);
-			square.classList.remove(styles2.targetEmptySquare);
-		});
-
-		piecesData.setPieces(generatePieces());
-
+		resetGameState(squaresToClean);
 		setPlayerTurn("w");
-
-		halfTurnData.setHalfTurn(0);
-		completeTurnData.setCompleteTurn(0);
-
 		setGameState("preGame");
 	}
 

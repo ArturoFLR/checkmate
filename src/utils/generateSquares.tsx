@@ -38,17 +38,25 @@ function generateSquares ( piecesList: PiecesType[], withPieces: boolean ) {				
 			});
 			
 			if (piece && withPieces) {													// If there is a piece, add an <img> with its data to the square
+				let kingInCheckClassName: null | string;
+
+				if ((piece.id[0] === "K" || piece.id[0] === "k") && piece.isCheck === true) {
+					kingInCheckClassName = styles.checked;
+				} else {
+					kingInCheckClassName = null;
+				}
+				
 				{
 					playerTurn === piece.player
 					
 						? 	squareList = [...squareList, (
-							<div key={squareName} id={squareName} className={`${squareClass} ${styles.increasePieceScale}`}>
+							<div key={squareName} id={squareName} className={`${squareClass} ${styles.increasePieceScale} ${kingInCheckClassName}`}>
 								<img alt="Piece" src={piece.image} id={piece.id} data-player={piece.player} ></img>
 							</div>
 						)]
 					
 						:   squareList = [...squareList, (
-							<div key={squareName} id={squareName} className={squareClass}>
+							<div key={squareName} id={squareName} className={`${squareClass} ${kingInCheckClassName}`}>
 								<img alt="Piece" src={piece.image} id={piece.id} data-player={piece.player} ></img>
 							</div>
 						)];

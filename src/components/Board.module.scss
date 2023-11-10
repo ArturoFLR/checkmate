@@ -256,6 +256,7 @@
 			left: -25%;
 			animation: transformOldPieceAnimation 2s forwards;
 		}
+
 	}
 	
 	.whiteSquare {
@@ -320,6 +321,22 @@
 			width: 25%;
 			height: 25%;
 			background-image: url("@/images/background/prohibido.png");
+			background-size: contain;
+			background-color: transparent;
+		}
+	}
+
+	.checked {
+		position: relative;
+
+		&::after {
+			content: "";
+			position: absolute;
+			top: 7%;
+			left: 7%;
+			width: 25%;
+			height: 25%;
+			background-image: url("@/images/background/checkWarning.png");
 			background-size: contain;
 			background-color: transparent;
 		}

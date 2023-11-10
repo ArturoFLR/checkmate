@@ -60,7 +60,7 @@ function Board( {showPieces}: BoardProps) {
 		if (dieAnimationPending) dieAnimationPending.classList.remove(styles.dyingPiece);
 	}
 
-	function checkPawnToTransform (): PiecesType | null {													// Check if there are any pawns at the ends of the board. If so, it returns its ID. (The color of the piece is not checked, because it is impossible for an own pawn to be on our end of the board).
+	function checkPawnToTransform (): PiecesType | null {							// Called by "preEndturnCheks". Checks if there are any pawns at the ends of the board. If so, it returns its ID. (The color of the piece is not checked, because it is impossible for an own pawn to be on our end of the board).
 		const squaresList = ["a8","b8","c8","d8","e8","f8","g8","h8", "a1","b1","c1","d1","e1","f1","g1", "h1"];
 		let pawnToTransform: PiecesType | null = null;
 
@@ -78,7 +78,7 @@ function Board( {showPieces}: BoardProps) {
 		return pawnToTransform;										// Contains null or the id of a pawn.
 	}
 
-	function checkFiftyTurnsRule (): boolean {
+	function checkFiftyTurnsRule (): boolean {						// Called by "preEndturnCheks"
 		if (halfTurnData.halfTurn === 100) {
 			return true;
 		} else {
@@ -86,39 +86,307 @@ function Board( {showPieces}: BoardProps) {
 		}
 	}
 
-	function preEndturnCheks () {
+	function testKingsChecked () {										// Called by "preEndturnCheks"
+		let isWhiteKingChecked = false;
+		let isBlackKingChecked = false;
 
-		let fiftyTurnsRule: boolean;
-		let allKingsAlive: string = "";
-		let canNextPlayerMove: boolean = true;
-		let checkMate: boolean = false;
-		let pawnToTransform: PiecesType | null = null;
+		piecesData.pieces.map( (element) => {							// Updates possible moves for all pieces.
+			element.calcPossibleMoves();
+		});
 
-		// COMPROBAR SI ESTAMOS EN EL TUNO 100 O MÁS Y NO SE TERMINADO EL TURNO CON UN JAQUE A UN REY: TABLAS POR REGLA DE LOS 50 MOVIMIENTOS.
-		fiftyTurnsRule = checkFiftyTurnsRule();
+		piecesData.pieces.map( (element) => {							// The kings need another pass because in order to calculate their moves they need the rest of the pieces to have already calculated theirs.
+			if (element.id === "K" || element.id === "k") {
+				element.calcPossibleMoves();
+			}
+		});
 
-		if (fiftyTurnsRule) {
-			setGameState("gameDraw50Moves");
+		piecesData.pieces.map( (element) => {
+			if (element.id === "K" || element.id === "k") {
+				element.testKingCheck?.();
+
+				if (element.id === "K") {
+					isWhiteKingChecked = element.isCheck!;
+				} else {
+					isBlackKingChecked = element.isCheck!;
+				}
+			}
+		});
+
+		return {
+			w: isWhiteKingChecked,
+			b: isBlackKingChecked
+		};
+	}
+
+
+	function testAreKingsAlive () {										// Called by "preEndturnCheks"
+		let isWhiteKingAlive = false;
+		let isBlackKingAlive = false;
+
+		piecesData.pieces.map( (element) => {
+			if (element.id[0] === "K") {
+				isWhiteKingAlive = true;
+			} else if (element.id[0] === "k") {
+				isBlackKingAlive = true;
+			}
+		});
+
+		return {
+			w: isWhiteKingAlive,
+			b: isBlackKingAlive
+		};
+	}
+
+	function testHasPlayersPossibleMoves () {							// Called by "preEndturnCheks"
+		let hasWhitePossibleMoves = false;
+		let hasBlackPossibleMoves = false;
+
+		// There is no need to update the "possibleMoves" property of the parts, since this function is always executed after "testKingsChecked", which has already done so.
+
+		piecesData.pieces.map( (element) => {
+			if (element.possibleMoves.length >= 1) {
+				if (element.player === "w") {
+					hasWhitePossibleMoves = true;
+				} else {
+					hasBlackPossibleMoves = true;
+				}
+			}
+		});
+
+		return {
+			w: hasWhitePossibleMoves,
+			b: hasBlackPossibleMoves
+		};
+	}
+
+	function testDeadPosition () {
+		const whiteSquares = ["a2", "a4", "a6", "a8", "b1", "b3", "b5", "b7", "c2", "c4", "c6", "c8", "d1", "d3", "d5", "d7", "e2", "e4", "e6", "e8", "f1", "f3", "f5", "f7", "g2", "g4", "g6", "g8", "h1", "h3", "h5", "h7"];
+		const blackSquares = ["a1", "a3", "a5", "a7", "b2", "b4", "b6", "b8", "c1", "c3", "c5", "c7", "d2", "d4", "d6", "d8", "e1", "e3", "e5", "e7", "f2", "f4", "f6", "f8", "g1", "g3", "g5", "g7", "h2", "h4", "h6", "h8"];
+
+		let possibleWhiteDeadPosition = false;				// These variables indicate whether the player is a possible VICTIM in a Dead Position situation. To confirm the possibility you have to check the color of the players' bishops. To confirm that there is a Dead Position situation, you must also check what pieces the other player has.
+		let possibleBlackDeadPosition = false;
+
+		let whiteKnights = 0;								// These variables store the number of pieces of each type that each player has.
+		let whiteRooks = 0;
+		let whiteBishops = 0;
+		let whiteBishopsWhiteSquare = 0;
+		let whiteBishopsBlackSquare = 0;
+		let whiteQueen = 0;
+		let whitePawnsWithMoves = false;
+
+		let blackKnights = 0;														
+		let blackRooks = 0;
+		let blackBishops = 0;
+		let blackBishopsWhiteSquare = 0;
+		let blackBishopsBlackSquare = 0;
+		let blackQueen = 0;
+		let blackPawnsWithMoves = false;
+
+
+		piecesData.pieces.map( (element) => {
+
+			switch (element.id[0]) {
+			case "N":
+				whiteKnights++;
+				break;
+
+			case "n":
+				blackKnights++;
+				break;
+
+			case "R":
+				whiteRooks++;
+				break;
+			
+			case "r":
+				blackRooks++;
+				break;
+
+			case "B":
+				whiteSquares.map( (square) => {
+					if (element.square === square) {
+						whiteBishopsWhiteSquare++;
+						whiteBishops++;
+					}
+				});	
+
+				blackSquares.map( (square) => {
+					if (element.square === square) {
+						whiteBishopsBlackSquare++;
+						whiteBishops++;
+					}
+				});	
+				break;
+
+			case "o":
+				whiteSquares.map( (square) => {
+					if (element.square === square) {
+						blackBishopsWhiteSquare++;
+						blackBishops++;
+					}
+				});	
+
+				blackSquares.map( (square) => {
+					if (element.square === square) {
+						blackBishopsBlackSquare++;
+						blackBishops++;
+					}
+				});	
+				break;
+
+			case "Q":
+				whiteQueen++;
+				break;
+			
+			case "q":
+				blackQueen++;
+				break;
+
+			case "P":
+				if (element.possibleMoves.length >= 1) {
+					whitePawnsWithMoves = true;
+				}
+				break;
+			
+			case "p":
+				if (element.possibleMoves.length >= 1) {
+					blackPawnsWithMoves = true;
+				}
+				break;
+
+			default:
+				break;
+			}
+
+		});
+			
+		// Test White Player Dead Position:
+
+		if (whiteQueen === 0 && whiteRooks === 0 && whitePawnsWithMoves === false && whiteKnights === 0 && (whiteBishopsWhiteSquare === 0 || whiteBishopsBlackSquare === 0)) {
+			possibleWhiteDeadPosition = true;
 		}
 
-		// COMPROBAR SI AÚN QUEDAN 2 REYES VIVOS. SI NO: END GAME - WIN.
-		// COMPROBAR LA LISTA DE MOVIMIENTOS POSIBLES DE CADA JUGADOR. SI EL JUGADOR AL QUE SE LE VA A PASAR EL TURNO NO PUEDE MOVER NADA PERO NO ESTÁ EN JAQUE: TABLAS POR REY AHOGADO.
-		// COMPROBAR SI EL JUGADOR AL QUE SE LE VA A PASAR EL TURNO ESTÁ EN JAQUE. SI LO ESTÁ Y NO PUEDE MOVER NADA: END GAME - WIN.
+		// Test Black Player Dead Position:
 
-		// COMPROBAR SI HAY UN PEÓN BLANCO EN LA LÍNEA 8 O UNO NEGRO EN LA 1: TransformPiece.
+		if (blackQueen === 0 && blackRooks === 0 && blackPawnsWithMoves === false && blackKnights === 0 && (blackBishopsWhiteSquare === 0 || blackBishopsBlackSquare === 0)) {
+			possibleBlackDeadPosition = true;
+		}
+
+		// Checks Dead Position (King Vs. King):
+
+		if (possibleWhiteDeadPosition && possibleBlackDeadPosition && whiteBishops === 0 && blackBishops === 0) {
+			return true;
+		}
+
+		// Checks Dead Position (King & Knight Vs. King):
+
+		if (possibleWhiteDeadPosition && whiteBishops === 0) {
+			if (blackQueen === 0 && blackRooks === 0 && blackPawnsWithMoves === false && blackBishops === 0 && blackKnights === 1) {
+				return true;
+			}
+		} else if (possibleBlackDeadPosition && blackBishops === 0) {
+			if (whiteQueen === 0 && whiteRooks === 0 && whitePawnsWithMoves === false && whiteBishops === 0 && whiteKnights === 1) {
+				return true;
+			}
+		}
+
+		// Checks Dead Position (King & Bishop/s Vs. King  ||  King & Bishop/s Vs. King & Bishop/s)
+		if (possibleWhiteDeadPosition && possibleBlackDeadPosition) {
+			if (whiteBishops === 0) {
+				if (blackBishops > 0) {								// It has bishops, but not both types ("possibleBlackDeadPosition" is "true).
+					return true;
+				}
+			} else if (blackBishops === 0) {
+				if (whiteBishops > 0) {
+					return true;
+				}
+			}
+
+			if (whiteBishopsWhiteSquare > 0 && blackBishopsWhiteSquare > 0) {					// If both players have bishops of one type it is not possible for them to have bishops of the other, because "possibleWhiteDeadPosition" and "possibleBlackDeadPosition" are true.
+				return true;
+			} else if (whiteBishopsBlackSquare > 0 && whiteBishopsBlackSquare > 0) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	function preEndturnCheks () {
+		const areKingsAlive: {w: boolean, b: boolean} = testAreKingsAlive();			// Checks if any of the kings have died.
+		const isAnyKingChecked: {w: boolean, b: boolean} = testKingsChecked();			// Checks if there are any kings in check. The "testKingsChecked" function uses the kings "testKingCheck" method to do this.
+		const fiftyTurnsRule: boolean = checkFiftyTurnsRule();
+		let pawnToTransform: PiecesType | null = null;
+		let endgame = false;															// A flag used to stop checking if one of the endgame conditions is met.
+
+		// End of game due to captured king.
+
+		if (areKingsAlive.w === false) {
+			setGameState("gameWinP2");
+			endgame = true;
+		} else if (areKingsAlive.b === false) {
+			setGameState("gameWinP1");
+			endgame = true;
+		}
+
+
+		// Checks to see if there are any kings in check and the player has no legal moves. The "testKingsChecked" function uses the kings "testKingCheck" method to do this.
+
+		if (endgame === false && (isAnyKingChecked.w === true || isAnyKingChecked.b === true)) {
+			const {w, b} = testHasPlayersPossibleMoves();
+
+			if (isAnyKingChecked.w === true && w === false) {
+				setGameState("gameWinP2");
+				endgame = true;
+			} else if (isAnyKingChecked.b === true && b === false) {
+				setGameState("gameWinP1");
+				endgame = true;
+			}
+		}
+
+		// CHECK IF WE ARE ON TURN 100 OR MORE AND THE TURN WAS NOT ENDED WITH A CHECK TO A KING: DRAW BY THE 50 MOVES RULE.
+
+		if (endgame === false && fiftyTurnsRule && isAnyKingChecked.w === false && isAnyKingChecked.b === false) {
+			setGameState("gameDraw50Moves");
+			endgame = true;
+		}
+
+
+		// IF THE PLAYER TO WHOM THE TURN IS GOING TO BE PASSED IS NOT IN CHECK BUT HAS NO LEGAL MOVES: DRAW BY STALEMATE.
+		
+		if (endgame === false) {
+			const {w, b} = testHasPlayersPossibleMoves();
+
+			if ((isAnyKingChecked.w === false && w === false) || (isAnyKingChecked.b === false && b === false)) {
+				setGameState("gameDrawStalemate");
+				endgame = true;
+			}
+		}
+
+		// Check if the players do not have enough pieces to check each other: draw by Dead Position.
+
+		if (endgame === false) {
+			if (testDeadPosition()) {
+				setGameState("gameDrawDeadPosition");
+				endgame = true;
+			}
+		}
+
+		// CHECK IF THERE IS A WHITE PAWN ON LINE 8 OR A BLACK ONE ON LINE 1: TransformPiece.
 
 		pawnToTransform = checkPawnToTransform();
 
-		if (pawnToTransform) {
-			const selectPieceElement = document.getElementById("selectPieceComponent") as HTMLDivElement;
-			selectPieceElement.classList.remove(styles.hideSelectPiece);											// The "Board" component makes the "SelectPiece" component visible. The pawn's "transform" method makes it invisible again.
-
-			pawnToTransformData.setPawnToTransform(pawnToTransform);
-		} else {
-			endTurn();
+		if (endgame === false) {
+			
+			if (pawnToTransform) {
+				const selectPieceElement = document.getElementById("selectPieceComponent") as HTMLDivElement;
+				selectPieceElement.classList.remove(styles.hideSelectPiece);											// The "Board" component makes the "SelectPiece" component visible. The pawn's "transform" method makes it invisible again.
+	
+				pawnToTransformData.setPawnToTransform(pawnToTransform);
+			} else {
+				endTurn();
+			}
 		}
-
-
 	}
 
 	function clickTargetSquare ( this: HTMLDivElement ) {
@@ -230,7 +498,7 @@ function Board( {showPieces}: BoardProps) {
 				element.calcPossibleMoves();
 			});
 
-			piecesData.pieces.map( (element) => {							// Updates possible moves for all pieces at the start of the turn.
+			piecesData.pieces.map( (element) => {							// The kings need another pass because in order to calculate their moves they need the rest of the pieces to have already calculated theirs.
 				if (element.id === "K" || element.id === "k") {
 					element.calcPossibleMoves();
 				}
