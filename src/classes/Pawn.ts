@@ -25,7 +25,7 @@ export default Pawn;
 function calcPossibleMoves  ( this: Pawn ) {
 	const squareLetter = this.square[0];
 	const squareNumber = Number(this.square[1]);
-	const lettersArray = ["x", "a", "b", "c", "d", "e", "f", "g", "h", "x"];		// If a new move goes off the board, "checkPossibleMove" will know because the letter in the square will be "x".
+	const lettersArray = ["x", "a", "b", "c", "d", "e", "f", "g", "h", "x"];		// If a new move goes off the board, "testSquareExists" will know because the letter in the square will be "x".
 	const squareLetterIndex = lettersArray.findIndex( (element ) => element === squareLetter);		// Saves the index of lettersArray in which the letter of the current square is located.
 	let isOneSquareMovementPossible = false;
 
@@ -43,15 +43,18 @@ function calcPossibleMoves  ( this: Pawn ) {
 		newMove = squareLetter + (squareNumber - 1);
 	}
 
-	if (this.checkPossibleMove(newMove)) {															// If the move is possible, check that there is not already a piece in that square (checkPossibleMove only checks if there are pieces of its own color, not the opposite, and a pawn cannot capture from the front)
-		const targetSquare = document.getElementById(newMove) as HTMLDivElement;
+	if (this.testSquareExists(newMove)) {
 
-		if (!targetSquare.firstElementChild) {
+		if (this.testSquareContainsEnemyPiece(newMove) || this.testSquareContainsFriendlyPiece(newMove) ) {			// If the move is possible, check that there is not already a piece in that square (a pawn cannot capture from the front).
+			null;
+		} else {
 			possibleMoves.push(newMove);
 			possibleMovesForKings.push(newMove);
 			isOneSquareMovementPossible = true;
 		}
+
 	}
+
 
 	//  Move two spaces forward, only if it is the first move and the "move one square forward" movement is possible. This is to prevent the pawn from being able to move 2 squares if it can't move one (it could move by jumping over another piece).
 
@@ -62,14 +65,15 @@ function calcPossibleMoves  ( this: Pawn ) {
 			newMove = squareLetter + (squareNumber - 2);
 		}
 
-		if (this.checkPossibleMove(newMove)) {														// If the move is possible, check that there is not already a piece in that square (checkPossibleMove only checks if there are pieces of its own color, not the opposite, and a pawn cannot capture from the front)
-			const targetSquare = document.getElementById(newMove) as HTMLDivElement;
+		if (this.testSquareExists(newMove)) {
 
-			if (!targetSquare.firstElementChild) {
+			if (this.testSquareContainsEnemyPiece(newMove) || this.testSquareContainsFriendlyPiece(newMove) ) {			// If the move is possible, check that there is not already a piece in that square (a pawn cannot capture from the front).
+				null;
+			} else {
 				possibleMoves.push(newMove);
 				possibleMovesForKings.push(newMove);
-				isOneSquareMovementPossible = true;
 			}
+
 		}
 	}
 
@@ -81,30 +85,15 @@ function calcPossibleMoves  ( this: Pawn ) {
 		newMove = lettersArray[squareLetterIndex - 1] + (squareNumber - 1);
 	}
 	
-	if (this.checkPossibleMove(newMove)) {												// If the square exists, check if there is a piece in it.
-		const targetSquare = document.getElementById(newMove) as HTMLDivElement;
-		const pieceInTargetSquare = targetSquare.firstElementChild;
-
-		if (pieceInTargetSquare) {
-			const pieceOwner = pieceInTargetSquare.getAttribute("data-player");
-
-			if (pieceOwner !== this.player) {											// If the piece does not belong to the player who is moving, the move is valid.
-				possibleMoves.push(newMove);
-			}
-		} else {
-			impossibleMovesForKings.push(newMove);									// If the square is empty it is not a valid move, but it is saved because it would affect the king (check) if it moves to that square.
-		}
-	} else {																		// it Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the king.
-		const targetSquare = document.getElementById(newMove);						
-		
-		if (targetSquare) {
-			const pieceInTargetSquare = targetSquare.firstElementChild;
-
-			if (pieceInTargetSquare) {
-				impossibleMovesForKings.push(newMove);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-			}
+	if (this.testSquareExists(newMove)) {
+		if (this.testSquareContainsEnemyPiece(newMove)) {								// If there is an enemy piece, the move is valid.
+			possibleMoves.push(newMove);
+		} else {																		// If there is a friendly piece  or the square it´s empty, it´s not a valid move, but it´s saved because it would affect the king (check) if it captures that piece.
+			impossibleMovesForKings.push(newMove);	
 		}
 	}
+
+
 
 	// Capture an opponent by moving one square up(w) / down(b) and one to the right.
 
@@ -114,31 +103,16 @@ function calcPossibleMoves  ( this: Pawn ) {
 		newMove = lettersArray[squareLetterIndex + 1] + (squareNumber - 1);
 	}
 	
-	if (this.checkPossibleMove(newMove)) {												// If the square exists, check if there is a piece in it.
-		const targetSquare = document.getElementById(newMove) as HTMLDivElement;
-		const pieceInTargetSquare = targetSquare?.firstElementChild;
-
-		if (pieceInTargetSquare) {
-			const pieceOwner = pieceInTargetSquare.getAttribute("data-player");
-
-			if (pieceOwner !== this.player) {											// If the piece does not belong to the player who is moving, the move is valid.
-				possibleMoves.push(newMove);
-			}
-		} else {
-			impossibleMovesForKings.push(newMove);									// If the square is empty it is not a valid move, but it is saved because it would affect the king (check) if it moves to that square.
-		}
-	} else {																		// Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the king: the pawn is "protecting" the piece.
-		const targetSquare = document.getElementById(newMove);						
-		
-		if (targetSquare) {
-			const pieceInTargetSquare = targetSquare.firstElementChild;
-
-			if (pieceInTargetSquare) {
-				impossibleMovesForKings.push(newMove);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-			}
+	if (this.testSquareExists(newMove)) {
+		if (this.testSquareContainsEnemyPiece(newMove)) {								// If there is an enemy piece, the move is valid.
+			possibleMoves.push(newMove);
+		} else {																		// If there is a friendly piece  or the square it´s empty, it´s not a valid move, but it´s saved because it would affect the king (check) if it captures that piece.
+			impossibleMovesForKings.push(newMove);	
 		}
 	}
 
+
+	
 	// Check if an en passant capture is possible
 
 	if (enPassantTargetData.enPassantTargetCounter && enPassantTargetData.enPassantTargetCounter === 1) {

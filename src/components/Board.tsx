@@ -56,7 +56,11 @@ function Board( {showPieces}: BoardProps) {
 			setPlayerTurn("w");
 		}
 
-		const dieAnimationPending = document.querySelector(`.${styles.dyingPiece}`);								// Fixes a bug where the death animation was still active after the dead piece disappeared and was applied to the one that captured it, making it invisible. Removes any pending death animations.
+		removePendingDieAnimation();
+	}
+
+	function removePendingDieAnimation () {																	// Fixes a bug where the death animation was still active after the dead piece disappeared and was applied to the one that captured it, making it invisible. Removes any pending death animations.		
+		const dieAnimationPending = document.querySelector(`.${styles.dyingPiece}`);								
 		if (dieAnimationPending) dieAnimationPending.classList.remove(styles.dyingPiece);
 	}
 
@@ -318,6 +322,8 @@ function Board( {showPieces}: BoardProps) {
 		const fiftyTurnsRule: boolean = checkFiftyTurnsRule();
 		let pawnToTransform: PiecesType | null = null;
 		let endgame = false;															// A flag used to stop checking if one of the endgame conditions is met.
+
+		removePendingDieAnimation();													// Fixes pending dead animation bug.
 
 		// End of game due to captured king.
 

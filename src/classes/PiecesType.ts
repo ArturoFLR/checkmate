@@ -38,7 +38,10 @@ export type PiecesType = {
 	movePiece (targetSquare: string): void;
 	selectPiece(): void;
 	deselectPiece(): void;
-	checkPossibleMove(possibleMove: string): boolean;
+	testSquareExists(newSquare: string): boolean
+	testSquareContainsFriendlyPiece(newSquare: string): boolean
+	testSquareContainsEnemyPiece(newSquare: string): boolean
+	testSquareContainsKing(newSquare: string): boolean
 	getAnimationCoordinates(targetSquare: string): PieceAnimationData2;
 	animateMove(targetSquare: string): void;
 	die(): void;

@@ -7,7 +7,10 @@ abstract class Piece {
 	constructor( public id: string, public player: "b" | "w", public image: string, public square: string ) {}
 
 	abstract calcPossibleMoves (): void ;
-	checkPossibleMove = checkPossibleMove;
+	testSquareExists = testSquareExists;
+	testSquareContainsFriendlyPiece = testSquareContainsFriendlyPiece;
+	testSquareContainsEnemyPiece = testSquareContainsEnemyPiece;
+	testSquareContainsKing = testSquareContainsKing;
 	selectPiece = selectPiece;
 	deselectPiece = deselectPiece;
 	abstract movePiece (targetSquare: string): void;
@@ -49,34 +52,66 @@ function deselectPiece (this: Piece) {
 	});
 }
 
-function checkPossibleMove ( this: Piece, possibleMove: string ): boolean {				// It only checks that the square exists and that it does not contain a piece of the moving player. The rest of the checks are done by "calcPossibleMoves".
-	const squareLetter = possibleMove[0];
+
+function testSquareExists ( this: Piece, newSquare: string ): boolean {				// Checks that the target square is not outside the board.
+	const squareLetter = newSquare[0];
 	let squareNumberString: string = "";
 
-	for (let i = 1; i < possibleMove.length; i++) {
-		squareNumberString = squareNumberString + possibleMove[i];
+	for (let i = 1; i < newSquare.length; i++) {										// This part assigns as a value everything other than the letter of the square (the square number can have more than 1 character: a -8)
+		squareNumberString = squareNumberString + newSquare[i];
 	} 
 
 	const squareNumber = Number(squareNumberString);
-	const targetedSquare = document.getElementById(possibleMove);
-	let isPossible = true;
+	let exists = true;
 
-	if (squareLetter === "x" || squareNumber < 1 || squareNumber > 8) {				// Check that the target square is not outside the board.
-		isPossible = false;
+	if (squareLetter === "x" || squareNumber < 1 || squareNumber > 8) {				
+		exists = false;
 	}
 
-	if (targetedSquare && targetedSquare.firstElementChild) {						// Checks if the square already contains a piece. If so, check that it is not one of your own.
-		const pieceInTargetSquare = targetedSquare.firstElementChild;
-		const pieceOwner = pieceInTargetSquare.getAttribute("data-player");
-
-		if (pieceOwner === this.player) {
-			isPossible = false;
-		}
-	}
-
-	return isPossible;
+	return exists;
 }
 
+function testSquareContainsFriendlyPiece (this: Piece, newSquare: string ): boolean {			// Checks if the square already contains a piece. If so, check that it is a friendly one.
+	let isThereFriendlyPiece = false;
+
+	piecesData.pieces.map( (element) => {											
+		if (element.square === newSquare) {
+			if (element.player === this.player) {
+				isThereFriendlyPiece = true;
+			}
+		}
+	});
+
+	return isThereFriendlyPiece;
+}	
+
+function testSquareContainsEnemyPiece (this: Piece, newSquare: string ): boolean {			// Checks if the square already contains a piece. If so, check that it is an enemy.
+	let isThereEnemyPiece = false;
+
+	piecesData.pieces.map( (element) => {											
+		if (element.square === newSquare) {
+			if (element.player !== this.player) {
+				isThereEnemyPiece = true;
+			}
+		}
+	});
+
+	return isThereEnemyPiece;
+}	
+
+function testSquareContainsKing (this: Piece, newSquare: string ): boolean {				// Check if there is a king (of any type) in the indicated square.
+	let isThereKing = false;
+
+	piecesData.pieces.map( (element) => {											
+		if (element.square === newSquare) {
+			if (element.id === "K" || element.id === "k") {
+				isThereKing = true;
+			}
+		}
+	});
+
+	return isThereKing;
+}
 
 type PieceAnimationData2 = {
 	piece: HTMLImageElement,
@@ -119,8 +154,12 @@ function getAnimationCoordinates ( this: Piece, targetSquare: string): PieceAnim
 }
 
 function animateMove ( this: Piece, targetSquare: string) {
+	const targetSquareElement = document.getElementById(targetSquare) as HTMLDivElement;
+	targetSquareElement.classList.remove(styles.checked);
+
 	const animationsCoordinates = this.getAnimationCoordinates(targetSquare);
-	let animationAdjust = 8.4;
+
+	let animationAdjust = 8.4;																					// This variable is necessary due to the difference in height between the different types of pieces.
 
 	if (this.id[0] === "Q" || this.id[0] === "q" || this.id[0] === "K" || this.id[0] === "k") {
 		animationAdjust = 47.5;

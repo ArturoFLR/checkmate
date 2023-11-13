@@ -16,7 +16,7 @@ export default Knight;
 function calcPossibleMoves ( this: Knight ) {
 	const squareLetter = this.square[0];
 	const squareNumber = Number(this.square[1]);
-	const lettersArray = ["x","x", "a", "b", "c", "d", "e", "f", "g", "h", "x", "x"];		// If a new move goes off the board, "checkPossibleMove" will know because the letter in the square will be "x".
+	const lettersArray = ["x","x", "a", "b", "c", "d", "e", "f", "g", "h", "x", "x"];		// If a new move goes off the board, "testSquareExists" will know because the letter in the square will be "x".
 	const squareLetterIndex = lettersArray.findIndex( (element ) => element === squareLetter);		// Saves the index of lettersArray in which the letter of the current square is located.
 
 	const possibleMoves: string[] = [];										// Stores the list of possible moves.
@@ -32,115 +32,81 @@ function calcPossibleMoves ( this: Knight ) {
 	const newMoveDownRight = lettersArray[squareLetterIndex + 1] + (squareNumber - 2);	
 
 
-	if (this.checkPossibleMove(newMoveUpLeft)) {
-		possibleMoves.push(newMoveUpLeft);
-	} else {																		// Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		const targetSquare = document.getElementById(newMoveUpLeft);						
-		
-		if (targetSquare) {
-			const pieceInTargetSquare = targetSquare.firstElementChild;
-
-			if (pieceInTargetSquare) {
-				impossibleMovesForKings.push(newMoveUpLeft);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-			}
+	if (this.testSquareExists(newMoveUpLeft)) {										// UP - LEFT
+		if (this.testSquareContainsFriendlyPiece(newMoveUpLeft)) {
+			impossibleMovesForKings.push(newMoveUpLeft);							// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
+		} else {
+			possibleMoves.push(newMoveUpLeft);
 		}
 	}
 
-	if (this.checkPossibleMove(newMoveUpRight)) {
-		possibleMoves.push(newMoveUpRight);
-	} else {																		// Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		const targetSquare = document.getElementById(newMoveUpRight);						
-		
-		if (targetSquare) {
-			const pieceInTargetSquare = targetSquare.firstElementChild;
 
-			if (pieceInTargetSquare) {
-				impossibleMovesForKings.push(newMoveUpRight);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-			}
+
+	if (this.testSquareExists(newMoveUpRight)) {										// UP - RIGHT
+		if (this.testSquareContainsFriendlyPiece(newMoveUpRight)) {
+			impossibleMovesForKings.push(newMoveUpRight);							// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
+		} else {
+			possibleMoves.push(newMoveUpRight);
 		}
 	}
 
-	if (this.checkPossibleMove(newMoveLeftUp)) {
-		possibleMoves.push(newMoveLeftUp);
-	} else {																		// Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		const targetSquare = document.getElementById(newMoveLeftUp);						
-		
-		if (targetSquare) {
-			const pieceInTargetSquare = targetSquare.firstElementChild;
 
-			if (pieceInTargetSquare) {
-				impossibleMovesForKings.push(newMoveLeftUp);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-			}
+
+	if (this.testSquareExists(newMoveLeftUp)) {										// LEFT - UP 
+		if (this.testSquareContainsFriendlyPiece(newMoveLeftUp)) {
+			impossibleMovesForKings.push(newMoveLeftUp);							// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
+		} else {
+			possibleMoves.push(newMoveLeftUp);
 		}
 	}
 
-	if (this.checkPossibleMove(newMoveLeftDown)) {
-		possibleMoves.push(newMoveLeftDown);
-	} else {																		// Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		const targetSquare = document.getElementById(newMoveLeftDown);						
-		
-		if (targetSquare) {
-			const pieceInTargetSquare = targetSquare.firstElementChild;
 
-			if (pieceInTargetSquare) {
-				impossibleMovesForKings.push(newMoveLeftDown);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-			}
+
+	if (this.testSquareExists(newMoveLeftDown)) {										// LEFT - DOWN 
+		if (this.testSquareContainsFriendlyPiece(newMoveLeftDown)) {
+			impossibleMovesForKings.push(newMoveLeftDown);							// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
+		} else {
+			possibleMoves.push(newMoveLeftDown);
 		}
 	}
 
-	if (this.checkPossibleMove(newMoveRightUp)) {
-		possibleMoves.push(newMoveRightUp);
-	} else {																		// Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		const targetSquare = document.getElementById(newMoveRightUp);						
-		
-		if (targetSquare) {
-			const pieceInTargetSquare = targetSquare.firstElementChild;
 
-			if (pieceInTargetSquare) {
-				impossibleMovesForKings.push(newMoveRightUp);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-			}
+
+	if (this.testSquareExists(newMoveRightUp)) {										// RIGHT - UP 
+		if (this.testSquareContainsFriendlyPiece(newMoveRightUp)) {
+			impossibleMovesForKings.push(newMoveRightUp);							// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
+		} else {
+			possibleMoves.push(newMoveRightUp);
 		}
 	}
 
-	if (this.checkPossibleMove(newMoveRightDown)) {
-		possibleMoves.push(newMoveRightDown);
-	} else {																		// Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		const targetSquare = document.getElementById(newMoveRightDown);						
-		
-		if (targetSquare) {
-			const pieceInTargetSquare = targetSquare.firstElementChild;
 
-			if (pieceInTargetSquare) {
-				impossibleMovesForKings.push(newMoveRightDown);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-			}
+
+	if (this.testSquareExists(newMoveRightDown)) {										// RIGHT - DOWN 
+		if (this.testSquareContainsFriendlyPiece(newMoveRightDown)) {
+			impossibleMovesForKings.push(newMoveRightDown);							// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
+		} else {
+			possibleMoves.push(newMoveRightDown);
 		}
 	}
 
-	if (this.checkPossibleMove(newMoveDownLeft)) {
-		possibleMoves.push(newMoveDownLeft);
-	} else {																		// Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		const targetSquare = document.getElementById(newMoveDownLeft);						
-		
-		if (targetSquare) {
-			const pieceInTargetSquare = targetSquare.firstElementChild;
 
-			if (pieceInTargetSquare) {
-				impossibleMovesForKings.push(newMoveDownLeft);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-			}
+
+	if (this.testSquareExists(newMoveDownLeft)) {										// DOWN - LEFT 
+		if (this.testSquareContainsFriendlyPiece(newMoveDownLeft)) {
+			impossibleMovesForKings.push(newMoveDownLeft);							// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
+		} else {
+			possibleMoves.push(newMoveDownLeft);
 		}
 	}
 
-	if (this.checkPossibleMove(newMoveDownRight)) {
-		possibleMoves.push(newMoveDownRight);
-	} else {																		// Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		const targetSquare = document.getElementById(newMoveDownRight);						
-		
-		if (targetSquare) {
-			const pieceInTargetSquare = targetSquare.firstElementChild;
 
-			if (pieceInTargetSquare) {
-				impossibleMovesForKings.push(newMoveDownRight);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-			}
+
+	if (this.testSquareExists(newMoveDownRight)) {										// DOWN - RIGHT 
+		if (this.testSquareContainsFriendlyPiece(newMoveDownRight)) {
+			impossibleMovesForKings.push(newMoveDownRight);							// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
+		} else {
+			possibleMoves.push(newMoveDownRight);
 		}
 	}
 

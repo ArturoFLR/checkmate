@@ -8,7 +8,6 @@ import generateSquares from "../utils/generateSquares";
 
 function PlayerData() {
 	const [playerTurnData, gameStateData] = useGameStateContext();
-	const howManyPlayers = gameStateData.gameState;
 	const setGameState = gameStateData.setGameState;
 	const playerTurn = playerTurnData.playerTurn;
 	const setPlayerTurn = playerTurnData.setPlayerTurn;
@@ -45,21 +44,11 @@ function PlayerData() {
 
 	return (
 		<div className={styles.mainContainer}>
-			{
-				howManyPlayers === "gameStarted1P" || howManyPlayers === "gameIntro1P"
-					? (
-						<div className={`${styles.computerContainer} ${player2HighlightedClass}`} >
-							<p>Computer</p>
-							<img alt="Computer portrait" src="../../public/images/portraits/Robot2.jpg" /> 
-						</div>
-					)
-					: (
-						<div className={`${styles.player2Container} ${player2HighlightedClass}`} >
-							<p>{player2Data.name}</p>
-							<img alt="Player 2 portrait" src={player2Data.portrait} />
-						</div>
-					)
-			}
+
+			<div className={`${styles.player2Container} ${player2HighlightedClass}`} >
+				<p>{player2Data.name}</p>
+				<img alt="Player 2 portrait" src={player2Data.portrait} />
+			</div>
 
 			<div className={`${styles.player1Container} ${player1HighlightedClass}`} >
 				<p>{player1Data.name}</p>
@@ -67,12 +56,19 @@ function PlayerData() {
 			</div>
 
 			<div className={styles.btnExitGameContainer}>
-				<button type="button" onClick={handleExitGameClick} className={styles.btnExitGame}>
-					Exit Game
-					<div className={styles.leftFormatter} ></div>
-					<div className={styles.rigthFormatter} ></div>
+				<button type="button" onClick={handleExitGameClick} className={styles.btnSaveGame}>
+					Save Game
 				</button>
 			</div>
+
+			<div className={styles.btnExitGameContainer}>
+				<button type="button" onClick={handleExitGameClick} className={styles.btnExitGame}>
+					Exit Game
+				</button>
+			</div>
+
+			<div className={styles.leftFormatter} ></div>
+			<div className={styles.rigthFormatter} ></div>
 
 			<div className={`${styles.exitConfirmMainContainer} ${styles.hidden}`} id="exitConfirmMainContainer">
 				<div className={styles.exitConfirmOptionsContainer} >

@@ -42,16 +42,16 @@ function GameResults() {
 								{
 									gameState === "gameWinP1"
 										? (
-											<p className={styles.winnerName}>
-												<span className={styles.winsText}>{player1Data.name + " "}</span>
-												WINS!
-											</p>
+											<>
+												<p className={styles.winnerName}>{player1Data.name + " "}</p>
+												<p className={styles.winsText}>WINS!</p>
+											</>
 										)
 										: (
-											<p className={styles.winnerName}>
-												<span className={styles.winsText}>{player2Data.name + " "}</span>
-												WINS!
-											</p>
+											<>
+												<p className={styles.winnerName}>{player2Data.name + " "}</p>
+												<p className={styles.winsText}>WINS!</p>
+											</>
 										)
 								}
 

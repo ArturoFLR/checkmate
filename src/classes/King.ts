@@ -27,13 +27,13 @@ export default King;
 function calcPossibleMoves ( this: King ) {											// Calculate the possible moves, not being valid those in which the king is in check. This prevents the rest of the kings from correctly calculating their possible moves. That's why there is a second set of moves: "possibleMovesEvenWithCheck"
 	const squareLetter = this.square[0];
 	const squareNumber = Number(this.square[1]);
-	const lettersArray = ["x", "a", "b", "c", "d", "e", "f", "g", "h", "x"];		// If a new move goes off the board, "checkPossibleMove" will know because the letter in the square will be "x".
+	const lettersArray = ["x", "a", "b", "c", "d", "e", "f", "g", "h", "x"];		// If a new move goes off the board, "testSquareExists" will know because the letter in the square will be "x".
 	const squareLetterIndex = lettersArray.findIndex( (element ) => element === squareLetter);		// Saves the index of lettersArray in which the letter of the current square is located.
 	let possibleMoves: string[] = [];		
 	const impossibleMovesForKings: string[] = [];														// It saves moves that are not really possible because they involve a check on the king, but that must be taken into account for the moves of other kings.
 	const invalidSquaresDueToCheck: InvalidSquareType[] = [];
 
-	// This block calculates normal movement (one square in a straight line).
+	// This block calculates normal movement (not castling).
 
 	const newMoveUp = squareLetter + (squareNumber + 1);							// These variables store a new possible move, which will be checked before adding it to "possibleMoves".
 	const newMoveDown = squareLetter + (squareNumber - 1);
@@ -45,119 +45,80 @@ function calcPossibleMoves ( this: King ) {											// Calculate the possible 
 	const newMoveDownLeft = lettersArray[squareLetterIndex - 1] + (squareNumber - 1);
 
 
-	if (this.checkPossibleMove(newMoveUp)) {										// Generate upward movements.
-		possibleMoves.push(newMoveUp);
-	} else {																		// Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		const targetSquare = document.getElementById(newMoveUp);						
-		
-		if (targetSquare) {
-			const pieceInTargetSquare = targetSquare.firstElementChild;
-
-			if (pieceInTargetSquare) {
-				impossibleMovesForKings.push(newMoveUp);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-			}
+	if (this.testSquareExists(newMoveUp)) {											// UPWARD MOVEMENT.
+		if (this.testSquareContainsFriendlyPiece(newMoveUp)) {						// If the square contains a friendly piece  it´s not a valid move, but it is saved because it would affect the other king (check) if it captures that piece.
+			impossibleMovesForKings.push(newMoveUp);
+		} else {																	// If the square is empty or contains an enemy piece it´s a valid move.
+			possibleMoves.push(newMoveUp);
 		}
 	}
 
-	if (this.checkPossibleMove(newMoveDown)) {										// Generate downward movements.
-		possibleMoves.push(newMoveDown);
-	} else {																		// it Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		const targetSquare = document.getElementById(newMoveDown);						
-		
-		if (targetSquare) {
-			const pieceInTargetSquare = targetSquare.firstElementChild;
 
-			if (pieceInTargetSquare) {
-				impossibleMovesForKings.push(newMoveDown);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-			}
+	if (this.testSquareExists(newMoveDown)) {											// DOWNWARD MOVEMENT.
+		if (this.testSquareContainsFriendlyPiece(newMoveDown)) {						// If the square contains a friendly piece  it´s not a valid move, but it is saved because it would affect the other king (check) if it captures that piece.
+			impossibleMovesForKings.push(newMoveDown);
+		} else {																	// If the square is empty or contains an enemy piece it´s a valid move.
+			possibleMoves.push(newMoveDown);
 		}
 	}
 
-	if (this.checkPossibleMove(newMoveLeft)) {										// Generates movements to the left.
-		possibleMoves.push(newMoveLeft);
-	} else {																		// it Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		const targetSquare = document.getElementById(newMoveLeft);						
-		
-		if (targetSquare) {
-			const pieceInTargetSquare = targetSquare.firstElementChild;
 
-			if (pieceInTargetSquare) {
-				impossibleMovesForKings.push(newMoveLeft);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-			}
+	if (this.testSquareExists(newMoveLeft)) {											// TO THE LEFT MOVEMENT.
+		if (this.testSquareContainsFriendlyPiece(newMoveLeft)) {						// If the square contains a friendly piece  it´s not a valid move, but it is saved because it would affect the other king (check) if it captures that piece.
+			impossibleMovesForKings.push(newMoveLeft);
+		} else {																	// If the square is empty or contains an enemy piece it´s a valid move.
+			possibleMoves.push(newMoveLeft);
 		}
 	}
 
-	if (this.checkPossibleMove(newMoveRight)) {										// Generates movements to the right.
-		possibleMoves.push(newMoveRight);
-	} else {																		// it Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		const targetSquare = document.getElementById(newMoveRight);						
-		
-		if (targetSquare) {
-			const pieceInTargetSquare = targetSquare.firstElementChild;
 
-			if (pieceInTargetSquare) {
-				impossibleMovesForKings.push(newMoveRight);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-			}
+	if (this.testSquareExists(newMoveRight)) {											// TO THE RIGHT MOVEMENT.
+		if (this.testSquareContainsFriendlyPiece(newMoveRight)) {						// If the square contains a friendly piece  it´s not a valid move, but it is saved because it would affect the other king (check) if it captures that piece.
+			impossibleMovesForKings.push(newMoveRight);
+		} else {																	// If the square is empty or contains an enemy piece it´s a valid move.
+			possibleMoves.push(newMoveRight);
 		}
 	}
 
-	if (this.checkPossibleMove(newMoveUpRight)) {									// Generates diagonal movements (top right).
-		possibleMoves.push(newMoveUpRight);
-	} else {																		// it Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		const targetSquare = document.getElementById(newMoveUpRight);						
-		
-		if (targetSquare) {
-			const pieceInTargetSquare = targetSquare.firstElementChild;
 
-			if (pieceInTargetSquare) {
-				impossibleMovesForKings.push(newMoveUpRight);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-			}
+	if (this.testSquareExists(newMoveUpRight)) {											// UP - RIGHT MOVEMENT.
+		if (this.testSquareContainsFriendlyPiece(newMoveUpRight)) {						// If the square contains a friendly piece  it´s not a valid move, but it is saved because it would affect the other king (check) if it captures that piece.
+			impossibleMovesForKings.push(newMoveUpRight);
+		} else {																	// If the square is empty or contains an enemy piece it´s a valid move.
+			possibleMoves.push(newMoveUpRight);
 		}
 	}
 
-	if (this.checkPossibleMove(newMoveUpLeft)) {									// Generates diagonal movements (top left).
-		possibleMoves.push(newMoveUpLeft);
-	} else {																		// it Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		const targetSquare = document.getElementById(newMoveUpLeft);						
-		
-		if (targetSquare) {
-			const pieceInTargetSquare = targetSquare.firstElementChild;
 
-			if (pieceInTargetSquare) {
-				impossibleMovesForKings.push(newMoveUpLeft);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-			}
+	if (this.testSquareExists(newMoveUpLeft)) {											// UP - LEFT MOVEMENT.
+		if (this.testSquareContainsFriendlyPiece(newMoveUpLeft)) {						// If the square contains a friendly piece  it´s not a valid move, but it is saved because it would affect the other king (check) if it captures that piece.
+			impossibleMovesForKings.push(newMoveUpLeft);
+		} else {																	// If the square is empty or contains an enemy piece it´s a valid move.
+			possibleMoves.push(newMoveUpLeft);
 		}
 	}
 
-	if (this.checkPossibleMove(newMoveDownRight)) {									// Generates diagonal movements (down right).
-		possibleMoves.push(newMoveDownRight);
-	} else {																		// it Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		const targetSquare = document.getElementById(newMoveDownRight);						
-		
-		if (targetSquare) {
-			const pieceInTargetSquare = targetSquare.firstElementChild;
 
-			if (pieceInTargetSquare) {
-				impossibleMovesForKings.push(newMoveDownRight);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-			}
+	if (this.testSquareExists(newMoveDownRight)) {											// DOWN - RIGHT MOVEMENT.
+		if (this.testSquareContainsFriendlyPiece(newMoveDownRight)) {						// If the square contains a friendly piece  it´s not a valid move, but it is saved because it would affect the other king (check) if it captures that piece.
+			impossibleMovesForKings.push(newMoveDownRight);
+		} else {																	// If the square is empty or contains an enemy piece it´s a valid move.
+			possibleMoves.push(newMoveDownRight);
 		}
 	}
 
-	if (this.checkPossibleMove(newMoveDownLeft)) {									// Generates diagonal movements (down left).
-		possibleMoves.push(newMoveDownLeft);
-	} else {																		// it Checks if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		const targetSquare = document.getElementById(newMoveDownLeft);						
-		
-		if (targetSquare) {
-			const pieceInTargetSquare = targetSquare.firstElementChild;
 
-			if (pieceInTargetSquare) {
-				impossibleMovesForKings.push(newMoveDownLeft);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-			}
+	if (this.testSquareExists(newMoveDownLeft)) {											// DOWN - LEFT MOVEMENT.
+		if (this.testSquareContainsFriendlyPiece(newMoveDownLeft)) {						// If the square contains a friendly piece  it´s not a valid move, but it is saved because it would affect the other king (check) if it captures that piece.
+			impossibleMovesForKings.push(newMoveDownLeft);
+		} else {																	// If the square is empty or contains an enemy piece it´s a valid move.
+			possibleMoves.push(newMoveDownLeft);
 		}
 	}
 
-	// This block calculates castling movement.
+
+
+	// This block calculates CASTLING MOVEMENT.
 
 	if (this.isShortCastlingPossible) {									// Check if a short castling is possible.
 		let canCastle = true;
@@ -291,6 +252,11 @@ function calcPossibleMoves ( this: King ) {											// Calculate the possible 
 
 
 function movePiece ( this: King, targetSquare: string ) {
+	if (this.isCheck === true) {
+		const checkedKingSquare = document.getElementById(this.square) as HTMLDivElement;
+		checkedKingSquare.classList.remove(styles.checked);
+	}
+
 	this.square = targetSquare;
 
 	piecesData.pieces.map( (element) => {		

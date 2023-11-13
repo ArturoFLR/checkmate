@@ -15,7 +15,7 @@ export default Bishop;
 function calcPossibleMoves  ( this: Bishop ) {
 	const squareLetter = this.square[0];
 	const squareNumber = Number(this.square[1]);
-	const lettersArray = ["x", "x", "x", "x", "x", "x", "x","x", "a", "b", "c", "d", "e", "f", "g", "h", "x", "x", "x", "x", "x", "x", "x","x"];		// If a new move goes off the board, "checkPossibleMove" will know because the letter in the square will be "x".
+	const lettersArray = ["x", "x", "x", "x", "x", "x", "x","x", "a", "b", "c", "d", "e", "f", "g", "h", "x", "x", "x", "x", "x", "x", "x","x"];		// If a new move goes off the board, "testSquareExists" will know because the letter in the square will be "x".
 	const squareLetterIndex = lettersArray.findIndex( (element ) => element === squareLetter);		// Saves the index of lettersArray in which the letter of the current square is located.
 
 	const possibleMoves: string[] = [];										// Stores the list of possible moves.
@@ -35,190 +35,126 @@ function calcPossibleMoves  ( this: Bishop ) {
 		const newMoveDownRight = lettersArray[squareLetterIndex + counter] + (squareNumber - counter);
 
 
-		if (this.checkPossibleMove(newMoveUpLeft) && cantMoveUpLeft === false) {					// Generate up - left movements.
-			const targetSquare = document.getElementById(newMoveUpLeft) as HTMLDivElement;
+		if (this.testSquareExists(newMoveUpLeft) && cantMoveUpLeft === false) {					// GENERATE UP - LEFT MOVEMENTS.
 
-			if (targetSquare.firstElementChild) {											// If there is an enemy piece on the destination square, it is a valid square, but we cannot continue moving in that direction (the piece would jump over the enemy pieces).
-				cantMoveUpLeft = true;
+			if (this.testSquareContainsEnemyPiece(newMoveUpLeft)) {
+				cantMoveUpLeft = true;															// If there is an enemy piece on the destination square, it is a valid square, but we cannot continue moving in that direction (the piece would jump over the enemy pieces).
+				possibleMoves.push(newMoveUpLeft);
 
-				const piece = targetSquare.firstElementChild as HTMLImageElement;
-
-				if (piece.id === "K" || piece.id === "k") {														// If the enemy piece is a king, we check the square behind the king (+1 to the current move). If it is empty or has a piece of our color (that the king could capture) it must be added to the list of impossible moves for the king, since we would continue to check it.
+				if (this.testSquareContainsKing(newMoveUpLeft)) {											// If the enemy piece is a king, we check the square behind the king (+1 to the current move). If it is empty or has a piece of our color (that the king could capture) it must be added to the list of impossible moves for the king, since we would continue to check it.
 					const newImpossibleMoveForKings = lettersArray[squareLetterIndex - counter - 1] + (squareNumber + counter + 1);
 					
-					if (this.checkPossibleMove(newImpossibleMoveForKings)) {
-						const square = document.getElementById(newImpossibleMoveForKings);
+					if (this.testSquareExists(newImpossibleMoveForKings)) {
 
-						if (square?.firstElementChild) {
+						if (this.testSquareContainsEnemyPiece(newImpossibleMoveForKings)) {
 							null;																		// If the square contains an enemy piece, it does not have to be taken into account, since it will be the same color as the king and he will not be able to move there.
 						} else {
-							impossibleMovesForKings.push(newImpossibleMoveForKings);					// If the box is empty, we must add it to "impossibleMovesForKings"
-						}
-					} else {
-						const square = document.getElementById(newImpossibleMoveForKings);
-
-						if (square) {
-							impossibleMovesForKings.push(newImpossibleMoveForKings);					// If the square exists on the board, it will have been rejected by "checkPossibleMove" for containing a friendly piece that the king can capture and be in check, so we add it to "impossibleMovesForKings"
+							impossibleMovesForKings.push(newImpossibleMoveForKings);					// If the square contains a friendly piece os an empty square, the king can move there and be in check again, so we add it to "impossibleMovesForKings"
 						}
 					}
-
 				}
+
+			} else if (this.testSquareContainsFriendlyPiece(newMoveUpLeft)) {
+				cantMoveUpLeft = true;
+				impossibleMovesForKings.push(newMoveUpLeft);
+			} else {
+				possibleMoves.push(newMoveUpLeft);
 			}
-
-			possibleMoves.push(newMoveUpLeft);
-		} else if (cantMoveUpLeft === false) {																			
-			cantMoveUpLeft = true;																// If the "checkPossibleMove" check is not passed, we cannot continue moving in that direction.
-
-			const targetSquare = document.getElementById(newMoveUpLeft);						// Now it´s going to Check if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		
-			if (targetSquare) {
-				const pieceInTargetSquare = targetSquare.firstElementChild;
-
-				if (pieceInTargetSquare) {
-					impossibleMovesForKings.push(newMoveUpLeft);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-				}
-			}
+		} else {
+			cantMoveUpLeft = true;																		// If the square does not exist, we cannot continue moving in that direction.
 		}
 
 
 
-		if (this.checkPossibleMove(newMoveUpRight) && cantMoveUpRight === false) {					// Generate up - right movements.
-			const targetSquare = document.getElementById(newMoveUpRight) as HTMLDivElement;
+		if (this.testSquareExists(newMoveUpRight) && cantMoveUpRight === false) {					// GENERATE UP - RIGHT MOVEMENTS.
 
-			if (targetSquare.firstElementChild) {											// If there is an enemy piece on the destination square, it is a valid square, but we cannot continue moving in that direction (the piece would jump over the enemy pieces).
-				cantMoveUpRight = true;
+			if (this.testSquareContainsEnemyPiece(newMoveUpRight)) {
+				cantMoveUpRight = true;															// If there is an enemy piece on the destination square, it is a valid square, but we cannot continue moving in that direction (the piece would jump over the enemy pieces).
+				possibleMoves.push(newMoveUpRight);
 
-				const piece = targetSquare.firstElementChild as HTMLImageElement;
-
-				if (piece.id === "K" || piece.id === "k") {														// If the enemy piece is a king, we check the square behind the king (+1 to the current move). If it is empty or has a piece of our color (that the king could capture) it must be added to the list of impossible moves for the king, since we would continue to check it.
+				if (this.testSquareContainsKing(newMoveUpRight)) {											// If the enemy piece is a king, we check the square behind the king (+1 to the current move). If it is empty or has a piece of our color (that the king could capture) it must be added to the list of impossible moves for the king, since we would continue to check it.
 					const newImpossibleMoveForKings = lettersArray[squareLetterIndex + counter + 1] + (squareNumber + counter + 1);
 					
-					if (this.checkPossibleMove(newImpossibleMoveForKings)) {
-						const square = document.getElementById(newImpossibleMoveForKings);
+					if (this.testSquareExists(newImpossibleMoveForKings)) {
 
-						if (square?.firstElementChild) {
+						if (this.testSquareContainsEnemyPiece(newImpossibleMoveForKings)) {
 							null;																		// If the square contains an enemy piece, it does not have to be taken into account, since it will be the same color as the king and he will not be able to move there.
 						} else {
-							impossibleMovesForKings.push(newImpossibleMoveForKings);					// If the box is empty, we must add it to "impossibleMovesForKings"
-						}
-					} else {
-						const square = document.getElementById(newImpossibleMoveForKings);
-
-						if (square) {
-							impossibleMovesForKings.push(newImpossibleMoveForKings);					// If the square exists on the board, it will have been rejected by "checkPossibleMove" for containing a friendly piece that the king can capture and be in check, so we add it to "impossibleMovesForKings"
+							impossibleMovesForKings.push(newImpossibleMoveForKings);					// If the square contains a friendly piece os an empty square, the king can move there and be in check again, so we add it to "impossibleMovesForKings"
 						}
 					}
-
 				}
+
+			} else if (this.testSquareContainsFriendlyPiece(newMoveUpRight)) {
+				cantMoveUpRight = true;
+				impossibleMovesForKings.push(newMoveUpRight);
+			} else {
+				possibleMoves.push(newMoveUpRight);
 			}
-
-			possibleMoves.push(newMoveUpRight);
-		} else  if (cantMoveUpRight === false) {																			
-			cantMoveUpRight = true;																// If the "checkPossibleMove" check is not passed, we cannot continue moving in that direction.
-
-			const targetSquare = document.getElementById(newMoveUpRight);						// Now it´s going to Check if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		
-			if (targetSquare) {
-				const pieceInTargetSquare = targetSquare.firstElementChild;
-
-				if (pieceInTargetSquare) {
-					impossibleMovesForKings.push(newMoveUpRight);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-				}
-			}
+		} else {
+			cantMoveUpRight = true;																		// If the square does not exist, we cannot continue moving in that direction.
 		}
 
 
 
-		if (this.checkPossibleMove(newMoveDownLeft) && cantMoveDownLeft === false) {					// Generate downward - left movements.
-			const targetSquare = document.getElementById(newMoveDownLeft) as HTMLDivElement;
+		if (this.testSquareExists(newMoveDownLeft) && cantMoveDownLeft === false) {					// GENERATE DOWN - LEFT MOVEMENTS.
 
-			if (targetSquare.firstElementChild) {											// If there is an enemy piece on the destination square, it is a valid square, but we cannot continue moving in that direction (the piece would jump over the enemy pieces).
-				cantMoveDownLeft = true;
+			if (this.testSquareContainsEnemyPiece(newMoveDownLeft)) {
+				cantMoveDownLeft = true;															// If there is an enemy piece on the destination square, it is a valid square, but we cannot continue moving in that direction (the piece would jump over the enemy pieces).
+				possibleMoves.push(newMoveDownLeft);
 
-				const piece = targetSquare.firstElementChild as HTMLImageElement;
-
-				if (piece.id === "K" || piece.id === "k") {														// If the enemy piece is a king, we check the square behind the king (+1 to the current move). If it is empty or has a piece of our color (that the king could capture) it must be added to the list of impossible moves for the king, since we would continue to check it.
+				if (this.testSquareContainsKing(newMoveDownLeft)) {											// If the enemy piece is a king, we check the square behind the king (+1 to the current move). If it is empty or has a piece of our color (that the king could capture) it must be added to the list of impossible moves for the king, since we would continue to check it.
 					const newImpossibleMoveForKings = lettersArray[squareLetterIndex - counter - 1] + (squareNumber - counter - 1);
 					
-					if (this.checkPossibleMove(newImpossibleMoveForKings)) {
-						const square = document.getElementById(newImpossibleMoveForKings);
+					if (this.testSquareExists(newImpossibleMoveForKings)) {
 
-						if (square?.firstElementChild) {
+						if (this.testSquareContainsEnemyPiece(newImpossibleMoveForKings)) {
 							null;																		// If the square contains an enemy piece, it does not have to be taken into account, since it will be the same color as the king and he will not be able to move there.
 						} else {
-							impossibleMovesForKings.push(newImpossibleMoveForKings);					// If the box is empty, we must add it to "impossibleMovesForKings"
-						}
-					} else {
-						const square = document.getElementById(newImpossibleMoveForKings);
-
-						if (square) {
-							impossibleMovesForKings.push(newImpossibleMoveForKings);					// If the square exists on the board, it will have been rejected by "checkPossibleMove" for containing a friendly piece that the king can capture and be in check, so we add it to "impossibleMovesForKings"
+							impossibleMovesForKings.push(newImpossibleMoveForKings);					// If the square contains a friendly piece os an empty square, the king can move there and be in check again, so we add it to "impossibleMovesForKings"
 						}
 					}
-
 				}
+
+			} else if (this.testSquareContainsFriendlyPiece(newMoveDownLeft)) {
+				cantMoveDownLeft = true;
+				impossibleMovesForKings.push(newMoveDownLeft);
+			} else {
+				possibleMoves.push(newMoveDownLeft);
 			}
-
-			possibleMoves.push(newMoveDownLeft);
-		} else if (cantMoveDownLeft === false) {																			
-			cantMoveDownLeft = true;																// If the "checkPossibleMove" check is not passed, we cannot continue moving in that direction.
-
-			const targetSquare = document.getElementById(newMoveDownLeft);						// Now it´s going to Check if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		
-			if (targetSquare) {
-				const pieceInTargetSquare = targetSquare.firstElementChild;
-
-				if (pieceInTargetSquare) {
-					impossibleMovesForKings.push(newMoveDownLeft);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-				}
-			}
+		} else {
+			cantMoveDownLeft = true;																		// If the square does not exist, we cannot continue moving in that direction.
 		}
 
 
 
-		if (this.checkPossibleMove(newMoveDownRight) && cantMoveDownRight === false) {					// Generate downward - right movements.
-			const targetSquare = document.getElementById(newMoveDownRight) as HTMLDivElement;
+		if (this.testSquareExists(newMoveDownRight) && cantMoveDownRight === false) {					// GENERATE DOWN - RIGHT MOVEMENTS.
 
-			if (targetSquare.firstElementChild) {											// If there is an enemy piece on the destination square, it is a valid square, but we cannot continue moving in that direction (the piece would jump over the enemy pieces).
-				cantMoveDownRight = true;
+			if (this.testSquareContainsEnemyPiece(newMoveDownRight)) {
+				cantMoveDownRight = true;															// If there is an enemy piece on the destination square, it is a valid square, but we cannot continue moving in that direction (the piece would jump over the enemy pieces).
+				possibleMoves.push(newMoveDownRight);
 
-				const piece = targetSquare.firstElementChild as HTMLImageElement;
-
-				if (piece.id === "K" || piece.id === "k") {														// If the enemy piece is a king, we check the square behind the king (+1 to the current move). If it is empty or has a piece of our color (that the king could capture) it must be added to the list of impossible moves for the king, since we would continue to check it.
+				if (this.testSquareContainsKing(newMoveDownRight)) {											// If the enemy piece is a king, we check the square behind the king (+1 to the current move). If it is empty or has a piece of our color (that the king could capture) it must be added to the list of impossible moves for the king, since we would continue to check it.
 					const newImpossibleMoveForKings = lettersArray[squareLetterIndex + counter + 1] + (squareNumber - counter - 1);
 					
-					if (this.checkPossibleMove(newImpossibleMoveForKings)) {
-						const square = document.getElementById(newImpossibleMoveForKings);
+					if (this.testSquareExists(newImpossibleMoveForKings)) {
 
-						if (square?.firstElementChild) {
+						if (this.testSquareContainsEnemyPiece(newImpossibleMoveForKings)) {
 							null;																		// If the square contains an enemy piece, it does not have to be taken into account, since it will be the same color as the king and he will not be able to move there.
 						} else {
-							impossibleMovesForKings.push(newImpossibleMoveForKings);					// If the box is empty, we must add it to "impossibleMovesForKings"
-						}
-					} else {
-						const square = document.getElementById(newImpossibleMoveForKings);
-
-						if (square) {
-							impossibleMovesForKings.push(newImpossibleMoveForKings);					// If the square exists on the board, it will have been rejected by "checkPossibleMove" for containing a friendly piece that the king can capture and be in check, so we add it to "impossibleMovesForKings"
+							impossibleMovesForKings.push(newImpossibleMoveForKings);					// If the square contains a friendly piece os an empty square, the king can move there and be in check again, so we add it to "impossibleMovesForKings"
 						}
 					}
-
 				}
+
+			} else if (this.testSquareContainsFriendlyPiece(newMoveDownRight)) {
+				cantMoveDownRight = true;
+				impossibleMovesForKings.push(newMoveDownRight);
+			} else {
+				possibleMoves.push(newMoveDownRight);
 			}
-
-			possibleMoves.push(newMoveDownRight);
-		} else if (cantMoveDownRight === false) {																			
-			cantMoveDownRight = true;																// If the "checkPossibleMove" check is not passed, we cannot continue moving in that direction.
-
-			const targetSquare = document.getElementById(newMoveDownRight);						// Now it´s going to Check if the move has been rejected because there is a piece of the same color in the square. It would not be a valid move, but we must save it because it affects the other king.
-		
-			if (targetSquare) {
-				const pieceInTargetSquare = targetSquare.firstElementChild;
-
-				if (pieceInTargetSquare) {
-					impossibleMovesForKings.push(newMoveDownRight);								// If the piece is of the same color it is not a valid move, but it is saved because it would affect the king (check) if it captures that piece.
-				}
-			}
+		} else {
+			cantMoveDownRight = true;																		// If the square does not exist, we cannot continue moving in that direction.
 		}
 
 		counter++;

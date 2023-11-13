@@ -48,9 +48,10 @@ function SelectPlayer () {
 			player1NameInput.value = "";
 			
 			if (howManyPlayers === "select1Player") {
-				setGameState("gameIntro1P");								// If there is only one player, changes the state of the parent component "App" to start the game
+				player2Data.changePlayerData("Computer", "images/portraits/Robot2.jpg");
+				setGameState("gameIntro1P");													// If there is only one player, changes the state of the parent component "App" to start the game
 			} else if (howManyPlayers === "select2Players") {
-				setPlayerDataToShow("player2");								// If there are two players, changes the state of this component to ask for player 2´s data.
+				setPlayerDataToShow("player2");													// If there are two players, changes the state of this component to ask for player 2´s data.
 			}
 
 		} else {
