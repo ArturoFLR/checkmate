@@ -9,7 +9,7 @@ import Rook from "./Rook";
 
 class Pawn extends Piece {
 	public isFirstMove = true;
-	possibleMovesForKings: string[] = [];												// A pawn cannot capture in a straight line, so we keep a set of moves that are possible for the pawn but do not entail risk for the kings.
+	public possibleMovesForKings: string[] = [];												// A pawn cannot capture in a straight line, so we keep a set of moves that are possible for the pawn but do not entail risk for the kings.
 	constructor( id: string, player: "b" | "w", image: string, square: string ){
 		super(id, player, image, square);
 	}

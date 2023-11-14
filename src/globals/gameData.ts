@@ -133,7 +133,7 @@ export const pawnToTransformData: PawnToTransformType = {
 	setPawnToTransform: setPawnToTransform
 };
 
-// STORES THE DATA OF PIECE TO ANIMATE IN A PAWN TRANSFORMATION AT THE BEGINNING OF A TURN, IF ANY. IT IS SET BY THE "pawn.transform()" METHOD AND RESET TO "null" BY "Board" ONCE USED.
+// STORES THE DATA OF THE PIECE TO ANIMATE IN A PAWN TRANSFORMATION AT THE BEGINNING OF A TURN, IF ANY. IT IS SET BY THE "pawn.transform()" METHOD AND RESET TO "null" BY "Board" ONCE USED.
 
 type TransformedPieceToAnimateType = {
 	transformedPieceToAnimate: PiecesType | null,

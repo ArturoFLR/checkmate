@@ -4,6 +4,7 @@ import { player1Data, player2Data } from "../globals/playersData";
 import { piecesData } from "../globals/gameData";
 import { resetGameState } from "../utils/resetGameState";
 import generateSquares from "../utils/generateSquares";
+import SaveGame from "./SaveGame";
 
 
 function PlayerData() {
@@ -13,6 +14,9 @@ function PlayerData() {
 	const setPlayerTurn = playerTurnData.setPlayerTurn;
 
 	const squaresToClean = generateSquares(piecesData.pieces, false);
+
+	const exitGameDialog = document.getElementById("exitConfirmMainContainer") as HTMLDivElement;
+	const saveGameDialog = document.getElementById("saveGameMainContainer") as HTMLDivElement;
 
 	let player1HighlightedClass: string;
 	let player2HighlightedClass: string;
@@ -26,8 +30,7 @@ function PlayerData() {
 	}
 
 	function handleExitGameClick () {
-		const exitGameDialog = document.getElementById("exitConfirmMainContainer");
-		exitGameDialog?.classList.remove(styles.hidden);
+		exitGameDialog.classList.remove(styles.hidden);
 	}
 
 	function handleConfirmExitGame () {
@@ -37,8 +40,11 @@ function PlayerData() {
 	}
 
 	function handleCancelExitGame () {
-		const exitGameDialog = document.getElementById("exitConfirmMainContainer");
-		exitGameDialog?.classList.add(styles.hidden);
+		exitGameDialog.classList.add(styles.hidden);
+	}
+
+	function handleSaveGameClick () {
+		saveGameDialog.classList.remove(styles.saveHidden);
 	}
 
 
@@ -55,20 +61,18 @@ function PlayerData() {
 				<img alt="Player 1 portrait" src={player1Data.portrait} />
 			</div>
 
-			<div className={styles.btnExitGameContainer}>
-				<button type="button" onClick={handleExitGameClick} className={styles.btnSaveGame}>
+			<div className={styles.btnExitSaveGameContainer}>
+				<button type="button" onClick={handleSaveGameClick} className={styles.btnSaveGame}>
 					Save Game
 				</button>
-			</div>
 
-			<div className={styles.btnExitGameContainer}>
 				<button type="button" onClick={handleExitGameClick} className={styles.btnExitGame}>
 					Exit Game
 				</button>
-			</div>
 
-			<div className={styles.leftFormatter} ></div>
-			<div className={styles.rigthFormatter} ></div>
+				<div className={styles.leftFormatter} ></div>
+				<div className={styles.rigthFormatter} ></div>
+			</div>
 
 			<div className={`${styles.exitConfirmMainContainer} ${styles.hidden}`} id="exitConfirmMainContainer">
 				<div className={styles.exitConfirmOptionsContainer} >
@@ -87,6 +91,11 @@ function PlayerData() {
 					</button>
 				</div>
 			</div>
+			
+			<div className={`${styles.saveGameContainer} ${styles.saveHidden}`} id="saveGameMainContainer">				{/* It is made visible by the "PlayerData" component, and made invisible again by the "SaveGame" component. */}		
+				<SaveGame />		
+			</div>
+
 		</div>
 	);
 }

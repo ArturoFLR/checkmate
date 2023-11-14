@@ -3,7 +3,7 @@ import { halfTurnData, isPieceDyingData, piecesData, selectedPieceData } from ".
 
 abstract class Piece {
 	public possibleMoves: string[] = [];
-	impossibleMovesForKings: string[] = [];													// It saves possible capture moves (diagonally), which cannot be made now because there are no enemy pieces, but would affect the king if it moves to those possible capture squares.	
+	public impossibleMovesForKings: string[] = [];													// It saves possible capture moves (diagonally), which cannot be made now because there are no enemy pieces, but would affect the king if it moves to those possible capture squares.	
 	constructor( public id: string, public player: "b" | "w", public image: string, public square: string ) {}
 
 	abstract calcPossibleMoves (): void ;

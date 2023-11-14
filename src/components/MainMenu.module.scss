@@ -1,3 +1,15 @@
+@keyframes highlighting {
+	0% {
+		scale: 1;
+	}
+	50% {
+		scale: 1.2;
+	}
+	100% {
+		scale: 1;
+	}
+}
+
 .mainContainer {
 	position: relative;
 	width: 100%;
@@ -40,12 +52,12 @@
 
 .leftFormatter {
 	transform: rotate(155deg);
-	left: 9%;
+	left: 8%;
 }
 
 .rigthFormatter {
 	transform: rotate(-155deg);
-	right: 9%;
+	right: 8%;
 }
 
 .loadGameContainer {
@@ -54,14 +66,25 @@
 		display: flex;
 		flex-direction: column;
 		margin-top: 1rem;
-		color: rgb(255,165,0);
 	}
 
-	p {
-		margin-top: 0.25rem;
+	.higlightSlots {
+		animation: highlighting 0.5s;
+	}
+
+	.slotWithData, .emptySlot {
+		margin: auto;
+		margin-top: 0.45rem;
+		font-size: 1.6rem;
+		width: 25%;
+
+	}
+
+	.slotWithData {
 		cursor: pointer;
+		color: rgb(255,165,0);
 		transition-property: color scale;
-		transition-duration: 0.6s;
+		transition-duration: 0.5s;
 
 		&:hover {
 			color: rgb(225, 239, 146);
@@ -69,8 +92,16 @@
 		}
 	}
 
+	.emptySlot {
+		color: rgb(118, 173, 245);
+	}
+
+	.slotHighlighted {
+		scale: 1.2;
+		border-bottom: 2px solid tomato;
+	}
+
 	.btnSelect {
-		cursor: auto;
 
 		&:hover {
 			background-color: rgb(0,102,128);

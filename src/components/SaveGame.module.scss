@@ -1,0 +1,122 @@
+@keyframes highlightAnim {
+	0% {
+		scale: 1;
+	}
+	50% {
+		scale: 1.1;
+	}
+	100% {
+		scale: 1;
+	}
+}
+
+@keyframes highlightAnim2 {
+	0% {
+		scale: 1;
+	}
+	50% {
+		scale: 1.1;
+	}
+	100% {
+		scale: 1;
+	}
+}
+
+.saveGameContentContainer {
+	display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		align-items: center;
+		width: 450px;
+		height: 200px;	
+		background-color: black;
+		border: 2px solid rgb(255,165,0);
+
+	.mainText {
+		color: rgb(255,165,0);
+		font-family: 'Tilt Neon', sans-serif;
+		font-size: 2.2rem;
+		width: 100%;
+		text-align: center;
+	}
+
+	.slotsContainer {
+		display: flex;
+		justify-content: space-around;
+		width: 90%;
+		border-radius: 15px;
+
+		.slotName {
+			width: 125px;
+			height: 28px;
+			cursor: pointer;
+			user-select: none;
+			border: none;
+			border-radius: 5px;
+			background-color: rgb(101, 130, 194);
+			color: white;
+			font-size: 1.5rem;
+			font-family: 'Tilt Neon', sans-serif;
+		}
+		
+		.btnHighlighted {
+			border: 3px solid rgb(255,165,0);
+		}
+	}
+
+	.slotsContainerHighlighted {
+		animation: highlightAnim 0.5s;
+	}
+
+	.input {
+		width: 200px;
+		height: 30px;
+		text-align: center;
+		padding: 0rem 1rem 0rem 1rem;
+		outline: none;
+		border: none;
+		border-radius: 15px;
+		background-color: rgb(55, 129, 147);
+		color: white;
+		font-size: 2rem;
+		font-family: 'Mohave', sans-serif;
+		
+		&:disabled {
+			background-color: rgba(3, 110, 136, 0.537);
+
+			&::placeholder {
+				color: transparent;
+			}
+		}
+
+		&::placeholder {
+
+			color: white;
+		}
+	}
+
+	.inputHighlighted {
+		animation: highlightAnim2 0.5s;
+	}
+
+	.btnsContainer {
+		display: flex;
+		justify-content: space-around;
+		width: 100%;
+
+		.btnSaveGame, .btnCancelSave {
+			width: 17%;
+			border: 0rem;
+			background-color: transparent;
+			color: rgb(255,165,0);
+			font-family: 'Mohave', sans-serif;
+			font-size: 2.5rem;
+			cursor: pointer;
+	
+			&:hover {
+				color: rgb(240, 201, 126);
+				scale: 1.2;
+			}
+		}
+	}
+}

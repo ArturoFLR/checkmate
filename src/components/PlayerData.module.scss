@@ -94,45 +94,49 @@
 	}
 }
 
-.btnExitGameContainer {
+.btnExitSaveGameContainer {
+	position: relative;
 	width: 100%;
 	text-align: center;
-}
 
-.btnExitGame {									// General styles for buttons. More specific styles for confirmation buttons are given below.
-	position: relative;
-	width: 40%;
-	background-color: rgb(0,102,128);
-	font-size: 2.5rem;
-	font-family: 'Shadows Into Light', cursive;
-	font-weight: 400;
-	color: rgb(255,165,0);
-	border: none;
-	cursor: pointer;
-	transition-property: background-color transform;
-	transition-duration: 0.7s;
+	.btnExitGame, .btnSaveGame {									// General styles for buttons. More specific styles for confirmation buttons are given below.
+		width: 57%;
+		background-color: rgb(0,102,128);
+		font-size: 2.5rem;
+		font-family: 'Shadows Into Light', cursive;
+		font-weight: 400;
+		color: rgb(255,165,0);
+		border: none;
+		cursor: pointer;
+		transition-property: background-color transform;
+		transition-duration: 0.7s;
+	
+		&:hover {
+			background-color: rgb(101, 3, 3);
+			transform: rotate(-2deg);
+		}
+	}
 
-	&:hover {
-		background-color: rgb(101, 3, 3);
-		transform: rotate(-2deg);
+	.btnExitGame {
+		margin-top: 1.5rem;
 	}
 
 	.leftFormatter, .rigthFormatter {
 		position: absolute;
-		bottom: -15%;
-		width: 10%;
+		top: 0%;
+		width: 12%;
 		height: 120%;
 		background-color: rgb(4, 2, 55);
 	}
-
+	
 	.leftFormatter {
 		transform: rotate(155deg);
-		left: -5%;
+		left: 17%;
 	}
 	
 	.rigthFormatter {
 		transform: rotate(-155deg);
-		right: -5%;
+		right: 17%;
 	}
 }
 
@@ -145,7 +149,7 @@
 	align-items: center;
 	width: 100vw;
 	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.37);
+	background-color: rgba(0, 0, 0, 0.477);
 	z-index: 1;
 
 	.exitConfirmOptionsContainer {
@@ -168,8 +172,18 @@
 	}
 
 	.btnExitGame {
-		width: 35%;
-		font-size: 2rem;
+		width: 17%;
+		border: 0rem;
+		background-color: transparent;
+		color: rgb(255,165,0);
+		font-family: 'Mohave', sans-serif;
+		font-size: 2.5rem;
+		cursor: pointer;
+
+		&:hover {
+			color: rgb(240, 201, 126);
+			scale: 1.2;
+		}
 
 		.leftFormatter, .rigthFormatter {
 			bottom: -27%;
@@ -188,6 +202,23 @@
 	}
 }
 
+.saveGameContainer {
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.477);
+	z-index: 1;
+}
+
 .hidden {
+	display: none;
+}
+
+.saveHidden {
 	display: none;
 }
