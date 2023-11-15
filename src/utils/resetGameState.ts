@@ -2,7 +2,7 @@ import styles from "../components/Board.module.scss";
 import { completeTurnData, enPassantTargetData, halfTurnData, isPieceDyingData, lastPawnMovedData, pawnToTransformData, piecesData, selectedPieceData, transformedPieceToAnimateData } from "../globals/gameData";
 import generatePieces from "./generatePieces.mts";
 
-export function resetGameState ( squaresToClean: React.ReactElement<HTMLDivElement>[] ) {
+export function resetGameState ( squaresToClean: React.ReactElement<HTMLDivElement>[] ) {			// It is responsible for resetting the most important variables before a new game. These variables are in the "globals" folder. It cannot reset contexts as it is not a React component and cannot use hools.
 
 	squaresToClean.map( (element) => {
 		const square = document.getElementById(element.props.id) as HTMLDivElement;

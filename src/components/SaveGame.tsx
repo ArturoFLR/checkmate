@@ -26,21 +26,16 @@ export type SavedGameType = {
     playerTurn: PlayerTurnType;
 }
 
-function SaveGame() {
-	const [playerTurnData, gameStateData] = useGameStateContext();
-	const saveGameDialog = document.getElementById("saveGameMainContainer") as HTMLDivElement;
-	const slotsContainer = document.getElementById("slotsContainer") as HTMLDivElement;
-	const inputElement = document.getElementById("userInput") as HTMLInputElement;
-	const okBtn = document.getElementById("btnOk") as HTMLButtonElement;
-	const cancelBtn = document.getElementById("btnCancel") as HTMLButtonElement;
+function SaveGame() {																						// This component is hidden using CSS. The "PlayerData" component makes it appear, and "SaveGame" hides itself again.
+	const [playerTurnData, gameStateData] = useGameStateContext();		
 	let slotsHighlightAnimTimeout: number;
 	let inputHighlightAnimTimeout: number;
 	let newSlotTextAnimTimeout: number;
 	let saveGameDialogCloseTiemout: number;
 
-	let selectedSlot: string = "";
+	let selectedSlot: string = "";																				// Set by the "handleSlotClick" function, and used to save the slot selected by the user.
 
-	function loadExistingGameNames () {
+	function loadExistingGameNames () {																			// Returns button elements with the appropriate name for each slot ("empty" if the slot is empty)
 		const save1 = localStorage.getItem("checkMateSave1");
 		let save1Name: string = "Empty";
 
@@ -87,12 +82,13 @@ function SaveGame() {
 
 	function handleSlotClick (event: React.MouseEvent<HTMLButtonElement>) {
 		const clickedSlot = event.target as HTMLButtonElement;
+		const inputElement = document.getElementById("userInput") as HTMLInputElement;
 
 		selectedSlot = clickedSlot.id;
 		removeHighlightedSlotStyles();
 		clickedSlot.classList.add(styles.btnHighlighted);
 
-		inputElement.disabled = false;
+		inputElement.disabled = false;																// Activates the input element and focuses on it.
 		inputElement.focus();
 	}
 
@@ -102,13 +98,33 @@ function SaveGame() {
 		}
 	}
 
+	function formatTextToCapitalize ( text: string): string {								// It only allows capital letters in the 1st character, converts the rest to lower case so that the name is not too large in size.
+		let capitalizedText = "";
+
+		for (let i = 0; i < text.length; i++) {											
+			if (i === 0) {
+				capitalizedText = capitalizedText + text[i];
+			} else {
+				capitalizedText = capitalizedText + text[i].toLowerCase();
+			}
+		}
+
+		return capitalizedText;
+	}
+
 	function handleConfirmSaveGame () {
 		
-		if (selectedSlot) {
+		if (selectedSlot) {																		// The user must have selected a save slot.
+			const inputElement = document.getElementById("userInput") as HTMLInputElement;
 
-			if (validateUserInput()) {
+			if (validateUserInput()) {															// The text entered by the user must be valid.
+				const okBtn = document.getElementById("btnOk") as HTMLButtonElement;
+				const cancelBtn = document.getElementById("btnCancel") as HTMLButtonElement;
+				const userName = inputElement.value;
+				const capitalizedUserName = formatTextToCapitalize(userName);					// Capitalizes user-entered text to prevent it from having all uppercase characters and taking up too much pixel space.
+
 				const newSave: SavedGameType = {
-					userName: inputElement.value,
+					userName: capitalizedUserName,
 					player1Name: player1Data.name,
 					player1Portrait: player1Data.portrait,
 					player2Name: player2Data.name,
@@ -134,14 +150,15 @@ function SaveGame() {
 
 				localStorage.setItem(selectedSlot, JSON.stringify(newSave));
 
-			} else {
+			} else {																					// If the user has not entered a valid name for the slot, it activates a warning animation on the input.	
 				inputElement.classList.add(styles.inputHighlighted);
 				inputHighlightAnimTimeout = setTimeout( () => {
 					inputElement.classList.remove(styles.inputHighlighted);
 				}, 500);
 			}
 
-		} else {
+		} else {																						// If the user has not selected any slot, a warning animation is activated on the slot container.
+			const slotsContainer = document.getElementById("slotsContainer") as HTMLDivElement;
 			slotsContainer.classList.add(styles.slotsContainerHighlighted);
 			slotsHighlightAnimTimeout = setTimeout( () => {
 				slotsContainer.classList.remove(styles.slotsContainerHighlighted);
@@ -149,7 +166,9 @@ function SaveGame() {
 		}
 	}
 
-	function handleCancelSaveGame () {
+	function handleCancelSaveGame () {																	// Hides the "SaveGame" component and resets its variables to the initial state.
+		const saveGameDialog = document.getElementById("saveGameMainContainer") as HTMLDivElement;
+		const inputElement = document.getElementById("userInput") as HTMLInputElement;
 		saveGameDialog.classList.add(styles2.saveHidden);
 		inputElement.value = "";
 		inputElement.disabled= true;
@@ -162,7 +181,8 @@ function SaveGame() {
 		if (highlightedSlot) highlightedSlot.classList.remove(styles.btnHighlighted);
 	}
 
-	function validateUserInput () {
+	function validateUserInput () {																		// At the moment it only checks that the user has entered something.
+		const inputElement = document.getElementById("userInput") as HTMLInputElement;
 		const inputText = inputElement.value;
 
 		if (inputText) {
@@ -174,23 +194,20 @@ function SaveGame() {
 
 	function animateSavedGame () {
 		const slotToAnimate = document.getElementById(selectedSlot) as HTMLButtonElement;
+		const inputElement = document.getElementById("userInput") as HTMLInputElement;
+		const saveGameDialog = document.getElementById("saveGameMainContainer") as HTMLDivElement;					// This <div> is created by the "PlayerData" component and contains the "SaveGame" component. It is used here to make "SaveGame" disappear.
+		const okBtn = document.getElementById("btnOk") as HTMLButtonElement;
+		const cancelBtn = document.getElementById("btnCancel") as HTMLButtonElement;
 		const oldName = slotToAnimate.innerText;
 		const oldNameArray = Array.from(oldName);
-		let newName = inputElement.value;
+		const newName = inputElement.value;
+		const capitalizedUserName = formatTextToCapitalize(newName);	
 		let animatedNewName = "";
 		let timer = 0;
 
 		inputElement.value = "";
 
-		if (newName.length < oldName.length) {														// Makes the number of characters in "oldText" and "newText" the same so that there are no errors in the animation.
-			const charsToAdd = oldName.length - newName.length;
-
-			for (let i = charsToAdd; i > 0; i--) {
-				newName = newName + " ";
-			}
-		}
-
-		for (let i = 0; i < oldName.length; i++) {
+		for (let i = 0; i < oldName.length; i++) {																// Deletes the previous text, changing it to blank spaces.
 			
 			newSlotTextAnimTimeout = setTimeout( () => {
 				oldNameArray.splice(0, 1);
@@ -200,17 +217,17 @@ function SaveGame() {
 			timer = timer + 100;
 		}
 
-		for (let i = 0; i < newName.length; i++) {
-			
-			newSlotTextAnimTimeout = setTimeout( () => {
-				animatedNewName = animatedNewName + newName[i];
+		for (let i = 0; i < capitalizedUserName.length; i++) {												// Generates the new text, letter by letter.
+
+			newSlotTextAnimTimeout = setTimeout( () => {									
+				animatedNewName = animatedNewName + capitalizedUserName[i];
 				slotToAnimate.innerText = animatedNewName;
 			}, timer);
 
 			timer = timer + 100;
 		}
 
-		saveGameDialogCloseTiemout = setTimeout( () => {
+		saveGameDialogCloseTiemout = setTimeout( () => {													// Hide the component and reset its variables and styles.
 			saveGameDialog.classList.add(styles2.saveHidden);
 			inputElement.disabled= true;
 			selectedSlot = "";
@@ -240,7 +257,7 @@ function SaveGame() {
 
 			{loadExistingGameNames()}
 
-			<input className={styles.input} type="text"inputMode="text" id="userInput" placeholder="Enter new name" maxLength={15} onKeyDown={handleEnterKeyPress} disabled></input>
+			<input className={styles.input} type="text"inputMode="text" id="userInput" placeholder="Enter new name" maxLength={9} onKeyDown={handleEnterKeyPress} disabled></input>
 
 			<div className={styles.btnsContainer}>
 				<button className={styles.btnSaveGame} type="button" onClick={handleConfirmSaveGame} id="btnOk">

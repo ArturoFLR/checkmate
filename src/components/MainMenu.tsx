@@ -19,16 +19,17 @@ function MainMenu() {
 	const [optionSelected, setOptionSelected] = useState<OptionSelected>("init");
 	const [playerTurnData, gameStateData] = useGameStateContext();
 	const setGameState = gameStateData.setGameState;
-	let selectedSlot: string = "";
+	let selectedSlot: string = "";													// Stores the id of the slot selected by the user.
 	let slotsHighLightAnimTimeout: number;
 
-	let slot1: SavedGameType | null = null;
+	const loadData1 = localStorage.getItem("checkMateSave1");													// Here the data of each game is saved in JSON format.
+	const loadData2 = localStorage.getItem("checkMateSave2");
+	const loadData3 = localStorage.getItem("checkMateSave3");
+	
+	let slot1: SavedGameType | null = null;																		// The JSON.parse() of the data for each game (if any) will be saved here.
 	let slot2: SavedGameType | null = null;
 	let slot3: SavedGameType | null = null;
 
-	const loadData1 = localStorage.getItem("checkMateSave1");
-	const loadData2 = localStorage.getItem("checkMateSave2");
-	const loadData3 = localStorage.getItem("checkMateSave3");
 
 	if (loadData1) {
 		slot1 = JSON.parse(loadData1);
@@ -64,7 +65,7 @@ function MainMenu() {
 		setOptionSelected("init");
 	}
 
-	function handleSlotClick (event: React.MouseEvent<HTMLParagraphElement>) {
+	function handleSlotClick (event: React.MouseEvent<HTMLParagraphElement>) {								// sets the value of "selected Slot". Removes any existing highlighting styles and highlights the selected slot.
 		const clickedSlot = event.target as HTMLParagraphElement;
 
 		selectedSlot = clickedSlot.id;
@@ -72,15 +73,15 @@ function MainMenu() {
 		clickedSlot.classList.add(styles.slotHighlighted);
 	}
 
-	function removeHighlightedSlotStyles () {
+	function removeHighlightedSlotStyles () {																// Removes any existing highlighting styles
 		const highlightedSlot = document.querySelector(`.${styles.slotHighlighted}`);								
 		if (highlightedSlot) highlightedSlot.classList.remove(styles.slotHighlighted);
 	}
 
 	function handleSelectBtnClick () {
-		if (selectedSlot) {
+		if (selectedSlot) {																					// The user must have previously selected a slot.
 			let slotToLoad: SavedGameType | null = null;
-			const piecesTemp: PiecesType[] = []; 
+			const piecesTemp: PiecesType[] = []; 															// The list of pieces recovered from a slot will be saved here.
 
 			switch (selectedSlot) {
 			case "slot1":
@@ -96,7 +97,7 @@ function MainMenu() {
 				break;
 			}
 
-			slotToLoad!.pieces.map( (element) => {
+			slotToLoad!.pieces.map( (element) => {														// The JSON format DOES NOT store object methods (it cannot store functions), it only stores properties, so we must create new objects based on those properties. For this we will use the object constructor.
 				let newPiece: PiecesType;
 
 				switch (element.id[0]) {
@@ -152,18 +153,19 @@ function MainMenu() {
 					break;
 				}
 
-				newPiece!.possibleMoves = element.possibleMoves;
+				newPiece!.possibleMoves = element.possibleMoves;													// We set the properties for which there is no constructor directly.
 				newPiece!.impossibleMovesForKings = element.impossibleMovesForKings;
-				if (element.isFirstMove) newPiece!.isFirstMove = element.isFirstMove;
-				if (element.possibleMovesForKings) newPiece!.possibleMovesForKings = element.possibleMovesForKings;
-				if (element.isCheck) newPiece!.isCheck = element.isCheck;
-				if (element.isShortCastlingPossible) newPiece!.isShortCastlingPossible = element.isShortCastlingPossible;
-				if (element.isLongCastlingPossible) newPiece!.isLongCastlingPossible = element.isLongCastlingPossible;
-				if (element.invalidSquaresDueToCheck) newPiece!.invalidSquaresDueToCheck = element.invalidSquaresDueToCheck;
+				if (element.id[0] === "P" || element.id[0] === "p") newPiece!.isFirstMove = element.isFirstMove;
+				if (element.id[0] === "P" || element.id[0] === "p") newPiece!.possibleMovesForKings = element.possibleMovesForKings;
+				if (element.id === "K" || element.id === "k") newPiece!.isCheck = element.isCheck;
+				if (element.id === "K" || element.id === "k") newPiece!.isShortCastlingPossible = element.isShortCastlingPossible;
+				if (element.id === "K" || element.id === "k") newPiece!.isLongCastlingPossible = element.isLongCastlingPossible;
+				if (element.id === "K" || element.id === "k") newPiece!.invalidSquaresDueToCheck = element.invalidSquaresDueToCheck;
 
 				piecesTemp.push(newPiece!);
 			});
 
+			// We restore the value of all variables.
 
 			player1Data.changePlayerData(slotToLoad!.player1Name, slotToLoad!.player1Portrait);
 			player2Data.changePlayerData(slotToLoad!.player2Name, slotToLoad!.player2Portrait);
@@ -179,7 +181,7 @@ function MainMenu() {
 			playerTurnData.setPlayerTurn(slotToLoad!.playerTurn);
 			gameStateData.setGameState(slotToLoad!.gameState);
 
-		} else {
+		} else {																					// If the user has not selected a slot, we apply a warning animation on the container of all slots.
 			const slots = document.getElementById("loadGameGameList") as HTMLDivElement;
 			slots.classList.add(styles.higlightSlots);
 			slotsHighLightAnimTimeout = setTimeout( () => {

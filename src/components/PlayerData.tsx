@@ -15,9 +15,6 @@ function PlayerData() {
 
 	const squaresToClean = generateSquares(piecesData.pieces, false);
 
-	const exitGameDialog = document.getElementById("exitConfirmMainContainer") as HTMLDivElement;
-	const saveGameDialog = document.getElementById("saveGameMainContainer") as HTMLDivElement;
-
 	let player1HighlightedClass: string;
 	let player2HighlightedClass: string;
 
@@ -30,20 +27,23 @@ function PlayerData() {
 	}
 
 	function handleExitGameClick () {
+		const exitGameDialog = document.getElementById("exitConfirmMainContainer") as HTMLDivElement;
 		exitGameDialog.classList.remove(styles.hidden);
 	}
 
 	function handleConfirmExitGame () {
-		resetGameState(squaresToClean);
+		resetGameState(squaresToClean);																	// This function is in the "utils" folder.
 		setPlayerTurn("w");
 		setGameState("preGame");
 	}
 
 	function handleCancelExitGame () {
+		const exitGameDialog = document.getElementById("exitConfirmMainContainer") as HTMLDivElement;
 		exitGameDialog.classList.add(styles.hidden);
 	}
 
 	function handleSaveGameClick () {
+		const saveGameDialog = document.getElementById("saveGameMainContainer") as HTMLDivElement;
 		saveGameDialog.classList.remove(styles.saveHidden);
 	}
 
