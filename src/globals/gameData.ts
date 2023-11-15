@@ -81,7 +81,7 @@ function setCompleteTurn ( this: CompleteTurnDataType, newHalfTurnNumber: number
 }
 
 export const completeTurnData: CompleteTurnDataType = {
-	completeTurn: 0,
+	completeTurn: 1,
 	setCompleteTurn: setCompleteTurn
 };
 
@@ -147,4 +147,20 @@ function setTransformedPieceToAnimate ( this: TransformedPieceToAnimateType, new
 export const transformedPieceToAnimateData: TransformedPieceToAnimateType = {
 	transformedPieceToAnimate: null,
 	setTransformedPieceToAnimate: setTransformedPieceToAnimate
+};
+
+// SAVES THE DIFFICULTY OF THE AI SELECTED BY THE USER
+
+type AiLevelType = {
+	aiLevel: number,
+	setAiLevel: ( newAiLevel: number ) => void
+}
+
+function setAiLevel ( this: AiLevelType, newAiLevel: number ) {
+	this.aiLevel = newAiLevel;
+}
+
+export const aiLevelData: AiLevelType = {
+	aiLevel: 9,
+	setAiLevel: setAiLevel
 };

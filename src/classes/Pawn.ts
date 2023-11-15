@@ -177,7 +177,7 @@ function movePiece ( this: Pawn, targetSquare: string ) {
 	
 	this.animateMove(targetSquare);
 
-	halfTurnData.setHalfTurn(0);
+	halfTurnData.setHalfTurn(-1);																// It is reset to -1 because at the end of this same turn the "Board" component will add 1, leaving it as "0".
 	
 	this.square = targetSquare;
 }

@@ -7,7 +7,7 @@ import SelectPiece from "./SelectPiece";
 import King from "../classes/King";
 import { PiecesType } from "../classes/PiecesType";
 import GameResults from "./GameResults";
-import { createFEN } from "../utils/createFEN";
+import { getBestMove } from "../services/stockfish/interface";
 
 type BoardProps = {
 	showPieces: boolean
@@ -49,7 +49,7 @@ function Board( {showPieces}: BoardProps) {
 
 		halfTurnData.setHalfTurn( halfTurnData.halfTurn + 1);
 
-		completeTurnData.setCompleteTurn( completeTurnData.completeTurn + 1);
+		if (playerTurnData.playerTurn === "b") completeTurnData.setCompleteTurn( completeTurnData.completeTurn + 1);
 
 		if (playerTurn === "w") {
 			setPlayerTurn("b");
@@ -499,6 +499,8 @@ function Board( {showPieces}: BoardProps) {
 		if (gameState === "gameStarted1P" || gameState === "gameStarted2P") {
 			isPieceDyingData.setIsPieceDying(false);							// Resets the value every turn. It is set to "true" by the "die" method of the pieces
 			
+			getBestMove(playerTurn);
+
 			newTurnChecks();
 
 			piecesData.pieces.map( (element) => {							// Updates possible moves for all pieces at the start of the turn.
