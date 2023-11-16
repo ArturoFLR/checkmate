@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import generateSquares from "../utils/generateSquares";
 import styles from "./Board.module.scss";
-import { completeTurnData, enPassantTargetData, halfTurnData, isPieceDyingData, pawnToTransformData, piecesData, selectedPieceData, transformedPieceToAnimateData } from "../globals/gameData";
+import { completeTurnData, enPassantTargetData, halfTurnData, isAIThinkingData, isPieceDyingData, pawnToTransformData, piecesData, selectedPieceData, transformedPieceToAnimateData } from "../globals/gameData";
 import { useGameStateContext } from "../context/GameStateContext";
 import SelectPiece from "./SelectPiece";
 import King from "../classes/King";
@@ -29,6 +29,7 @@ function Board( {showPieces}: BoardProps) {
 	let targetSquares: string[];
 	let movingPieceTimeout: number;
 	let aiActionsTimeout: number;
+	let aiActions2Timeout: number;
 
 
 
@@ -69,6 +70,9 @@ function Board( {showPieces}: BoardProps) {
 				let timer: number;
 				aiMove = response;
 
+				isAIThinkingData.setIsAIThinking(true);
+				setGameState("gameLoading");
+
 				if (aiMove.originSquare) {
 					let pieceToMove: PiecesType;
 
@@ -76,16 +80,20 @@ function Board( {showPieces}: BoardProps) {
 						if (element.square === aiMove.originSquare) pieceToMove = element;
 					});
 
-					pieceToMove!.movePiece(aiMove.targetSquare);
-
-
-					if (isPieceDyingData.isPieceDying === true) {
-						timer = 1550;
-					} else {
-						timer = 500;
-					}
-			
-					movingPieceTimeout = setTimeout( () => preEndturnCheks(), timer);	 							// Wait for the piece's animation to finish before advancing to the next turn.
+					aiActions2Timeout = setTimeout( () => {
+						pieceToMove!.movePiece(aiMove.targetSquare);
+						
+						if (isPieceDyingData.isPieceDying === true) {
+							timer = 1550;
+						} else {
+							timer = 500;
+						}
+				
+						movingPieceTimeout = setTimeout( () => {
+							setGameState("gameStarted1P");
+							preEndturnCheks();
+						}, timer);	 							// Wait for the piece's animation to finish before advancing to the next turn.
+					} , 1000);
 				}
 			})
 			.catch( (error) => console.log(error));
@@ -355,6 +363,7 @@ function Board( {showPieces}: BoardProps) {
 		const fiftyTurnsRule: boolean = checkFiftyTurnsRule();
 		let pawnToTransform: PiecesType | null = null;
 		let endgame = false;															// A flag used to stop checking if one of the endgame conditions is met.
+		isAIThinkingData.setIsAIThinking(false);
 
 		removePendingDieAnimation();													// Fixes pending dead animation bug.
 
@@ -528,7 +537,7 @@ function Board( {showPieces}: BoardProps) {
 	}
 
 	useEffect( () => {
-		if (gameState === "gameStarted1P" || gameState === "gameStarted2P") {
+		if ((gameState === "gameStarted1P" || gameState === "gameStarted2P") && !isAIThinkingData.isAIThinking) {
 			isPieceDyingData.setIsPieceDying(false);							// Resets the value every turn. It is set to "true" by the "die" method of the pieces
 			
 			newTurnChecks();
@@ -544,18 +553,18 @@ function Board( {showPieces}: BoardProps) {
 			});
 		}
 
-		if (gameState === "gameStarted2P") {
+		if (gameState === "gameStarted2P" && !isAIThinkingData.isAIThinking) {
 			makePiecesSelectable();
 		}
 
-		if (gameState === "gameStarted1P" && playerTurn === "w") {
+		if (gameState === "gameStarted1P" && playerTurn === "w" && !isAIThinkingData.isAIThinking) {
 			makePiecesSelectable();
 		}
 
-		if (gameState === "gameStarted1P" && playerTurn === "b") {
+		if (gameState === "gameStarted1P" && playerTurn === "b" && !isAIThinkingData.isAIThinking) {
 			aiActionsTimeout = setTimeout( () => {
 				generateAiActions();
-			}, 1005);
+			}, 550);
 		}
 
 		return () => {
@@ -577,7 +586,7 @@ function Board( {showPieces}: BoardProps) {
 
 			// Eliminates timeout for piece movements.
 
-			clearTimeout(movingPieceTimeout);
+			if (!isAIThinkingData.isAIThinking) clearTimeout(movingPieceTimeout);
 
 			// Eliminates timeout for piece transformations. This Timeout is generated in the "animateTransform" method of the pieces and imported from the "Piece" class.
 
@@ -586,6 +595,10 @@ function Board( {showPieces}: BoardProps) {
 			// Eliminates timeout for AI actions.
 
 			clearTimeout(aiActionsTimeout);
+
+			// Eliminates timeout for AI actions 2.
+
+			if (!isAIThinkingData.isAIThinking) clearTimeout(aiActions2Timeout);
 		};
 	});
 

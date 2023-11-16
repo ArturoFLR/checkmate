@@ -164,3 +164,35 @@ export const aiLevelData: AiLevelType = {
 	aiLevel: 9,
 	setAiLevel: setAiLevel
 };
+
+// STORES IF THE GAMES IS AGAINST THE AI
+
+type isAIGameType = {
+	isAIGame: boolean,
+	setIsAIGame: ( isAI: boolean ) => void
+}
+
+function setIsAIGame ( this: isAIGameType, isAI: boolean ) {
+	this.isAIGame = isAI;
+}
+
+export const isAIGameData: isAIGameType = {
+	isAIGame: false,
+	setIsAIGame: setIsAIGame
+};
+
+// STORES IF THE AI IS THINKING
+
+type isAIThinkingType = {
+	isAIThinking: boolean,
+	setIsAIThinking: ( isAI: boolean ) => void
+}
+
+function setIsAIThinking ( this: isAIThinkingType, isAIThinking: boolean ) {
+	this.isAIThinking = isAIThinking;
+}
+
+export const isAIThinkingData: isAIThinkingType = {
+	isAIThinking: false,
+	setIsAIThinking: setIsAIThinking
+};

@@ -20,7 +20,7 @@ export function createFEN ( playerTurn: PlayerTurnType ) {											// Translat
 function translateEnPassant () {
 	const {enPassantTargetSquare, enPassantTargetCounter} = enPassantTargetData;
 
-	if (enPassantTargetCounter === 1) {
+	if (enPassantTargetSquare && enPassantTargetCounter === 1) {
 		return enPassantTargetSquare;
 	} else {
 		return "-"; 

@@ -1,7 +1,7 @@
 import { useGameStateContext } from "../context/GameStateContext";
 import styles from "./PlayerData.module.scss";
 import { player1Data, player2Data } from "../globals/playersData";
-import { piecesData } from "../globals/gameData";
+import { isAIGameData, piecesData } from "../globals/gameData";
 import { resetGameState } from "../utils/resetGameState";
 import generateSquares from "../utils/generateSquares";
 import SaveGame from "./SaveGame";
@@ -24,6 +24,42 @@ function PlayerData() {
 	} else {
 		player1HighlightedClass = styles.playerNoHighlight;
 		player2HighlightedClass = styles.playerHighlighted;
+	}
+
+	function generateAiEmojis () {
+		let aiChecked = false;
+		let playerChecked = false;
+
+		piecesData.pieces.map( (element) => {
+			if (element.id[0] === "k" && element.isCheck) aiChecked = true;
+			if (element.id[0] === "K" && element.isCheck) playerChecked = true;
+		});
+
+		if (gameState === "gameLoading") {
+			return (
+				<div className={styles.dialogContainer}>
+					<img className={styles.dialogEmoji} alt="aiEmoji" src="images/emojis/loading.gif" />
+				</div>
+			);
+		} else if (playerChecked && !aiChecked) {
+			return (
+				<div className={styles.dialogContainer}>
+					<img className={styles.dialogEmoji} alt="aiEmoji" src="images/emojis/laughing.gif" />
+				</div>
+			);
+		} else if (aiChecked) {
+			return (
+				<div className={styles.dialogContainer}>
+					<img className={styles.dialogEmoji} alt="aiEmoji" src="images/emojis/worried.gif" />
+				</div>
+			);
+		} else if (gameState === "gameWinP1") {
+			return (
+				<div className={styles.dialogContainer}>
+					<img className={styles.dialogEmoji} alt="aiEmoji" src="images/emojis/weeping.gif" />
+				</div>
+			);
+		}
 	}
 
 	function handleExitGameClick () {
@@ -54,6 +90,11 @@ function PlayerData() {
 			<div className={`${styles.player2Container} ${player2HighlightedClass}`} >
 				<p>{player2Data.name}</p>
 				<img alt="Player 2 portrait" src={player2Data.portrait} />
+				{
+					gameState === "gameStarted1P" || gameState === "gameLoading" || (gameState === "gameWinP1" && isAIGameData.isAIGame)
+						? generateAiEmojis()
+						: null
+				}
 			</div>
 
 			<div className={`${styles.player1Container} ${player1HighlightedClass}`} >
