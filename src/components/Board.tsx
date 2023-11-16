@@ -8,6 +8,12 @@ import King from "../classes/King";
 import { PiecesType } from "../classes/PiecesType";
 import GameResults from "./GameResults";
 import { getBestMove } from "../services/stockfish/interface";
+import { transformPieceTimeout } from "../classes/Piece";
+
+type AiMoveType = {
+    originSquare: string;
+    targetSquare: string;
+}
 
 type BoardProps = {
 	showPieces: boolean
@@ -22,7 +28,8 @@ function Board( {showPieces}: BoardProps) {
 	let selectableSquares: string[] = [];
 	let targetSquares: string[];
 	let movingPieceTimeout: number;
-	let transformPieceTimeout: number;
+	let aiActionsTimeout: number;
+
 
 
 	function newTurnChecks () {												// Perform the necessary checks at the beginning of a turn, such as activating the pawn transformation animations, or activating the AI if the game is a single player.
@@ -30,13 +37,6 @@ function Board( {showPieces}: BoardProps) {
 		if (transformedPieceToAnimateData.transformedPieceToAnimate) {										// Check if any pawn was transformed in the previous turn. If so, activates the transformation animation of the new piece.
 			const pieceToAnimateTransform =	transformedPieceToAnimateData.transformedPieceToAnimate;
 			pieceToAnimateTransform.animateTransform();
-
-			transformPieceTimeout = setTimeout( () => {
-				const transformAnimationOldPawn = document.getElementById("transformAnimationOldPawn") as HTMLImageElement;
-				const pieceToAnimateTransformImg = document.getElementById(pieceToAnimateTransform.id) as HTMLImageElement;
-				transformAnimationOldPawn.remove();
-				pieceToAnimateTransformImg.classList.remove(styles.transformNewPiece);
-			},2005);
 
 			transformedPieceToAnimateData.setTransformedPieceToAnimate(null);
 		}
@@ -59,6 +59,38 @@ function Board( {showPieces}: BoardProps) {
 
 		removePendingDieAnimation();
 	}
+
+
+	function generateAiActions () {
+		let aiMove: AiMoveType;
+
+		getBestMove(playerTurn)
+			.then( (response) => {
+				let timer: number;
+				aiMove = response;
+
+				if (aiMove.originSquare) {
+					let pieceToMove: PiecesType;
+
+					piecesData.pieces.map( (element) => {												// Looks for the object that is in that square.
+						if (element.square === aiMove.originSquare) pieceToMove = element;
+					});
+
+					pieceToMove!.movePiece(aiMove.targetSquare);
+
+
+					if (isPieceDyingData.isPieceDying === true) {
+						timer = 1550;
+					} else {
+						timer = 500;
+					}
+			
+					movingPieceTimeout = setTimeout( () => preEndturnCheks(), timer);	 							// Wait for the piece's animation to finish before advancing to the next turn.
+				}
+			})
+			.catch( (error) => console.log(error));
+	}
+
 
 	function removePendingDieAnimation () {																	// Fixes a bug where the death animation was still active after the dead piece disappeared and was applied to the one that captured it, making it invisible. Removes any pending death animations.		
 		const dieAnimationPending = document.querySelector(`.${styles.dyingPiece}`);								
@@ -499,8 +531,6 @@ function Board( {showPieces}: BoardProps) {
 		if (gameState === "gameStarted1P" || gameState === "gameStarted2P") {
 			isPieceDyingData.setIsPieceDying(false);							// Resets the value every turn. It is set to "true" by the "die" method of the pieces
 			
-			getBestMove(playerTurn);
-
 			newTurnChecks();
 
 			piecesData.pieces.map( (element) => {							// Updates possible moves for all pieces at the start of the turn.
@@ -512,8 +542,20 @@ function Board( {showPieces}: BoardProps) {
 					element.calcPossibleMoves();
 				}
 			});
+		}
 
+		if (gameState === "gameStarted2P") {
 			makePiecesSelectable();
+		}
+
+		if (gameState === "gameStarted1P" && playerTurn === "w") {
+			makePiecesSelectable();
+		}
+
+		if (gameState === "gameStarted1P" && playerTurn === "b") {
+			aiActionsTimeout = setTimeout( () => {
+				generateAiActions();
+			}, 1005);
 		}
 
 		return () => {
@@ -537,9 +579,13 @@ function Board( {showPieces}: BoardProps) {
 
 			clearTimeout(movingPieceTimeout);
 
-			// Eliminates timeout for piece transformations.
+			// Eliminates timeout for piece transformations. This Timeout is generated in the "animateTransform" method of the pieces and imported from the "Piece" class.
 
 			clearTimeout(transformPieceTimeout);
+
+			// Eliminates timeout for AI actions.
+
+			clearTimeout(aiActionsTimeout);
 		};
 	});
 

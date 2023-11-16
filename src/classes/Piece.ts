@@ -21,6 +21,8 @@ abstract class Piece {
 	animateTransform = animateTransform;
 }
 
+export let transformPieceTimeout: number;
+
 function selectPiece (this: Piece) {
 	selectedPieceData.setSelectedPiece(this.id);	
 	const possibleTargetSquares = this.possibleMoves; 
@@ -218,7 +220,7 @@ function animateDie ( this: Piece ) {
 function animateTransform ( this: Piece ) {
 	const newPieceElement = document.getElementById(this.id) as HTMLImageElement;		// The piece into which the pawn has been transformed, that is, this object.
 	const oldPawnImg = document.createElement("img");									// Create an image of the transformed pawn, which no longer exists, to perform the animation.
-	const square = document.getElementById(this.square) as HTMLDivElement;					// The square where we are going to add the old pawn.
+	const square = document.getElementById(this.square) as HTMLDivElement;				// The square where we are going to add the old pawn.
 	
 	let oldPawnImgSrc: string = "";														// We create the necessary attributes for the "oldPawnImg" element
 
@@ -236,6 +238,12 @@ function animateTransform ( this: Piece ) {
 	square.appendChild(oldPawnImg);														// Add the image of the old pawn and apply the animation to it and the new piece (this object).
 	oldPawnImg.classList.add(styles.transformOldPiece);
 	newPieceElement.classList.add(styles.transformNewPiece);
+
+	transformPieceTimeout = setTimeout( () => {														// Removes placeholders and classes created by the "animateTransform" method from the piece. This Timeout is removed by the useEffect of the "Board" component.
+		oldPawnImg.remove();
+		newPieceElement.classList.remove(styles.transformNewPiece);
+	},2005);
+
 }
 
 export default Piece;

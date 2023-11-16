@@ -9,7 +9,7 @@ import SaveGame from "./SaveGame";
 
 function PlayerData() {
 	const [playerTurnData, gameStateData] = useGameStateContext();
-	const setGameState = gameStateData.setGameState;
+	const {gameState, setGameState} = gameStateData;
 	const playerTurn = playerTurnData.playerTurn;
 	const setPlayerTurn = playerTurnData.setPlayerTurn;
 
