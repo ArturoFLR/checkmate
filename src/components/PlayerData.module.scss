@@ -54,16 +54,14 @@
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	width: 60%;
-	padding: 1rem;
-	padding-left: 2.5rem;
+	width: 70%;
+	padding: 1rem 25% 1rem 1.5rem;
 	color: rgb(157, 166, 240);
-	font-size: 3rem;
+	font-size: 2.7rem;
 	font-family: 'Tilt Neon', sans-serif;
 	background-color: black;
 	border: 1px solid rgb(255,165,0);
 	border-radius: 15px;
-
 
 	img {
 		position: absolute;
@@ -75,21 +73,22 @@
 
 	.dialogContainer {
 		position: absolute;
-		top: -80%;
-		right: 15%;
+		top: -78%;
+		right: 12%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		width: 20%;
 		height: 90%;
-		padding: 0% 0% 3% 1%;
 		background-image: url("@/images/emojis/dialog_frame.png");
 		background-repeat: no-repeat;
 		background-size: contain;
+		background-position: 40%;
 
 		.dialogEmoji {
 			position: static;
-			width: 55%;
+			margin-bottom: 10%;
+			width: 45%;
 		}
 	}
 }

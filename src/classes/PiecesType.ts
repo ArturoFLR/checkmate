@@ -49,4 +49,6 @@ export type PiecesType = {
 	animateTransform(): void
 	transform? (newPiece: string): void;
 	testKingCheck? (): void;
+	animateKingDying? (): void;
+	testKingCheckNoStyles? (): void;
 }

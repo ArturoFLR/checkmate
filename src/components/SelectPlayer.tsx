@@ -3,6 +3,8 @@ import styles from "./SelectPlayer.module.scss";
 import Slideshow from "./Slideshow";
 import { useGameStateContext } from "../context/GameStateContext";
 import { player1Data, player2Data } from "../globals/playersData";
+import { aiLevelData, isAIGameData } from "../globals/gameData";
+import { capitalizeText } from "../utils/capitalizeText";
 
 type playerDataToShow = "player1" | "player2";
 
@@ -12,7 +14,9 @@ function SelectPlayer () {
 
 	const [, gameStateData] = useGameStateContext();
 	const howManyPlayers = gameStateData.gameState;													// The "howManyPlayers" prop is used to decide whether or not to ask to fill in player 2's data when player 1's data has been filled in. "setGameState" changes App`s GameState
-	const setGameState = gameStateData.setGameState;									
+	const setGameState = gameStateData.setGameState;		
+	
+	let levelSelected: number;
 
 	let inputNameErrorTimeout: number;
 
@@ -40,10 +44,12 @@ function SelectPlayer () {
 		const player1NameInput = document.getElementById("playerInfoInput") as HTMLInputElement;
 		
 		if (player1NameInput.value) {
-			const player1Name = player1NameInput.value;
+			const player1Name = capitalizeText(player1NameInput.value);										// This function is located in the "utils" folder. Only allow the first letter to be capitalized.
 
 			const player1Portrait = player1Data.portrait;
-			player1Data.changePlayerData(player1Name, player1Portrait);		// 	The "SelectPlayer" component only sets the name of the players in the "PlayersDataContext" context. The child component "Slideshow" is responsible for setting the portraits.
+			player1Data.changePlayerData(player1Name, player1Portrait);									// 	The "SelectPlayer" component only sets the name of the players in the "PlayersDataContext" context. The child component "Slideshow" is responsible for setting the portraits.
+
+			aiLevelData.setAiLevel(levelSelected);
 
 			player1NameInput.value = "";
 			
@@ -63,7 +69,7 @@ function SelectPlayer () {
 		const player2NameInput = document.getElementById("playerInfoInput") as HTMLInputElement;
 		
 		if (player2NameInput.value) {
-			const player2Name = player2NameInput.value;
+			const player2Name = capitalizeText(player2NameInput.value);										// This function is located in the "utils" folder. Only allow the first letter to be capitalized.
 
 			const player2Portrait = player2Data.portrait;
 			player2Data.changePlayerData(player2Name, player2Portrait);
@@ -74,13 +80,61 @@ function SelectPlayer () {
 		}
 	}
 
+
+	function handleDifficultyClick (event: React.MouseEvent<HTMLParagraphElement> ) {
+		const selectedDifficultyId = (event.target as HTMLParagraphElement).id;
+		const containerToHighlight = (event.target as HTMLParagraphElement).parentElement as HTMLDivElement;
+		levelSelected = Number(selectedDifficultyId);
+
+		removeHighlightedDifficultStyles();
+		containerToHighlight.classList.add(styles.difficultySelected);
+		
+	}
+
+	function removeHighlightedDifficultStyles () {
+		const removeHighlightedDifficultStyles = document.querySelector(`.${styles.difficultySelected}`);								
+		if (removeHighlightedDifficultStyles) removeHighlightedDifficultStyles.classList.remove(styles.difficultySelected);
+	}
+
 	useEffect( () => {
 		return () => {
 			clearTimeout(inputNameErrorTimeout);
 		};
 	});
 
-	if (playerDataToShow === "player1") {
+	if (playerDataToShow === "player1" && isAIGameData.isAIGame) {
+		return (
+			<div className={styles.mainContainer} >
+				<div className={`${styles.playerInfoContainer} ${styles.aiGamePlayerInfoContainer}`} >
+					<div className={styles.playerNumberAndPieceContainer} >
+						<p className={styles.playerInfoNumber} >Player 1</p>
+						<img alt="White king" src="images/pieces/kingW.png" ></img>
+					</div>
+
+					<div className={styles.slideshowContainer} >
+						<Slideshow  player="p1"/ >
+					</div>
+
+					<div className={styles.difficultLevelsContainer}>
+						<div className={styles.difficultyContainer}>
+							<p  id="1" onClick={handleDifficultyClick}>Easy</p>
+						</div>
+
+						<div className={`${styles.difficultyContainer} ${styles.difficultySelected}`}>
+							<p id="9" onClick={handleDifficultyClick}>Normal</p>
+						</div>
+
+						<div className={styles.difficultyContainer}>
+							<p id="13" onClick={handleDifficultyClick}>Hard</p>
+						</div>
+					</div>
+
+					<input className={styles.playerInfoInput} maxLength={9} id="playerInfoInput" placeholder="Enter your name" onKeyDown={handleP1EnterKeyPress}></input>
+					<button type="button" className={styles.playerInfobtnOk} onClick={handlePlayer1OkClick}>Ok!</button>
+				</div>
+			</div>
+		);
+	} else if (playerDataToShow === "player1" && !isAIGameData.isAIGame){
 		return (
 			<div className={styles.mainContainer} >
 				<div className={styles.playerInfoContainer} >
@@ -93,7 +147,7 @@ function SelectPlayer () {
 						<Slideshow  player="p1"/ >
 					</div>
 
-					<input className={styles.playerInfoInput} maxLength={10} id="playerInfoInput" placeholder="Enter your name" onKeyDown={handleP1EnterKeyPress}></input>
+					<input className={styles.playerInfoInput} maxLength={9} id="playerInfoInput" placeholder="Enter your name" onKeyDown={handleP1EnterKeyPress}></input>
 					<button type="button" className={styles.playerInfobtnOk} onClick={handlePlayer1OkClick}>Ok!</button>
 				</div>
 			</div>
@@ -111,7 +165,7 @@ function SelectPlayer () {
 						<Slideshow  player="p2"/ >
 					</div>
 
-					<input className={styles.playerInfoInput} maxLength={10} id="playerInfoInput" placeholder="Enter your name" onKeyDown={handleP2EnterKeyPress}></input>
+					<input className={styles.playerInfoInput} maxLength={9} id="playerInfoInput" placeholder="Enter your name" onKeyDown={handleP2EnterKeyPress}></input>
 					<button type="button" className={styles.playerInfobtnOk} onClick={handlePlayer2OkClick} >Ok!</button>
 				</div>
 			</div>

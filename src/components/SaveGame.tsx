@@ -5,6 +5,7 @@ import { player1Data, player2Data } from "../globals/playersData";
 import { aiLevelData, completeTurnData, enPassantTargetData, halfTurnData, isAIGameData, lastPawnMovedData, piecesData } from "../globals/gameData";
 import { GameStateType, PlayerTurnType, useGameStateContext } from "../context/GameStateContext";
 import { PiecesType } from "../classes/PiecesType";
+import { capitalizeText } from "../utils/capitalizeText";
 
 export type SavedGameType = {
 	userName: string;
@@ -100,20 +101,6 @@ function SaveGame() {																						// This component is hidden using CSS
 		}
 	}
 
-	function formatTextToCapitalize ( text: string): string {								// It only allows capital letters in the 1st character, converts the rest to lower case so that the name is not too large in size.
-		let capitalizedText = "";
-
-		for (let i = 0; i < text.length; i++) {											
-			if (i === 0) {
-				capitalizedText = capitalizedText + text[i];
-			} else {
-				capitalizedText = capitalizedText + text[i].toLowerCase();
-			}
-		}
-
-		return capitalizedText;
-	}
-
 	function handleConfirmSaveGame () {
 		
 		if (selectedSlot) {																		// The user must have selected a save slot.
@@ -123,7 +110,7 @@ function SaveGame() {																						// This component is hidden using CSS
 				const okBtn = document.getElementById("btnOk") as HTMLButtonElement;
 				const cancelBtn = document.getElementById("btnCancel") as HTMLButtonElement;
 				const userName = inputElement.value;
-				const capitalizedUserName = formatTextToCapitalize(userName);					// Capitalizes user-entered text to prevent it from having all uppercase characters and taking up too much pixel space.
+				const capitalizedUserName = capitalizeText(userName);					// Capitalizes user-entered text to prevent it from having all uppercase characters and taking up too much pixel space.
 
 				const newSave: SavedGameType = {
 					userName: capitalizedUserName,
@@ -205,7 +192,7 @@ function SaveGame() {																						// This component is hidden using CSS
 		const oldName = slotToAnimate.innerText;
 		const oldNameArray = Array.from(oldName);
 		const newName = inputElement.value;
-		const capitalizedUserName = formatTextToCapitalize(newName);	
+		const capitalizedUserName = capitalizeText(newName);	
 		let animatedNewName = "";
 		let timer = 0;
 

@@ -35,7 +35,7 @@ function PlayerData() {
 			if (element.id[0] === "K" && element.isCheck) playerChecked = true;
 		});
 
-		if (gameState === "gameLoading") {
+		if (gameState === "gameLoading" && !aiChecked) {
 			return (
 				<div className={styles.dialogContainer}>
 					<img className={styles.dialogEmoji} alt="aiEmoji" src="images/emojis/loading.gif" />

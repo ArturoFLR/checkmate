@@ -73,11 +73,12 @@
 	}
 
 	.slotWithData, .emptySlot {
+		height: 18px;
 		margin: auto;
 		margin-top: 0.45rem;
 		font-size: 1.6rem;
 		width: 25%;
-
+		font-family: 'Tilt Neon', sans-serif;
 	}
 
 	.slotWithData {

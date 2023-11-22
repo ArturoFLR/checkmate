@@ -4,11 +4,12 @@ import styles from "./Board.module.scss";
 import { completeTurnData, enPassantTargetData, halfTurnData, isAIThinkingData, isPieceDyingData, pawnToTransformData, piecesData, selectedPieceData, transformedPieceToAnimateData } from "../globals/gameData";
 import { useGameStateContext } from "../context/GameStateContext";
 import SelectPiece from "./SelectPiece";
-import King from "../classes/King";
+import King, { kingDyingExplosionTimeout } from "../classes/King";
 import { PiecesType } from "../classes/PiecesType";
 import GameResults from "./GameResults";
 import { getBestMove } from "../services/stockfish/interface";
 import { transformPieceTimeout } from "../classes/Piece";
+import { makePiecesDeepCopy } from "../utils/makePiecesDeepCopy";
 
 type AiMoveType = {
     originSquare: string;
@@ -30,6 +31,7 @@ function Board( {showPieces}: BoardProps) {
 	let movingPieceTimeout: number;
 	let aiActionsTimeout: number;
 	let aiActions2Timeout: number;
+	let waitForKingToDieTimeout: number;
 
 
 
@@ -131,9 +133,9 @@ function Board( {showPieces}: BoardProps) {
 		}
 	}
 
-	function testKingsChecked () {										// Called by "preEndturnCheks"
-		let isWhiteKingChecked = false;
-		let isBlackKingChecked = false;
+
+
+	function refreshPiecesMovements () {								// Refresh the piece´s "possibleMoves" propert
 
 		piecesData.pieces.map( (element) => {							// Updates possible moves for all pieces.
 			element.calcPossibleMoves();
@@ -144,10 +146,25 @@ function Board( {showPieces}: BoardProps) {
 				element.calcPossibleMoves();
 			}
 		});
+	}
+
+
+
+	function testKingsChecked ( withStyles: boolean ) {										// Called by "preEndturnCheks" and "canPlayerRevertChek". The "withStyles" parameter indicates whether king styles should be applied in check or not (the king method "testKingCheckNoStyles" will be used when we are checking hypothetical moves and do not want visual representation of them).
+		let isWhiteKingChecked = false;
+		let isBlackKingChecked = false;
+
+		refreshPiecesMovements();										// Refresh the piece´s "possibleMoves" property
 
 		piecesData.pieces.map( (element) => {
 			if (element.id === "K" || element.id === "k") {
-				element.testKingCheck?.();
+				
+				if (withStyles) {
+					element.testKingCheck?.();
+				} else {
+					element.testKingCheckNoStyles?.();
+				}
+				
 
 				if (element.id === "K") {
 					isWhiteKingChecked = element.isCheck!;
@@ -182,6 +199,64 @@ function Board( {showPieces}: BoardProps) {
 		};
 	}
 
+
+
+	function canPlayerRevertCheck (player: string): boolean {									// It only works as intended if the player passed as argument is in check.
+		const piecesDeepCopy: PiecesType[] = makePiecesDeepCopy();											// Makes a DEEP copy of piecesData.pieces, since we are going to be touching their values and then we want to leave them as they were.
+		let chekedKing: PiecesType;
+		let canRevertCheck = false;
+
+		// There is no need to update the "possibleMoves" property of the pieces, since this function is always executed after "testKingsChecked", which has already done so.
+
+		piecesData.pieces.map( (element) => {														// We get the checked king.
+			if (element.player === player && (element.id[0] === "K" || element.id[0] === "k")) {
+				chekedKing = element;
+			}
+		});
+
+		for (let i = 0; i < piecesData.pieces.length; i++) {										// From each of the pieces on the board we are going to take its "possibleMoves" array and we are going to execute each of those moves and check if they break the check. A "for" is used instead of directly a ".map()" because once we are inside the ".map()" loop, even though we update the value of "piecesWorkingCopy" inside the code, every time we make a new ".map()" loop will do it with the initial values, it will not take into consideration the changes we have made. (It seems that at the beginning of a ".map()" the value of "piecesWorkingCopy" is saved in memory and is not updated until the mapping of all the pieces it contains has finished, which generated errors).
+			let piecesWorkingCopy: PiecesType[] = makePiecesDeepCopy();
+			const piece = piecesWorkingCopy[i];
+
+			if (piece.player === chekedKing!.player && piece.possibleMoves.length > 0) piece.possibleMoves.map( (move) => {			// We only test friendly pieces that have at least one possible movement.
+				
+				piece.square = move;																								// We execute one of the possible movements of the tested piece.
+
+				piecesWorkingCopy.map( (pieceToCapture) => {																		// If there is an enemy piece on the same square where we move the piece, we must simulate its capture. We do not use the "movePiece" or "die" methods of the pieces, as these generate unwanted side effects, such as animating the movement of the piece around the board or changing the value of "halfMove" (we are only doing a simulation and not we want the user to see it in action).
+					if (pieceToCapture.player !== piece.player && pieceToCapture.square === move) {
+						
+						let piecesCopy: PiecesType[] = [];																			// We capture the piece by deleting it from the parts array.
+
+						piecesWorkingCopy.map( (elementToCopy) => {
+							if (elementToCopy.id !== pieceToCapture.id) {
+								piecesCopy = [...piecesCopy, elementToCopy];
+							}
+						});
+
+						piecesWorkingCopy = piecesCopy;
+					}
+				});
+
+				piecesData.setPieces(piecesWorkingCopy);
+
+				const areKingsChecked = testKingsChecked(false);												// We check if the king is still in check. We do not need to refresh the possible movements of the pieces, since the "testKingsChecked()" function does it internally.													
+				
+				if ((chekedKing.player === "w" && areKingsChecked.w === false) || (chekedKing.player === "b" && areKingsChecked.b === false) ) {							// If the king is no longer in check, the player can undo the check. We restore the original value of the pieces array and set "canRevertCheck" to "true", then we return "canRevertCheck".
+					piecesData.setPieces(piecesDeepCopy);
+					canRevertCheck = true;
+					return canRevertCheck;
+				}
+				
+				piecesData.setPieces(piecesDeepCopy);														// If the king is still in check, we restore the original value of the pieces array before checking the next move/piece.
+
+			});
+		}
+
+		return canRevertCheck;																			// If this line is executed it is because "canRevertCheck" is still "false".
+	}
+
+
+
 	function testHasPlayersPossibleMoves () {							// Called by "preEndturnCheks"
 		let hasWhitePossibleMoves = false;
 		let hasBlackPossibleMoves = false;
@@ -203,6 +278,8 @@ function Board( {showPieces}: BoardProps) {
 			b: hasBlackPossibleMoves
 		};
 	}
+
+
 
 	function testDeadPosition () {
 		const whiteSquares = ["a2", "a4", "a6", "a8", "b1", "b3", "b5", "b7", "c2", "c4", "c6", "c8", "d1", "d3", "d5", "d7", "e2", "e4", "e6", "e8", "f1", "f3", "f5", "f7", "g2", "g4", "g6", "g8", "h1", "h3", "h5", "h7"];
@@ -357,12 +434,17 @@ function Board( {showPieces}: BoardProps) {
 		return false;
 	}
 
+
+
 	function preEndturnCheks () {
 		const areKingsAlive: {w: boolean, b: boolean} = testAreKingsAlive();			// Checks if any of the kings have died.
-		const isAnyKingChecked: {w: boolean, b: boolean} = testKingsChecked();			// Checks if there are any kings in check. The "testKingsChecked" function uses the kings "testKingCheck" method to do this.
+		const isAnyKingChecked: {w: boolean, b: boolean} = testKingsChecked(true);			// Checks if there are any kings in check. The "testKingsChecked" function uses the kings "testKingCheck" method to do this.
 		const fiftyTurnsRule: boolean = checkFiftyTurnsRule();
 		let pawnToTransform: PiecesType | null = null;
 		let endgame = false;															// A flag used to stop checking if one of the endgame conditions is met.
+		let isPlayerChoosingPiece = false;												// Used as a "flag" so that the rest of the checks are not executed while a player chooses which piece he wants to transform a pawn to.
+		let whiteKing: PiecesType;														// The objects of the kings. They are saved so we can use their "animateKingDying" method if necessary.
+		let blackKing: PiecesType;
 		isAIThinkingData.setIsAIThinking(false);
 
 		removePendingDieAnimation();													// Fixes pending dead animation bug.
@@ -377,49 +459,6 @@ function Board( {showPieces}: BoardProps) {
 			endgame = true;
 		}
 
-
-		// Checks to see if there are any kings in check and the player has no legal moves. The "testKingsChecked" function uses the kings "testKingCheck" method to do this.
-
-		if (endgame === false && (isAnyKingChecked.w === true || isAnyKingChecked.b === true)) {
-			const {w, b} = testHasPlayersPossibleMoves();
-
-			if (isAnyKingChecked.w === true && w === false) {
-				setGameState("gameWinP2");
-				endgame = true;
-			} else if (isAnyKingChecked.b === true && b === false) {
-				setGameState("gameWinP1");
-				endgame = true;
-			}
-		}
-
-		// CHECK IF WE ARE ON TURN 100 OR MORE AND THE TURN WAS NOT ENDED WITH A CHECK TO A KING: DRAW BY THE 50 MOVES RULE.
-
-		if (endgame === false && fiftyTurnsRule && isAnyKingChecked.w === false && isAnyKingChecked.b === false) {
-			setGameState("gameDraw50Moves");
-			endgame = true;
-		}
-
-
-		// IF THE PLAYER TO WHOM THE TURN IS GOING TO BE PASSED IS NOT IN CHECK BUT HAS NO LEGAL MOVES: DRAW BY STALEMATE.
-		
-		if (endgame === false) {
-			const {w, b} = testHasPlayersPossibleMoves();
-
-			if ((isAnyKingChecked.w === false && w === false) || (isAnyKingChecked.b === false && b === false)) {
-				setGameState("gameDrawStalemate");
-				endgame = true;
-			}
-		}
-
-		// Check if the players do not have enough pieces to check each other: draw by Dead Position.
-
-		if (endgame === false) {
-			if (testDeadPosition()) {
-				setGameState("gameDrawDeadPosition");
-				endgame = true;
-			}
-		}
-
 		// CHECK IF THERE IS A WHITE PAWN ON LINE 8 OR A BLACK ONE ON LINE 1: TransformPiece.
 
 		pawnToTransform = checkPawnToTransform();
@@ -431,11 +470,101 @@ function Board( {showPieces}: BoardProps) {
 				selectPieceElement.classList.remove(styles.hideSelectPiece);											// The "Board" component makes the "SelectPiece" component visible. The pawn's "transform" method makes it invisible again.
 	
 				pawnToTransformData.setPawnToTransform(pawnToTransform);
-			} else {
-				endTurn();
+				isPlayerChoosingPiece = true;																	// The "Select Piece" component will re-execute this "preEndturnCheks" function when the piece has been chosen, resetting this variable to "false".
 			}
 		}
+
+		// Stores the objects of the kings. They are saved so we can use their "animateKingDying" method if necessary.
+
+		piecesData.pieces.map( (element) => {
+			if (element.id[0] === "K") {
+				whiteKing = element;
+			} else if (element.id[0] === "k") {
+				blackKing = element;
+			}
+		}); 
+
+
+		// CHECKS IF THERE IS A KING IN CHECK AND THE PLAYER DOES NOT HAVE LEGAL MOVES (CHECKMATE) OR THE ONES HE HAS CANNOT REMOVE HIM OUT OF CHECK (CHECKMATE) OR HE HAS BEEN PLACED IN CHECK BY ERROR ON HIS OWN TURN AND CAN NO LONGER DO ANYTHING. The "testKingsChecked" function uses the kings "testKingCheck" method to do this.
+
+		if (endgame === false && (isAnyKingChecked.w === true || isAnyKingChecked.b === true) && isPlayerChoosingPiece === false) {
+
+			if (isAnyKingChecked.w) {
+
+				if (playerTurn === "w") {																	// If we are looking at the king that has just been put in check, it is because it was a stupid move by the player himself that generated the check on his turn. Since now comes the opponent's turn, there is nothing he can do to save himself. We do not include the "canPlayerRevertCheck()" condition here because it requires a lot of calculations and is not necessary if we know that it was an irreversible error.
+					(whiteKing! as King).animateKingDying();
+					endgame = true;
+
+					waitForKingToDieTimeout = setTimeout( () => {
+						setGameState("gameWinP2");
+					}, 9000);
+					
+				} else if (!canPlayerRevertCheck("w")) {
+					(whiteKing! as King).animateKingDying();
+					endgame = true;
+
+					waitForKingToDieTimeout = setTimeout( () => {
+						setGameState("gameWinP2");
+					}, 9000);
+				}
+
+			} else if (isAnyKingChecked.b) {
+
+				if (playerTurn === "b") {																	// If we are looking at the king that has just been put in check, it is because it was a stupid move by the player himself that generated the check on his turn. Since now comes the opponent's turn, there is nothing he can do to save himself. We do not include the "canPlayerRevertCheck()" condition here because it requires a lot of calculations and is not necessary if we know that it was an irreversible error.
+					(blackKing! as King).animateKingDying();
+					endgame = true;
+
+					waitForKingToDieTimeout = setTimeout( () => {
+						setGameState("gameWinP1");
+					}, 9000);
+				} else if (!canPlayerRevertCheck("b")) {
+					(blackKing! as King).animateKingDying();
+					endgame = true;
+
+					waitForKingToDieTimeout = setTimeout( () => {
+						setGameState("gameWinP1");
+					}, 9000);
+				}
+
+			}
+		}
+
+
+
+		// CHECK IF WE ARE ON TURN 100 OR MORE AND THE TURN WAS NOT ENDED WITH A CHECK TO A KING: DRAW BY THE 50 MOVES RULE.
+
+		if (endgame === false && isPlayerChoosingPiece === false && fiftyTurnsRule && isAnyKingChecked.w === false && isAnyKingChecked.b === false) {
+			setGameState("gameDraw50Moves");
+			endgame = true;
+		}
+
+
+		// IF THE PLAYER TO WHOM THE TURN IS GOING TO BE PASSED IS NOT IN CHECK BUT HAS NO LEGAL MOVES: DRAW BY STALEMATE.
+		
+		if (endgame === false && isPlayerChoosingPiece === false) {
+			const {w, b} = testHasPlayersPossibleMoves();
+
+			if ((isAnyKingChecked.w === false && w === false) || (isAnyKingChecked.b === false && b === false)) {
+				setGameState("gameDrawStalemate");
+				endgame = true;
+			}
+		}
+
+		// Check if the players do not have enough pieces to check each other: draw by Dead Position.
+
+		if (endgame === false && isPlayerChoosingPiece === false) {
+			if (testDeadPosition()) {
+				setGameState("gameDrawDeadPosition");
+				endgame = true;
+			}
+		}
+
+		if (endgame === false && isPlayerChoosingPiece === false) {
+			endTurn();
+		}
 	}
+
+
 
 	function clickTargetSquare ( this: HTMLDivElement ) {
 		const selectedPiece = selectedPieceData.selectedPiece;
@@ -542,15 +671,7 @@ function Board( {showPieces}: BoardProps) {
 			
 			newTurnChecks();
 
-			piecesData.pieces.map( (element) => {							// Updates possible moves for all pieces at the start of the turn.
-				element.calcPossibleMoves();
-			});
-
-			piecesData.pieces.map( (element) => {							// The kings need another pass because in order to calculate their moves they need the rest of the pieces to have already calculated theirs.
-				if (element.id === "K" || element.id === "k") {
-					element.calcPossibleMoves();
-				}
-			});
+			refreshPiecesMovements();										// Refresh the piece´s "possibleMoves" property
 		}
 
 		if (gameState === "gameStarted2P" && !isAIThinkingData.isAIThinking) {
@@ -591,6 +712,14 @@ function Board( {showPieces}: BoardProps) {
 			// Eliminates timeout for piece transformations. This Timeout is generated in the "animateTransform" method of the pieces and imported from the "Piece" class.
 
 			clearTimeout(transformPieceTimeout);
+
+			// Eliminates timeout for dying kings animations. This Timeout is generated in the "animateKingDying" method of the king and imported from the "King" class. Waits for the king to finish moving before inserting the explosion image.
+
+			clearTimeout(kingDyingExplosionTimeout);
+
+			// Eliminates timeout for dying kings animations. This Timeout is generated in the "Board" component. Waits for the king to finish his complete animation before show the "GameResults" component.
+
+			clearTimeout(waitForKingToDieTimeout);
 
 			// Eliminates timeout for AI actions.
 

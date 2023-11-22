@@ -2,9 +2,10 @@ import styles from "../components/Board.module.scss";
 import { piecesData } from "../globals/gameData";
 import Pawn from "./Pawn";
 import Piece from "./Piece";
+import { PiecesType } from "./PiecesType";
 
 type InvalidSquareType = {
-		owner: Piece,
+		owner: PiecesType,
 		square: string
 };
 
@@ -20,8 +21,11 @@ class King extends Piece {
 	calcPossibleMoves = calcPossibleMoves;
 	movePiece = movePiece;
 	testKingCheck = testKingCheck;
+	animateKingDying = animateKingDying;
+	testKingCheckNoStyles = testKingCheckNoStyles;
 }
 
+export let kingDyingExplosionTimeout: number;
 export default King;
 
 function calcPossibleMoves ( this: King ) {											// Calculate the possible moves, not being valid those in which the king is in check. This prevents the rest of the kings from correctly calculating their possible moves. That's why there is a second set of moves: "possibleMovesEvenWithCheck"
@@ -217,6 +221,23 @@ function calcPossibleMoves ( this: King ) {											// Calculate the possible 
 							(piece as Pawn).possibleMovesForKings.map( (pawnMove) => {
 								if (pawnMove === move) {
 									isValidNewPossibleMove = true;
+
+									piecesData.pieces.map( (otherEnemyPiece) => {						// Although the movement is in the "possibleMovesForKings" array, we must check that it does not appear in the "possibleMoves" and "impossibleMovesForKings" arrays of the rest of the enemy pieces. If we don't do this, a square where an enemy bishop can move (for example) can be marked as safe by a pawn.
+										if (otherEnemyPiece.id !== piece.id && otherEnemyPiece.player !== this.player) {
+											
+											otherEnemyPiece.possibleMoves.map( (otherEnemyPieceMove) => {
+												if (otherEnemyPieceMove === move) {
+													isValidNewPossibleMove = false;
+												}
+											});
+
+											otherEnemyPiece.impossibleMovesForKings.map( (otherEnemyPieceMove) => {
+												if (otherEnemyPieceMove === move) {
+													isValidNewPossibleMove = false;
+												}
+											});
+										}
+									});
 								}
 							});
 						}
@@ -327,4 +348,58 @@ function testKingCheck ( this: King ): void {												// Check if the king is
 	} else {
 		kingSquare.classList.remove(styles.checked);
 	}
+}
+
+function testKingCheckNoStyles ( this: King ): void {												// Used to know if the king is in check in checks made by the "Board" component before the end of a turn when playing against the AI. It does not apply styles to check, since they are checks on hypothetical moves.
+	this.isCheck = false;
+
+	piecesData.pieces.map( (piece) => {
+		if (piece.player !== this.player) {
+			piece.possibleMoves.map( (move) => {
+				if (move === this.square) {
+					this.isCheck = true;
+				}
+			});
+		}
+	});
+}
+
+function animateKingDying (this: King ): void {											// A special death animation for cases where the opponent does not manually capture the king and is still considered to have won. For example, when the player is in check and has no possible moves to get him out of check. (checkmate).
+	const kingElement = document.getElementById(this.id) as HTMLImageElement;			// The king whose death we are going to animate.
+	const explosionImg = document.createElement("img");									// Create an image of the a explosion, used in the animation.
+	const square = document.getElementById(this.square) as HTMLDivElement;				// The square where we are going to add the old pawn.
+	let piecesCopy: PiecesType[] = [];	
+
+	explosionImg.src = "images/otheranims/explosion2.gif";								// We create the necessary attributes for the "explosionImg" element
+	explosionImg.alt = "";
+	explosionImg.className = styles.explosion;
+	explosionImg.id = "explosionAnim";
+
+
+	kingDyingExplosionTimeout = setTimeout( () => {
+		square.classList.remove(styles.checked);
+		kingElement.classList.add(styles.kingDying);
+	}, 1000);
+
+	kingDyingExplosionTimeout = setTimeout( () => {
+		square.appendChild(explosionImg);
+	}, 5000);
+
+	kingDyingExplosionTimeout = setTimeout( () => {
+		square.classList.add(styles.withHole);
+	}, 5400);
+
+	kingDyingExplosionTimeout = setTimeout( () => {
+		explosionImg.remove();
+	}, 5930);
+
+	// Deletes the King object so that it doesn't appear again on the next render (when "GameResults" appears).
+
+	piecesData.pieces.map( (element) => {
+		if (element.id !== this.id) {
+			piecesCopy = [...piecesCopy, element];
+		}
+	});
+
+	piecesData.setPieces(piecesCopy);
 }

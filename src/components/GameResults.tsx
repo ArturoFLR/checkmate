@@ -31,9 +31,6 @@ function GameResults() {
 										: <img className={styles.winnerPortrait} alt="Player portrait" src={player2Data.portrait} ></img>
 								}
 
-								<img alt="fireworks" className={`${styles.fireworkBig} ${styles.firework}`} src ="../../public/images/fireworks/big_air.gif"></img>
-								<img alt="fireworks" className={`${styles.fireworkBig2} ${styles.firework}`} src ="../../public/images/fireworks/big_air.gif"></img>
-								<img alt="fireworks" className={`${styles.fireworkSmall} ${styles.firework}`} src ="../../public/images/fireworks/small_air.gif"></img>
 								<img alt="fireworks" className={`${styles.fireworkGround} ${styles.firework}`} src ="../../public/images/fireworks/ground.gif"></img>
 								<img alt="fireworks" className={`${styles.fireworkGround2} ${styles.firework}`} src ="../../public/images/fireworks/ground.gif"></img>
 							</div>
@@ -62,11 +59,17 @@ function GameResults() {
 					)
 					: (
 						<div className={styles.drawContainer}>
-							<div className={styles.player1Container}> 
 
-							</div>
+							<div className={styles.playersContainer}>
 
-							<div className={styles.player2Container}> 
+								<div className={styles.player1Container}> 
+									<img className={styles.player1Portrait} alt="Player portrait" src={player1Data.portrait} ></img>
+									<img className={styles.sparks} alt="Sparks" src="images/otheranims/sparks.gif" ></img>
+								</div>
+
+								<div className={styles.player2Container}> 
+									<img className={styles.player2Portrait} alt="Player portrait" src={player2Data.portrait} ></img>
+								</div>
 
 							</div>
 
@@ -90,7 +93,9 @@ function GameResults() {
 										? <p className={styles.drawTypeText} >-Dead Position-</p>
 										: null
 								}
-							</div>	
+							</div>
+
+							<button type="button" className={styles.btnContinue} onClick={handleContinueClick}>Continue</button>	
 						</div>
 					)
 			}

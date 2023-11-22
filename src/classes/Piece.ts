@@ -1,5 +1,6 @@
 import styles from "../components/Board.module.scss";
 import { halfTurnData, isPieceDyingData, piecesData, selectedPieceData } from "../globals/gameData";
+import { PiecesType } from "./PiecesType";
 
 abstract class Piece {
 	public possibleMoves: string[] = [];
@@ -195,7 +196,7 @@ function animateMove ( this: Piece, targetSquare: string) {
 }
 
 function die ( this: Piece ) {
-	let piecesCopy: Piece[] = [];
+	let piecesCopy: PiecesType[] = [];
 
 	isPieceDyingData.setIsPieceDying(true);
 

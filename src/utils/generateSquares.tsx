@@ -4,8 +4,9 @@ import { useGameStateContext } from "../context/GameStateContext";
 import { PiecesType } from "../classes/PiecesType";
 
 function generateSquares ( piecesList: PiecesType[], withPieces: boolean ) {					// Generates an array with the board squares and the pieces on them, if any.
-	const [playerTurnData] = useGameStateContext();
-	const {playerTurn} = playerTurnData;									
+	const [playerTurnData, gameStateData] = useGameStateContext();
+	const {playerTurn} = playerTurnData;
+	const {gameState,} = gameStateData;									
 	const letters = ["a", "b", "c", "d", "e", "f", "g", "h"];
 	const numbers = ["8", "7", "6", "5", "4", "3", "2", "1"];
 	const pieces = piecesList;
@@ -40,7 +41,7 @@ function generateSquares ( piecesList: PiecesType[], withPieces: boolean ) {				
 			if (piece && withPieces) {													// If there is a piece, add an <img> with its data to the square
 				let kingInCheckClassName: null | string;
 
-				if ((piece.id[0] === "K" || piece.id[0] === "k") && piece.isCheck === true) {
+				if ((piece.id[0] === "K" || piece.id[0] === "k") && piece.isCheck === true && (gameState !== "gameWinP1" && gameState !== "gameWinP2")) {
 					kingInCheckClassName = styles.checked;
 				} else {
 					kingInCheckClassName = null;
