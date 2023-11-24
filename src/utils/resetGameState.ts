@@ -1,5 +1,5 @@
 import styles from "../components/Board.module.scss";
-import { aiLevelData, completeTurnData, enPassantTargetData, halfTurnData, isAIGameData, isAIThinkingData, isPieceDyingData, lastPawnMovedData, pawnToTransformData, piecesData, selectedPieceData, transformedPieceToAnimateData } from "../globals/gameData";
+import { aiLevelData, completeTurnData, enPassantTargetData, halfTurnData, isAIGameData, isAIThinkingData, isPieceDyingData, lastPawnMovedData, pawnToTransformData, piecesData, previousPlaysListData, selectedPieceData, transformedPieceToAnimateData } from "../globals/gameData";
 import generatePieces from "./generatePieces.mts";
 
 export function resetGameState ( squaresToClean: React.ReactElement<HTMLDivElement>[] ) {			// It is responsible for resetting the most important variables before a new game. These variables are in the "globals" folder. It cannot reset contexts as it is not a React component and cannot use hools.
@@ -25,4 +25,5 @@ export function resetGameState ( squaresToClean: React.ReactElement<HTMLDivEleme
 	aiLevelData.setAiLevel(9);
 	isAIGameData.setIsAIGame(false);
 	isAIThinkingData.setIsAIThinking(false);
+	previousPlaysListData.resetPlaysList();
 }

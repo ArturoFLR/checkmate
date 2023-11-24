@@ -33,7 +33,7 @@ function SelectPiece ( {preEndturnCheks}: SelectPieceProps ) {
 			const pieceContainerSelected = document.querySelector(`.${styles.pieceSelected}`);
 			pieceContainerSelected?.classList.remove(styles.pieceSelected);
 
-			pawnToTransformData.pawnToTransform?.transform(pieceSelectedId);									// Execute the "transform" method of the pawn to be transformed.
+			pawnToTransformData.pawnToTransform?.transform?.(pieceSelectedId);									// Execute the "transform" method of the pawn to be transformed.
 
 			pawnToTransformData.setPawnToTransform(null);														// Resets the variable to "null" once used.
 

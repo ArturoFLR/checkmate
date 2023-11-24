@@ -93,6 +93,12 @@ function GameResults() {
 										? <p className={styles.drawTypeText} >-Dead Position-</p>
 										: null
 								}
+
+								{
+									gameState === "gameDrawThreefoldRepetition"
+										? <p className={styles.drawTypeText} >-Threefold Repetition-</p>
+										: null
+								}
 							</div>
 
 							<button type="button" className={styles.btnContinue} onClick={handleContinueClick}>Continue</button>	

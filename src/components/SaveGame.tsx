@@ -2,7 +2,7 @@ import styles from "./SaveGame.module.scss";
 import styles2 from "./PlayerData.module.scss";
 import { useEffect } from "react";
 import { player1Data, player2Data } from "../globals/playersData";
-import { aiLevelData, completeTurnData, enPassantTargetData, halfTurnData, isAIGameData, lastPawnMovedData, piecesData } from "../globals/gameData";
+import { aiLevelData, completeTurnData, enPassantTargetData, halfTurnData, isAIGameData, lastPawnMovedData, piecesData, previousPlaysListData } from "../globals/gameData";
 import { GameStateType, PlayerTurnType, useGameStateContext } from "../context/GameStateContext";
 import { PiecesType } from "../classes/PiecesType";
 import { capitalizeText } from "../utils/capitalizeText";
@@ -25,6 +25,7 @@ export type SavedGameType = {
 	transformedPieceToAnimate: null,
 	aiLevel: number,
 	isAIGame: boolean,
+	previousPlaysList: string[],
 	gameState: GameStateType,
     playerTurn: PlayerTurnType;
 }
@@ -130,6 +131,7 @@ function SaveGame() {																						// This component is hidden using CSS
 					transformedPieceToAnimate: null,
 					aiLevel: aiLevelData.aiLevel,
 					isAIGame: isAIGameData.isAIGame,
+					previousPlaysList: previousPlaysListData.previousPlaysList,
 					gameState: gameStateData.gameState,
 					playerTurn: playerTurnData.playerTurn
 				};

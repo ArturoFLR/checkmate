@@ -218,7 +218,7 @@ function animateDie ( this: Piece ) {
 }
 
 
-function animateTransform ( this: Piece ) {
+function animateTransform ( this: Piece ) {												// It is called by the "newTurnChecks" function of the Board component.
 	const newPieceElement = document.getElementById(this.id) as HTMLImageElement;		// The piece into which the pawn has been transformed, that is, this object.
 	const oldPawnImg = document.createElement("img");									// Create an image of the transformed pawn, which no longer exists, to perform the animation.
 	const square = document.getElementById(this.square) as HTMLDivElement;				// The square where we are going to add the old pawn.

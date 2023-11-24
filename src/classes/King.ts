@@ -4,16 +4,11 @@ import Pawn from "./Pawn";
 import Piece from "./Piece";
 import { PiecesType } from "./PiecesType";
 
-type InvalidSquareType = {
-		owner: PiecesType,
-		square: string
-};
-
 class King extends Piece {
 	isCheck: boolean = false;
 	isShortCastlingPossible = true;										// This value is set to "false" by the king's "move" method and by the right rook's "move" method. Just because it is "true" does not mean that the king can castle this turn (there may be pieces or a possible check along the way).
 	isLongCastlingPossible = true;										// This value is set to "false" by the king's "move" method and by the left rook's "move" method.Just because it is "true" does not mean that the king can castle this turn (there may be pieces or a possible check along the way).
-	invalidSquaresDueToCheck: InvalidSquareType[] = [];					// This saves invalid squares as a target because they cause a check. It is used by "Board" to give styles and animations to them and the pieces that have generated them.
+	invalidSquaresDueToCheck: string[] = [];					// This saves invalid squares as a target because they cause a check. It is used by "Board" to give styles and animations to them and the pieces that have generated them.
 	constructor( id: string, player: "b" | "w", image: string, square: string ){
 		super(id, player, image, square);
 	}
@@ -35,7 +30,7 @@ function calcPossibleMoves ( this: King ) {											// Calculate the possible 
 	const squareLetterIndex = lettersArray.findIndex( (element ) => element === squareLetter);		// Saves the index of lettersArray in which the letter of the current square is located.
 	let possibleMoves: string[] = [];		
 	const impossibleMovesForKings: string[] = [];														// It saves moves that are not really possible because they involve a check on the king, but that must be taken into account for the moves of other kings.
-	const invalidSquaresDueToCheck: InvalidSquareType[] = [];
+	const invalidSquaresDueToCheck: string[] = [];
 
 	// This block calculates normal movement (not castling).
 
@@ -138,10 +133,10 @@ function calcPossibleMoves ( this: King ) {											// Calculate the possible 
 				element.possibleMoves.map( (move) => {
 					if ((move === "f1" || move === "g1") && this.player === "w") {
 						canCastle = false;
-						invalidSquaresDueToCheck.push({owner: element, square: move});
+						invalidSquaresDueToCheck.push(move);
 					} else if ((move === "f8" || move === "g8") && this.player === "b") {
 						canCastle = false;
-						invalidSquaresDueToCheck.push({owner: element, square: move});
+						invalidSquaresDueToCheck.push(move);
 					}
 				});
 
@@ -179,10 +174,10 @@ function calcPossibleMoves ( this: King ) {											// Calculate the possible 
 				element.possibleMoves.map( (move) => {
 					if ((move === "c1" || move === "d1") && this.player === "w") {
 						canCastle = false;
-						invalidSquaresDueToCheck.push({owner: element, square: move});
+						invalidSquaresDueToCheck.push(move);
 					} else if ((move === "c8" || move === "d8") && this.player === "b") {
 						canCastle = false;
-						invalidSquaresDueToCheck.push({owner: element, square: move});
+						invalidSquaresDueToCheck.push(move);
 					}
 				});
 
@@ -242,13 +237,13 @@ function calcPossibleMoves ( this: King ) {											// Calculate the possible 
 							});
 						}
 
-						if ( isValidNewPossibleMove === false ) invalidSquaresDueToCheck.push({"owner": piece, "square": move});			// Even if it is not a valid move, we save it so that "Board" can mark it and animate it so that the player knows why it is not.
+						if ( isValidNewPossibleMove === false ) invalidSquaresDueToCheck.push(move);			// Even if it is not a valid move, we save it so that "Board" can mark it and animate it so that the player knows why it is not.
 					}
 				});
 				piece.impossibleMovesForKings.map( (moveForKing) => {
 					if (move === moveForKing) {
 						isValidNewPossibleMove = false;
-						invalidSquaresDueToCheck.push({"owner": piece, "square": move});													// Even if it is not a valid move, we save it so that "Board" can mark it and animate it so that the player knows why it is not.
+						invalidSquaresDueToCheck.push(move);													// Even if it is not a valid move, we save it so that "Board" can mark it and animate it so that the player knows why it is not.
 					}
 				});
 			}

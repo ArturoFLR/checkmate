@@ -1,18 +1,25 @@
 import { PlayerTurnType } from "../context/GameStateContext";
 import { completeTurnData, enPassantTargetData, halfTurnData, piecesData } from "../globals/gameData";
 
-export function createFEN ( playerTurn: PlayerTurnType ) {											// Translates the current game state into FEN notation, using other sub-functions
+export function createFEN ( playerTurn: PlayerTurnType, isForThreefold?: boolean ) {						// Translates the current game state into FEN notation, using other sub-functions. The optional "isForThreefold" parameter indicates whether the move is called without the "halfTurn" and "completeTurn" counters (this is used by the Board component to check for draws per threefold repetition).
 	const squares = translateSquares();
 	const castling = translateCastling();
 	const enPassant = translateEnPassant();
 	const halfTurn = halfTurnData.halfTurn;
 	const completeTurn = completeTurnData.completeTurn;
 
+	if (!isForThreefold) {														// If the optional parameter is not entered, it is understood that the complete FEN is being requested.
+		isForThreefold = false;
+	}
+	
+	const completeFEN = squares + " " + playerTurn + " " + castling + " " + enPassant + " " + halfTurn + " " + completeTurn;
+	const threefoldFEN = squares + " " + playerTurn + " " + castling + " " + enPassant;
 
-
-	const finishedFEN = squares + " " + playerTurn + " " + castling + " " + enPassant + " " + halfTurn + " " + completeTurn;
-
-	return finishedFEN;
+	if (isForThreefold) {
+		return threefoldFEN;
+	} else {
+		return completeFEN;
+	}
 }
 
 

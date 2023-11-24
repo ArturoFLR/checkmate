@@ -12,7 +12,7 @@ function PlayerData() {
 	const {gameState, setGameState} = gameStateData;
 	const playerTurn = playerTurnData.playerTurn;
 	const setPlayerTurn = playerTurnData.setPlayerTurn;
-
+	
 	const squaresToClean = generateSquares(piecesData.pieces, false);
 
 	let player1HighlightedClass: string;
@@ -26,7 +26,24 @@ function PlayerData() {
 		player2HighlightedClass = styles.playerHighlighted;
 	}
 
-	function generateAiEmojis () {
+	let isAnyPlayerChecked = false;															// Used in the "generateDialogVisibility" function. Indicates if there is a king in check.
+
+	piecesData.pieces.map( (element) => {
+		if ((element.id[0] === "k" || element.id[0] === "K" ) && element.isCheck) isAnyPlayerChecked = true;
+	});
+
+	function generateDialogVisibility () {													// It is used to control the visibility of the AI speech bubbles, returning ".dialogHide" or "null" as a class.
+		let dialogClass: string | null = styles.dialogHidden;
+
+		if ((gameState === "gameStarted1P" && isAnyPlayerChecked) || ((gameState === "gameWinP1" || gameState === "gameWinP2") && isAIGameData.isAIGame)) {
+			dialogClass = null;
+		}
+
+		return dialogClass;
+	}
+
+
+	function generateAiEmojis () {															// It is used to generate the AI speech bubbles, returning different animated gifs.
 		let aiChecked = false;
 		let playerChecked = false;
 
@@ -35,29 +52,23 @@ function PlayerData() {
 			if (element.id[0] === "K" && element.isCheck) playerChecked = true;
 		});
 
-		if (gameState === "gameLoading" && !aiChecked) {
+		if ((playerChecked && !aiChecked) || gameState === "gameWinP2") {
 			return (
-				<div className={styles.dialogContainer}>
-					<img className={styles.dialogEmoji} alt="aiEmoji" src="images/emojis/loading.gif" />
-				</div>
-			);
-		} else if (playerChecked && !aiChecked) {
-			return (
-				<div className={styles.dialogContainer}>
-					<img className={styles.dialogEmoji} alt="aiEmoji" src="images/emojis/laughing.gif" />
-				</div>
+
+				<img className={styles.dialogEmoji} alt="aiEmoji" src="images/emojis/laughing.gif" />
+
 			);
 		} else if (aiChecked) {
 			return (
-				<div className={styles.dialogContainer}>
-					<img className={styles.dialogEmoji} alt="aiEmoji" src="images/emojis/worried.gif" />
-				</div>
+
+				<img className={styles.dialogEmoji} alt="aiEmoji" src="images/emojis/worried.gif" />
+
 			);
 		} else if (gameState === "gameWinP1") {
 			return (
-				<div className={styles.dialogContainer}>
-					<img className={styles.dialogEmoji} alt="aiEmoji" src="images/emojis/weeping.gif" />
-				</div>
+
+				<img className={styles.dialogEmoji} alt="aiEmoji" src="images/emojis/weeping.gif" />
+
 			);
 		}
 	}
@@ -90,11 +101,17 @@ function PlayerData() {
 			<div className={`${styles.player2Container} ${player2HighlightedClass}`} >
 				<p>{player2Data.name}</p>
 				<img alt="Player 2 portrait" src={player2Data.portrait} />
-				{
-					gameState === "gameStarted1P" || gameState === "gameLoading" || (gameState === "gameWinP1" && isAIGameData.isAIGame)
-						? generateAiEmojis()
-						: null
-				}
+
+				<div className={`${styles.dialogContainer} ${generateDialogVisibility()}`} id="normalDialog">
+					{generateAiEmojis()}
+				</div>
+
+				{/* The following div is used to display the AI's "loading" dialog. Its visibility is controlled from the "Board" component, since there is no specific state for "loading". */}
+
+				<div className={`${styles.dialogLoadingContainer} ${styles.dialogContainer} ${styles.dialogHidden}`} id="loadingDialog">	
+					<img className={styles.dialogEmoji} alt="aiEmoji" src="images/emojis/loading.gif" />
+				</div>
+
 			</div>
 
 			<div className={`${styles.player1Container} ${player1HighlightedClass}`} >
@@ -121,14 +138,10 @@ function PlayerData() {
 
 					<button className={styles.btnExitGame} type="button" onClick={handleConfirmExitGame}>
 						Yes
-						<div className={styles.leftFormatter} ></div>
-						<div className={styles.rigthFormatter} ></div>
 					</button>
 
 					<button className={styles.btnExitGame} type="button" onClick={handleCancelExitGame}>
 						No
-						<div className={styles.leftFormatter} ></div>
-						<div className={styles.rigthFormatter} ></div>
 					</button>
 				</div>
 			</div>

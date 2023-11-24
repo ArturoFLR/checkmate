@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import generateSquares from "../utils/generateSquares";
 import styles from "./Board.module.scss";
-import { completeTurnData, enPassantTargetData, halfTurnData, isAIThinkingData, isPieceDyingData, pawnToTransformData, piecesData, selectedPieceData, transformedPieceToAnimateData } from "../globals/gameData";
+import styles2 from "./PlayerData.module.scss";
+import { completeTurnData, enPassantTargetData, halfTurnData, isAIGameData, isAIThinkingData, isPieceDyingData, pawnToTransformData, piecesData, previousPlaysListData, selectedPieceData, transformedPieceToAnimateData } from "../globals/gameData";
 import { useGameStateContext } from "../context/GameStateContext";
 import SelectPiece from "./SelectPiece";
 import King, { kingDyingExplosionTimeout } from "../classes/King";
@@ -10,6 +11,9 @@ import GameResults from "./GameResults";
 import { getBestMove } from "../services/stockfish/interface";
 import { transformPieceTimeout } from "../classes/Piece";
 import { makePiecesDeepCopy } from "../utils/makePiecesDeepCopy";
+import { resetGameState } from "../utils/resetGameState";
+import { createFEN } from "../utils/createFEN";
+
 
 type AiMoveType = {
     originSquare: string;
@@ -33,6 +37,7 @@ function Board( {showPieces}: BoardProps) {
 	let aiActions2Timeout: number;
 	let waitForKingToDieTimeout: number;
 
+	const squaresToClean = generateSquares(piecesData.pieces, false);				// This variable contains all the squares on the board. It is used to pass it as an argument to the "resetGameState" function, which is in the "utils" folder. Board uses this function to reset all variables and styles when there is a connection error and the player decides to exit the game. It is declared here and not within the functions that use it because it uses a global variable and gives an error if you try to access it from a sub-function.
 
 
 	function newTurnChecks () {												// Perform the necessary checks at the beginning of a turn, such as activating the pawn transformation animations, or activating the AI if the game is a single player.
@@ -54,6 +59,8 @@ function Board( {showPieces}: BoardProps) {
 
 		if (playerTurnData.playerTurn === "b") completeTurnData.setCompleteTurn( completeTurnData.completeTurn + 1);
 
+		previousPlaysListData.addPlayToList(createFEN(playerTurn, true));										// Used to check threefold repetition (DRAW)
+
 		if (playerTurn === "w") {
 			setPlayerTurn("b");
 		}else {
@@ -61,6 +68,17 @@ function Board( {showPieces}: BoardProps) {
 		}
 
 		removePendingDieAnimation();
+	}
+
+
+	function changeLoadingDialogVisibility( visible: boolean ) {						// This function is used to pop up a "loading" dialog in the "PlayerData" component without changing the gameState, as it generates logic errors in the endgame.
+		const loadingDialogElement = document.getElementById("loadingDialog") as HTMLDivElement;
+
+		if (visible) {
+			loadingDialogElement.classList.remove(styles2.dialogHidden);
+		} else {
+			loadingDialogElement.classList.add(styles2.dialogHidden);
+		}
 	}
 
 
@@ -73,7 +91,6 @@ function Board( {showPieces}: BoardProps) {
 				aiMove = response;
 
 				isAIThinkingData.setIsAIThinking(true);
-				setGameState("gameLoading");
 
 				if (aiMove.originSquare) {
 					let pieceToMove: PiecesType;
@@ -92,13 +109,18 @@ function Board( {showPieces}: BoardProps) {
 						}
 				
 						movingPieceTimeout = setTimeout( () => {
-							setGameState("gameStarted1P");
+							changeLoadingDialogVisibility(false);
 							preEndturnCheks();
 						}, timer);	 							// Wait for the piece's animation to finish before advancing to the next turn.
 					} , 1000);
 				}
 			})
-			.catch( (error) => console.log(error));
+			.catch( (err) => {
+				const exitGameDialog = document.getElementById("axiosErrorContainer") as HTMLDivElement;
+
+				console.log("Board Error: " + " " + err);
+				exitGameDialog.classList.remove(styles.hidden);
+			});
 	}
 
 
@@ -435,8 +457,26 @@ function Board( {showPieces}: BoardProps) {
 	}
 
 
+	function checkThreefoldRepetition () {
+		const actualPlay = createFEN(playerTurn, true);
+		let numberOfThreefoldRepetition = 0;
+
+		previousPlaysListData.previousPlaysList.map( (element) => {
+			if (element === actualPlay) {
+				numberOfThreefoldRepetition++;
+			}
+		});
+
+		if (numberOfThreefoldRepetition >= 2) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 
 	function preEndturnCheks () {
+		const threefoldRepetition = checkThreefoldRepetition();
 		const areKingsAlive: {w: boolean, b: boolean} = testAreKingsAlive();			// Checks if any of the kings have died.
 		const isAnyKingChecked: {w: boolean, b: boolean} = testKingsChecked(true);			// Checks if there are any kings in check. The "testKingsChecked" function uses the kings "testKingCheck" method to do this.
 		const fiftyTurnsRule: boolean = checkFiftyTurnsRule();
@@ -448,6 +488,14 @@ function Board( {showPieces}: BoardProps) {
 		isAIThinkingData.setIsAIThinking(false);
 
 		removePendingDieAnimation();													// Fixes pending dead animation bug.
+
+
+		// CHECK DRAW BY THREEFOLD REPETITION
+		console.log(previousPlaysListData.previousPlaysList);
+		if (threefoldRepetition) {
+			setGameState("gameDrawThreefoldRepetition");
+			endgame = true;
+		}
 
 		// End of game due to captured king.
 
@@ -465,12 +513,16 @@ function Board( {showPieces}: BoardProps) {
 
 		if (endgame === false) {
 			
-			if (pawnToTransform) {
+			if (pawnToTransform && isAIGameData.isAIGame && playerTurn === "b") {
+					
+				pawnToTransform.transform?.("q");
+				
+			} else if (pawnToTransform) {
 				const selectPieceElement = document.getElementById("selectPieceComponent") as HTMLDivElement;
 				selectPieceElement.classList.remove(styles.hideSelectPiece);											// The "Board" component makes the "SelectPiece" component visible. The pawn's "transform" method makes it invisible again.
 	
 				pawnToTransformData.setPawnToTransform(pawnToTransform);
-				isPlayerChoosingPiece = true;																	// The "Select Piece" component will re-execute this "preEndturnCheks" function when the piece has been chosen, resetting this variable to "false".
+				isPlayerChoosingPiece = true;																	// The "SelectPiece" component will re-execute this "preEndturnCheks" function when the piece has been chosen, resetting this variable to "false".
 			}
 		}
 
@@ -497,7 +549,7 @@ function Board( {showPieces}: BoardProps) {
 
 					waitForKingToDieTimeout = setTimeout( () => {
 						setGameState("gameWinP2");
-					}, 9000);
+					}, 8500);
 					
 				} else if (!canPlayerRevertCheck("w")) {
 					(whiteKing! as King).animateKingDying();
@@ -505,7 +557,7 @@ function Board( {showPieces}: BoardProps) {
 
 					waitForKingToDieTimeout = setTimeout( () => {
 						setGameState("gameWinP2");
-					}, 9000);
+					}, 8500);
 				}
 
 			} else if (isAnyKingChecked.b) {
@@ -516,19 +568,18 @@ function Board( {showPieces}: BoardProps) {
 
 					waitForKingToDieTimeout = setTimeout( () => {
 						setGameState("gameWinP1");
-					}, 9000);
+					}, 8500);
 				} else if (!canPlayerRevertCheck("b")) {
 					(blackKing! as King).animateKingDying();
 					endgame = true;
 
 					waitForKingToDieTimeout = setTimeout( () => {
 						setGameState("gameWinP1");
-					}, 9000);
+					}, 8500);
 				}
 
 			}
 		}
-
 
 
 		// CHECK IF WE ARE ON TURN 100 OR MORE AND THE TURN WAS NOT ENDED WITH A CHECK TO A KING: DRAW BY THE 50 MOVES RULE.
@@ -588,7 +639,7 @@ function Board( {showPieces}: BoardProps) {
 
 				if (element.id[0] === "K" || element.id[0] === "k") {							// If the piece is a King, remove styles from the squares where it would be checked.
 					(element as King).invalidSquaresDueToCheck.map( (invalidSquare) => {
-						const invalidSquareElement = document.getElementById(invalidSquare.square) as HTMLDivElement;
+						const invalidSquareElement = document.getElementById(invalidSquare) as HTMLDivElement;
 						invalidSquareElement.classList.remove(styles.noValidSquareForKings);
 					});
 				}
@@ -617,7 +668,7 @@ function Board( {showPieces}: BoardProps) {
 				
 					if (element.id[0] === "K" || element.id[0] === "k") {							// If the piece is a King, remove styles from the squares where it would be checked.
 						(element as King).invalidSquaresDueToCheck.map( (invalidSquare) => {
-							const invalidSquareElement = document.getElementById(invalidSquare.square) as HTMLDivElement;
+							const invalidSquareElement = document.getElementById(invalidSquare) as HTMLDivElement;
 							invalidSquareElement.classList.remove(styles.noValidSquareForKings);
 						});
 					}
@@ -643,7 +694,7 @@ function Board( {showPieces}: BoardProps) {
 
 					if (element.id[0] === "K" || element.id[0] === "k") {							// If the piece is a King, apply styles to the squares where it would be checked and to the pieces that generate those squares, so that the player knows why they are not valid.
 						(element as King).invalidSquaresDueToCheck.map( (invalidSquare) => {
-							const invalidSquareElement = document.getElementById(invalidSquare.square) as HTMLDivElement;
+							const invalidSquareElement = document.getElementById(invalidSquare) as HTMLDivElement;
 
 							invalidSquareElement.classList.add(styles.noValidSquareForKings);
 						});
@@ -664,6 +715,27 @@ function Board( {showPieces}: BoardProps) {
 			square.addEventListener("click", selectPiece);
 		});
 	}
+
+
+
+	function handleRetryClick () {
+		const exitGameDialog = document.getElementById("axiosErrorContainer") as HTMLDivElement;
+
+		exitGameDialog.classList.add(styles.hidden);
+		generateAiActions();
+	}
+
+
+	function handleExitGameClick () {
+		const exitGameDialog = document.getElementById("axiosErrorContainer") as HTMLDivElement;
+
+		exitGameDialog.classList.add(styles.hidden);
+		resetGameState(squaresToClean);																	// This function is in the "utils" folder.
+		setPlayerTurn("w");
+		setGameState("preGame");
+	}
+
+
 
 	useEffect( () => {
 		if ((gameState === "gameStarted1P" || gameState === "gameStarted2P") && !isAIThinkingData.isAIThinking) {
@@ -686,6 +758,7 @@ function Board( {showPieces}: BoardProps) {
 			aiActionsTimeout = setTimeout( () => {
 				generateAiActions();
 			}, 550);
+			changeLoadingDialogVisibility(true);														// Show the "loading" dialog in "PlayerData" component.
 		}
 
 		return () => {
@@ -750,7 +823,7 @@ function Board( {showPieces}: BoardProps) {
 			</div>
 
 			{
-				gameState === "gameWinP1" || gameState === "gameWinP2" || gameState === "gameDrawStalemate" || gameState === "gameDrawDeadPosition" || gameState === "gameDraw50Moves"
+				gameState === "gameWinP1" || gameState === "gameWinP2" || gameState === "gameDrawStalemate" || gameState === "gameDrawDeadPosition" || gameState === "gameDraw50Moves" || gameState === "gameDrawThreefoldRepetition"
 					? (
 						<div className={styles.gameResultsContainer}>
 							<GameResults />
@@ -758,6 +831,21 @@ function Board( {showPieces}: BoardProps) {
 					)
 					: null
 			}
+
+			<div className={`${styles.axiosErrorContainer} ${styles.hidden}`} id="axiosErrorContainer">
+				<div className={styles.axiosErrorOptionsContainer} >
+					<p>Oops! The AI server is not responding... <span>Please, check your network connection</span></p>
+					
+
+					<button className={styles.btnAxiosError} type="button" onClick={handleRetryClick}>
+						Retry
+					</button>
+
+					<button className={styles.btnAxiosError} type="button" onClick={handleExitGameClick}>
+						Exit Game
+					</button>
+				</div>
+			</div>
 			
 
 		</div>

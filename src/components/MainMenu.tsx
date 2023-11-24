@@ -3,7 +3,7 @@ import styles from "./MainMenu.module.scss";
 import { useGameStateContext } from "../context/GameStateContext";
 import { SavedGameType } from "./SaveGame";
 import { player1Data, player2Data } from "../globals/playersData";
-import { aiLevelData, completeTurnData, enPassantTargetData, halfTurnData, isAIGameData, isPieceDyingData, lastPawnMovedData, pawnToTransformData, piecesData, selectedPieceData, transformedPieceToAnimateData } from "../globals/gameData";
+import { aiLevelData, completeTurnData, enPassantTargetData, halfTurnData, isAIGameData, isPieceDyingData, lastPawnMovedData, pawnToTransformData, piecesData, previousPlaysListData, selectedPieceData, transformedPieceToAnimateData } from "../globals/gameData";
 import { PiecesType } from "../classes/PiecesType";
 import Pawn from "../classes/Pawn";
 import Rook from "../classes/Rook";
@@ -184,6 +184,7 @@ function MainMenu() {
 			isAIGameData.setIsAIGame(slotToLoad!.isAIGame);
 			playerTurnData.setPlayerTurn(slotToLoad!.playerTurn);
 			gameStateData.setGameState(slotToLoad!.gameState);
+			previousPlaysListData.setPreviousPlaysList(slotToLoad!.previousPlaysList);
 
 		} else {																					// If the user has not selected a slot, we apply a warning animation on the container of all slots.
 			const slots = document.getElementById("loadGameGameList") as HTMLDivElement;

@@ -161,7 +161,7 @@ function setAiLevel ( this: AiLevelType, newAiLevel: number ) {
 }
 
 export const aiLevelData: AiLevelType = {
-	aiLevel: 9,
+	aiLevel: 8,
 	setAiLevel: setAiLevel
 };
 
@@ -195,4 +195,32 @@ function setIsAIThinking ( this: isAIThinkingType, isAIThinking: boolean ) {
 export const isAIThinkingData: isAIThinkingType = {
 	isAIThinking: false,
 	setIsAIThinking: setIsAIThinking
+};
+
+// SAVES THE LIST OF PREVIOUS PLAYS, USED TO CHECK FOR DRAWS BY THREEFOLD POSITION
+
+type PreviousPlaysListType = {
+	previousPlaysList: string[],
+	addPlayToList: ( newPlay: string ) => void,
+	resetPlaysList: () => void,
+	setPreviousPlaysList: ( newList: string[]) => void
+}
+
+function addPlayToList ( this: PreviousPlaysListType, newPlay: string ) {
+	this.previousPlaysList.push(newPlay);
+}
+
+function resetPlaysList ( this: PreviousPlaysListType ) {
+	this.previousPlaysList = [];
+}
+
+function setPreviousPlaysList ( this: PreviousPlaysListType, newList: string[] ) {
+	this.previousPlaysList = newList;
+}
+
+export const previousPlaysListData: PreviousPlaysListType = {
+	previousPlaysList: [],
+	addPlayToList: addPlayToList,
+	resetPlaysList: resetPlaysList,
+	setPreviousPlaysList: setPreviousPlaysList
 };

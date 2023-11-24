@@ -1,10 +1,3 @@
-import Piece from "./Piece";
-
-type InvalidSquareType = {
-	owner: Piece,
-	square: string
-};
-
 type PieceAnimationData2 = {
 	piece: HTMLImageElement,
 	pieceCoordinates: {
@@ -31,7 +24,7 @@ export type PiecesType = {
 	isCheck?: boolean;
 	isShortCastlingPossible?: boolean;
 	isLongCastlingPossible?: boolean;
-	invalidSquaresDueToCheck?: InvalidSquareType[];
+	invalidSquaresDueToCheck?: string[];
 
 
 	calcPossibleMoves (): void ;

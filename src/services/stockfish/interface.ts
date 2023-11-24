@@ -44,12 +44,6 @@ export async function getBestMove (playerTurn: PlayerTurnType) {
 		return aiMove;
 		
 	} catch (err) {
-		const aiMove: AiMoveType = {
-			originSquare: "",
-			targetSquare: "" 
-		};
-
-		console.log(err);
-		return aiMove;
+		throw new Error((err as Error).message);
 	}
 }

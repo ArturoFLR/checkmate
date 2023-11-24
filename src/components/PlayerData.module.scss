@@ -78,8 +78,8 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 20%;
-		height: 90%;
+		width: 25%;
+		height: 100%;
 		background-image: url("@/images/emojis/dialog_frame.png");
 		background-repeat: no-repeat;
 		background-size: contain;
@@ -88,8 +88,19 @@
 		.dialogEmoji {
 			position: static;
 			margin-bottom: 10%;
-			width: 45%;
+			width: 50%;
 		}
+	}
+
+	.dialogLoadingContainer {
+
+		.dialogEmoji {
+			width: 40%;
+		}
+	}
+
+	.dialogHidden {
+		display: none;
 	}
 }
 
@@ -102,6 +113,13 @@
 
 	img {
 		animation: playerActiveImage 1s forwards;
+	}
+
+	.dialogContainer {
+
+		.dialogEmoji {
+			width: 40%;
+		}
 	}
 }
 
@@ -202,21 +220,6 @@
 		&:hover {
 			color: rgb(240, 201, 126);
 			scale: 1.2;
-		}
-
-		.leftFormatter, .rigthFormatter {
-			bottom: -27%;
-			width: 25%;
-			height: 135%;
-			background-color: black;
-		}
-
-		.leftFormatter{
-			left: -13%;
-		}
-
-		.rigthFormatter{
-			right: -13%;
 		}
 	}
 }

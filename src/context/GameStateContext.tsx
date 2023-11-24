@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-export type GameStateType = "preGame" | "select1Player" | "select2Players" | "gameIntro1P" | "gameIntro2P" | "gameStarted1P" | "gameStarted2P" | "gameLoading" | "gameWinP1" | "gameWinP2" | "gameDrawStalemate" | "gameDrawDeadPosition" | "gameDraw50Moves";
+export type GameStateType = "preGame" | "select1Player" | "select2Players" | "gameIntro1P" | "gameIntro2P" | "gameStarted1P" | "gameStarted2P" | "gameWinP1" | "gameWinP2" | "gameDrawStalemate" | "gameDrawDeadPosition" | "gameDraw50Moves" | "gameDrawThreefoldRepetition";
 export type PlayerTurnType = "w" | "b";
 
 type PlayerTurnDataType = {
