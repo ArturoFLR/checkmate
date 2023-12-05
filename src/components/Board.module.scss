@@ -1,3 +1,5 @@
+@use "./colors" as *;
+
 @keyframes dyingAnimation {
 	0% {
 		width: 5.007vh;
@@ -173,20 +175,7 @@
 	}
 }
 
-@keyframes highlightPiece {
-	0% {
-		border: 0px;
-		scale: 1;
-	}
-	50% {
-		border: 3px solid tomato;
-		scale: 1.2;
-	}
-	100% {
-		border: 0px;
-		scale: 1;
-	}
-}
+
 
 @keyframes diyingKing {
 	0% {
@@ -367,8 +356,9 @@
 	align-items: center;
 	width: 100%;
 	height: 100%;
-	background-image: url("@/images/board/borders.jpg");
-	border: 2px solid black;
+	background-image: url("@/images/board/borders4.jpg");
+	background-size: contain;
+	border: 2px solid $black;
 }
 
 .sqaresContainer {
@@ -376,7 +366,7 @@
 	flex-wrap: wrap;
 	width: 93%;
 	height: 93%;
-	border: 2px solid black;
+	border: 2px solid $black;
 
 	.whiteSquare, .blackSquare {
 		display: flex;
@@ -428,10 +418,12 @@
 	
 	.whiteSquare {
 		background-image: url("@/images/board/squareW.jpg");
+		background-size: cover;
 	}
 	
 	.blackSquare {
 		background-image: url("@/images/board/squareB.jpg");
+		background-size: cover;
 	}
 
 	.increasePieceScale {											// It applies to squares that contain a piece of the player who is going to move.
@@ -449,13 +441,13 @@
 	}
 
 	.targetEmptySquare {
-		border: 5px inset rgb(104, 230, 104);
+		border: 5px inset $emptyTargetSquare;
 		cursor: pointer;
 	}
 
 	.targetSquareWithPiece {
 		position: relative;
-		border: 5px inset rgb(243, 95, 95);
+		border: 5px inset $targetSquareWithPice;
 		cursor: pointer;
 
 		&::after {
@@ -463,14 +455,14 @@
 			position: absolute;
 			top: 5%;
 			border-radius: 50%;
-			border: 3px solid rgb(243, 95, 95);
+			border: 3px solid $targetSquareWithPice;
 			width: 90%;
 			height: 90%;
 		}
 	}
 
 	.selectedSquare {
-		border: 5px solid rgb(223, 133, 8);
+		border: 5px solid $orange;
 
 		img {
 			scale: 1.2;
@@ -537,7 +529,7 @@
 	align-items: center;
 	width: 100vw;
 	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.477);
+	background-color: $dialogsBackground;
 	z-index: 1;
 
 	.axiosErrorOptionsContainer {
@@ -547,12 +539,12 @@
 		align-items: center;
 		width: 420px;
 		height: 160px;	
-		background-color: black;
-		border: 2px solid rgb(255,165,0);
+		background-color: $black;
+		border: 2px solid $orange;
 	}
 
 	p {
-		color: rgb(255,165,0);
+		color: $orange;
 		font-family: 'Tilt Neon', sans-serif;
 		font-size: 2.2rem;
 		width: 100%;
@@ -561,7 +553,7 @@
 
 		span {
 			font-size: 1.9rem;
-			color: rgb(110, 142, 249);
+			color: $winnerNameAndAxiosText;
 		}
 	}
 
@@ -569,13 +561,13 @@
 		width: 25%;
 		border: 0rem;
 		background-color: transparent;
-		color: rgb(255,165,0);
+		color: $orange;
 		font-family: 'Mohave', sans-serif;
 		font-size: 2.5rem;
 		cursor: pointer;
 
 		&:hover {
-			color: rgb(240, 201, 126);
+			color: $orangeButtonHovered;
 			scale: 1.2;
 		}
 	}
@@ -585,3 +577,204 @@
 	display: none;
 }
 
+
+
+
+//  MEDIA QUERIES
+
+@media (width > 2500px) {
+
+	.boardContainer {
+		border-radius: 30px;
+		box-shadow: 6px 6px 20px 10px;
+	}
+	
+	.sqaresContainer {
+		border: 3px solid $black;
+	
+		.targetEmptySquare {
+			border: 8px inset $emptyTargetSquare;
+		}
+	
+		.targetSquareWithPiece {
+			border: 8px inset $targetSquareWithPice;
+	
+			&::after {
+				border: 5px solid $targetSquareWithPice;
+			}
+		}
+	
+		.selectedSquare {
+			border: 8px solid $orange;
+		}
+	}
+
+	.axiosErrorContainer {
+	
+		.axiosErrorOptionsContainer {
+			width: 750px;
+			height: 260px;	
+			border: 2px solid $orange;
+		}
+	
+		p {
+			font-size: 4rem;
+	
+			span {
+				font-size: 3.2rem;
+			}
+		}
+	
+		.btnAxiosError {
+			font-size: 4rem;
+	
+			&:hover {
+				scale: 1.2;
+			}
+		}
+	}
+}
+
+
+
+@media (width > 3800px) {
+
+	.boardContainer {
+		border-radius: 40px;
+		box-shadow: 6px 6px 20px 10px;
+	}
+	
+	.sqaresContainer {
+		border: 5px solid $black;
+	
+		.targetEmptySquare {
+			border: 11px inset $emptyTargetSquare;
+		}
+	
+		.targetSquareWithPiece {
+			border: 10px inset $targetSquareWithPice;
+	
+			&::after {
+				border: 8px solid $targetSquareWithPice;
+			}
+		}
+	
+		.selectedSquare {
+			border: 10px solid $orange;
+		}
+	}
+
+	.axiosErrorContainer {
+	
+		.axiosErrorOptionsContainer {
+			width: 1170px;
+			height: 370px;	
+			border: 3px solid $orange;
+		}
+	
+		p {
+			font-size: 6rem;
+	
+			span {
+				font-size: 5rem;
+			}
+		}
+	
+		.btnAxiosError {
+			font-size: 6rem;
+	
+			&:hover {
+				scale: 1.2;
+			}
+		}
+	}
+}
+
+
+
+@media (width < 1300px) {
+
+	.boardContainer {
+		border-radius: 20px;
+		box-shadow: 4px 4px 20px 5px;
+	}
+	
+	.sqaresContainer {
+		border: 2px solid $black;
+	
+		.targetEmptySquare {
+			border: 4px inset $emptyTargetSquare;
+		}
+	
+		.targetSquareWithPiece {
+			border: 4px inset $targetSquareWithPice;
+	
+			&::after {
+				border: 2.5px solid $targetSquareWithPice;
+			}
+		}
+	
+		.selectedSquare {
+			border: 4px solid $orange;
+		}
+	}
+
+	.axiosErrorContainer {
+	
+		.axiosErrorOptionsContainer {
+			width: 500px;
+			height: 180px;	
+			border: 2px solid $orange;
+		}
+	
+		p {
+			font-size: 2.5rem;
+	
+			span {
+				font-size: 2rem;
+			}
+		}
+	
+		.btnAxiosError {
+			font-size: 2.5rem;
+	
+			&:hover {
+				scale: 1.2;
+			}
+		}
+	}
+}
+
+
+@media (width < 1250px) {
+
+	.boardContainer {
+		width: 87vh;
+		height: 87vh;
+	}
+}
+
+
+@media (width < 1050px) {
+
+	.boardContainer {
+		width: 62vw;
+		height: 62vw;
+	}
+}
+
+@media (width < 950px) {
+
+	.boardContainer {
+		width: 70vw;
+		height: 70vw;
+	}
+}
+
+@media (width < 800px) and (orientation: portrait) {
+
+	.boardContainer {
+		width: 95vw;
+		height: 95vw;
+	}
+}

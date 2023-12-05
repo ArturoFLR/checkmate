@@ -1,3 +1,5 @@
+@use "./colors" as *;
+
 @keyframes animateInput {
 	0% {
 		scale: 1
@@ -17,18 +19,18 @@
 	align-items: center;
 	width: 100vw;
 	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.37);
+	background-color: $dialogsBackground;
 	z-index: 1;
 }
 
 .playerInfoContainer{
 	position: relative;
 	width: 450px;
-	height: 500px;
+	height: 550px;
 	border-radius: 15px;
-	border: 3px solid rgb(255,165,0);
-	background-color: rgb(13, 1, 44);
-	color: white;
+	border: 3px solid $orange;
+	background-color: $menuPanel;
+	color: $white;
 	
 
 	.playerNumberAndPieceContainer {
@@ -38,11 +40,11 @@
 		margin-top: 1.5rem;
 
 		.playerInfoNumber {
-			margin-right: 2.5rem;
+			margin: 0rem 2.5rem 0rem 2rem;
 			font-family: 'Tilt Neon', sans-serif;
-			font-size: 4rem;
+			font-size: 5.5rem;
 			text-transform: uppercase;
-			color: rgb(66, 138, 253);
+			color: $winnerNameAndAxiosText;
 		}
 
 		img {
@@ -66,16 +68,22 @@
 		display: block;
 		margin: auto;
 		margin-top: 3rem;
-		border: 4px solid rgb(53, 179, 72);
+		border: 5px solid $gameResultsBtnBorder;
 		border-radius: 15px;
-		background-color: rgb(216, 217, 220);
+		background-color: $gameResultsBtnBackground;
+		color: $white;
 		text-align: center;
 		font-family: 'Tilt Neon', sans-serif;
 		font-size: 2.5rem;
 		outline: 0px;
 
 		&:focus {
-			border: 4px solid rgb(54, 137, 67);
+			border: 5px solid $gameResultsBtnBackgroundHovered;
+			scale: 1.1;
+		}
+
+		&::placeholder {
+			color: $placeholderText;	
 		}
 	}
 	
@@ -85,13 +93,13 @@
 		right: 2%;
 		border: 0rem;
 		background-color: transparent;
-		color: rgb(255,165,0);
+		color: $orange;
 		font-family: 'Mohave', sans-serif;
 		font-size: 4.5rem;
 		cursor: pointer;
 
 		&:hover {
-			color: rgb(239, 194, 110);
+			color: $orangeButtonHovered;
 		}
 	}
 }
@@ -118,7 +126,7 @@
 				cursor: pointer;
 				font-family: 'Tilt Neon', sans-serif;
 				font-size: 2.5rem;
-				color: rgb(66, 138, 253);
+				color: $winnerNameAndAxiosText;
 			}
 		}
 
@@ -135,6 +143,217 @@
 				background-size: contain;
 				transform: rotate(90deg);
 				z-index: 0;
+			}
+		}
+	}
+}
+
+
+
+//  MEDIA QUERIES
+
+@media (width > 1900px) {
+
+	.playerInfoContainer{
+		width: 550px;
+		height: 730px;
+	
+		.playerNumberAndPieceContainer {
+			margin-top: 2.5rem;
+	
+			.playerInfoNumber {
+				margin: 0rem 3.5rem 0rem 3rem;
+				font-size: 6.5rem;
+			}
+	
+			img {
+				height: 5rem;
+			}
+		}
+	
+		.slideshowContainer {
+			margin-top: 4rem;
+		}
+	
+		.playerInfoInput {
+			width: 55%;
+			padding: 1rem;
+			margin-top: 5rem;
+			margin-bottom: 3rem;
+			border: 8px solid $gameResultsBtnBorder;
+			font-size: 3rem;
+	
+			&:focus {
+				border: 8px solid $gameResultsBtnBackgroundHovered;
+			}
+		}
+		
+		.playerInfobtnOk {
+			font-size: 6rem;
+		}
+	}
+	
+	.aiGamePlayerInfoContainer {
+		height: 800px;
+	
+		.difficultLevelsContainer {
+			margin-top: 4rem;
+	
+			.difficultyContainer {
+				width: 30%;
+				height: 40px;
+	
+				p {
+					font-size: 3.5rem;
+				}
+			}
+	
+			.difficultySelected {
+	
+				&::before {
+					width: 80%;
+					height: 135px;
+				}
+			}
+		}
+	}
+}
+
+
+@media (width > 2500px) {
+
+	.playerInfoContainer{
+		width: 800px;
+		height: 970px;
+		border: 4px solid $orange;
+	
+		.playerNumberAndPieceContainer {
+			margin-top: 3.5rem;
+	
+			.playerInfoNumber {
+				font-size: 8.5rem;
+			}
+	
+			img {
+				height: 6rem;
+			}
+		}
+	
+		.slideshowContainer {
+			margin-top: 4rem;
+		}
+	
+		.playerInfoInput {
+			width: 55%;
+			padding: 1.5rem;
+			margin-top: 5rem;
+			margin-bottom: 3rem;
+			border: 9px solid $gameResultsBtnBorder;
+			font-size: 3.5rem;
+	
+			&:focus {
+				border: 9px solid $gameResultsBtnBackgroundHovered;
+			}
+		}
+		
+		.playerInfobtnOk {
+			font-size: 8rem;
+		}
+	}
+	
+	.aiGamePlayerInfoContainer {
+		height: 1080px;
+	
+		.difficultLevelsContainer {
+			margin-top: 6rem;
+			margin-bottom: 6.5rem;
+	
+			.difficultyContainer {
+				width: 30%;
+				height: 40px;
+	
+				p {
+					font-size: 4.5rem;
+				}
+			}
+	
+			.difficultySelected {
+	
+				&::before {
+					width: 70%;
+					height: 175px;
+				}
+			}
+		}
+	}
+}
+
+
+
+@media (width > 3800px) {
+
+	.playerInfoContainer{
+		width: 1200px;
+		height: 1450px;
+		border: 4px solid $orange;
+	
+		.playerNumberAndPieceContainer {
+			margin-top: 5.5rem;
+	
+			.playerInfoNumber {
+				font-size: 14rem;
+			}
+	
+			img {
+				height: 12rem;
+			}
+		}
+	
+		.slideshowContainer {
+			margin-top: 6rem;
+		}
+	
+		.playerInfoInput {
+			width: 55%;
+			padding: 1.5rem;
+			margin-top: 7rem;
+			margin-bottom: 3rem;
+			border: 12px solid $gameResultsBtnBorder;
+			border-radius: 28px;
+			font-size: 5.5rem;
+	
+			&:focus {
+				border: 12px solid $gameResultsBtnBackgroundHovered;
+			}
+		}
+		
+		.playerInfobtnOk {
+			font-size: 12rem;
+		}
+	}
+	
+	.aiGamePlayerInfoContainer {
+		height: 1620px;
+	
+		.difficultLevelsContainer {
+			margin-top: 9.5rem;
+			margin-bottom: 10rem;
+	
+			.difficultyContainer {
+				width: 30%;
+				height: 40px;
+	
+				p {
+					font-size: 6.5rem;
+				}
+			}
+	
+			.difficultySelected {
+	
+				&::before {
+					width: 70%;
+					height: 255px;
+				}
 			}
 		}
 	}

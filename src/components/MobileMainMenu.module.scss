@@ -1,0 +1,126 @@
+@use "./colors" as *;
+
+
+@keyframes mobileMenuOpens {
+	0% {
+		transform: rotateY(90deg);
+		
+	}
+	100% {
+		transform: rotateY(0deg);
+	}
+}
+
+@keyframes mobileMenuCloses {
+	0% {
+		transform: rotateY(0deg);
+		
+	}
+	100% {
+		transform: rotateY(90deg);
+	}
+}
+
+
+
+.mainContainer {
+	position: fixed;
+	top: 0rem;
+	left: 0rem;
+	padding: 2rem 0rem 0rem 2rem;
+}
+
+
+.btnOpenMenu, .btnCloseMenu {
+	width: 50px;
+	height: 50px;
+	background-color: transparent;
+	border: 0px;
+	cursor: pointer;
+
+	img {
+		width: 100%;
+		filter: brightness(0) saturate(100%) invert(58%) sepia(78%) saturate(1285%) hue-rotate(1deg) brightness(106%) contrast(104%);
+		transition-property: filter;
+		transition-duration: 0.4;
+
+		&:hover {
+			filter: brightness(0) saturate(100%) invert(81%) sepia(88%) saturate(338%) hue-rotate(320deg) brightness(97%) contrast(93%);
+		}
+	}
+}
+
+.btnCloseMenu {
+	width: 30px;
+	height: 30px;
+	margin: 1.5rem 0rem 0rem 1.5rem;
+}
+
+.menuContainer {
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100dvh;
+	background-color: $dialogsBackground;
+	z-index: 1;
+
+	.menuContentContainer {
+		width: 350px;
+		height: 380px;
+		overflow: hidden;
+		background-color: $menuPanel;
+		border: 2px solid $orange;
+		animation: mobileMenuOpens 1s;
+	}
+
+	.menuCloses {
+		animation: mobileMenuCloses 0.7s forwards;
+	}
+}
+
+.hidden {
+	display: none;
+}
+
+
+//  MEDIA QUERIES
+
+@media (width < 700px) {
+	
+	.btnOpenMenu {
+		width: 40px;
+		height: 40px;
+	}
+
+}
+
+
+@media (width < 520px) {
+	
+	.mainContainer {
+		padding: 1.5rem 0rem 0rem 1.5rem;
+}
+
+	.btnOpenMenu {
+		width: 30px;
+		height: 30px;
+	}
+}
+
+
+@media (width < 350px) {
+	
+	.mainContainer {
+		padding: 1rem 0rem 0rem 1rem;
+}
+
+	.btnOpenMenu {
+		width: 25px;
+		height: 25px;
+	}
+
+}

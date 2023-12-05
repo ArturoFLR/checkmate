@@ -158,7 +158,7 @@ function SelectPlayer () {
 				<div className={styles.playerInfoContainer} >
 					<div className={styles.playerNumberAndPieceContainer}>
 						<p className={styles.playerInfoNumber} >Player 2</p>
-						<img alt="White king" src="images/pieces/kingB.png"></img>
+						<img alt="Black king" src="images/pieces/kingB.png"></img>
 					</div>
 
 					<div className={styles.slideshowContainer} >

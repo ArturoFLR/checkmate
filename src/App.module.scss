@@ -1,3 +1,5 @@
+@use "./components/colors" as *;
+
 body {
 	overflow: hidden;
 	background-image: url("@/images/background/nebula1.jpg");
@@ -11,6 +13,10 @@ body {
 	width: 100vw;
 	height: 100vh;
 	backdrop-filter: blur(3px) brightness(70%);
+}
+
+.mobileMainMenuContainer, .mobileLogoContainer, .playerDataMobileContainer {
+	display: none;
 }
 
 .gameZoneContainer {
@@ -43,9 +49,10 @@ body {
 	width: 25%;
 	height: 95%;
 	margin-right: 2rem;
-	border: 3px solid rgb(255,165,0);
+	border: 3px solid $orange;
 	border-radius: 15px;
-	background-color: rgb(4, 2, 55);
+	background-color: $menuPanel;
+	box-shadow: 5px 5px 20px 10px;
 
 	.logoContainer {
 		padding-top: 4rem;
@@ -54,5 +61,113 @@ body {
 	.menuContainer {
 		width: 100%;
 		padding-top: 6rem;
+	}
+}
+
+.BlackPiecesInitContainerMobile, .WhitePiecesInitContainerMobile {
+	display: none;
+}
+
+
+
+//  MEDIA QUERIES
+
+@media (width < 1500px) {
+
+	.headerContainer {
+		width: 24%;
+		border: 3px solid $orange;
+		border-radius: 15px;
+		box-shadow: 3px 3px 7px 5px;
+		margin-right: 0rem;
+	}
+}
+
+
+@media (width < 1250px) {
+
+	.gameZoneContainer {
+		flex-direction: column;
+		column-gap: 0rem;
+	
+		.BlackPiecesInitContainer {
+			width: 0vh;
+			height: 0vh;
+			padding-bottom: 20vh;
+		}
+
+		.boardContainer {
+			width: 100%;
+			height: 100%;
+		}
+	
+		.WhitePiecesInitContainer {
+			width: 0vh;
+			height: 0vh;
+			padding-top: 20vh;
+		}
+	}
+	
+	.headerContainer {
+		width: 24%;
+		margin-right: 0rem;
+		box-shadow: 3px 3px 20px 3px;
+	
+		.logoContainer {
+			padding-top: 2.5rem;
+		}
+	}
+}
+
+
+@media (width < 1050px) {
+
+	body {
+		background-size: auto;
+	}
+
+	.mainContainer {
+		flex-direction: column;
+		min-height: 100dvh;
+	}
+
+	.mobileMainMenuContainer, .mobileLogoContainer, .playerDataMobileContainer {
+		display: block;
+	}
+	
+	.gameZoneContainer {
+		width: 100%;
+		margin-top: 2rem;
+	}
+	
+	.headerContainer {
+		display: none;
+	}
+
+	.playerDataMobileContainer {
+		width: 60%;
+	}
+
+	.BlackPiecesInitContainer, .WhitePiecesInitContainer {
+		display: none;
+	}
+
+	.BlackPiecesInitContainerMobile, .WhitePiecesInitContainerMobile {
+		display: block;
+		padding-top: 75%;
+	}
+}
+
+
+@media (width < 770px) {
+
+	.playerDataMobileContainer {
+		width: 80%;
+	}
+}
+
+@media only screen and (orientation:portrait) {
+	body {
+		transform: rotate(90deg)
 	}
 }

@@ -1,3 +1,5 @@
+@use "./colors" as *;
+
 @keyframes highlightAnim {
 	0% {
 		scale: 1;
@@ -27,15 +29,15 @@
 		flex-direction: column;
 		justify-content: space-around;
 		align-items: center;
-		width: 450px;
-		height: 200px;	
-		background-color: black;
-		border: 2px solid rgb(255,165,0);
+		width: 500px;
+		height: 240px;	
+		background-color: $black;
+		border: 2px solid $orange;
 
 	.mainText {
-		color: rgb(255,165,0);
+		color: $orange;
 		font-family: 'Tilt Neon', sans-serif;
-		font-size: 2.2rem;
+		font-size: 3rem;
 		width: 100%;
 		text-align: center;
 	}
@@ -47,42 +49,46 @@
 		border-radius: 15px;
 
 		.slotName {
-			width: 125px;
-			height: 28px;
+			width: 135px;
+			height: 35px;
 			cursor: pointer;
 			user-select: none;
 			border: none;
 			border-radius: 5px;
-			background-color: rgb(101, 130, 194);
-			color: white;
-			font-size: 1.5rem;
+			background-color: $saveGameSlotsBackground;
+			color: $white;
+			font-size: 1.8rem;
 			font-family: 'Tilt Neon', sans-serif;
+
+			&:hover {
+				background-color: $saveGameSlotsHoverBackground;
+			}
 		}
 		
 		.btnHighlighted {
-			border: 3px solid rgb(255,165,0);
+			border: 3px solid $orange;
 		}
 	}
 
 	.slotsContainerHighlighted {
-		animation: highlightAnim 0.5s;
+		animation: highlightAnim 0.4s;
 	}
 
 	.input {
 		width: 200px;
-		height: 30px;
+		height: 40px;
 		text-align: center;
 		padding: 0rem 1rem 0rem 1rem;
 		outline: none;
 		border: none;
 		border-radius: 15px;
-		background-color: rgb(55, 129, 147);
-		color: white;
-		font-size: 2rem;
+		background-color: $gameResultsBtnBackgroundHovered;
+		color: $white;
+		font-size: 2.1rem;
 		font-family: 'Mohave', sans-serif;
 		
 		&:disabled {
-			background-color: rgba(3, 110, 136, 0.537);
+			background-color: $saveGameSlotsBackgroundDisabled;
 
 			&::placeholder {
 				color: transparent;
@@ -90,8 +96,8 @@
 		}
 
 		&::placeholder {
-			font-size: 1.5rem;
-			color: white;
+			font-size: 1.8rem;
+			color: $white;
 		}
 	}
 
@@ -108,14 +114,224 @@
 			width: 17%;
 			border: 0rem;
 			background-color: transparent;
-			color: rgb(255,165,0);
+			color: $orange;
 			font-family: 'Mohave', sans-serif;
-			font-size: 2.5rem;
+			font-size: 2.7rem;
 			cursor: pointer;
 	
 			&:hover {
-				color: rgb(240, 201, 126);
+				color: $orangeButtonHovered;
 				scale: 1.2;
+			}
+		}
+	}
+}
+
+
+
+//  MEDIA QUERIES
+
+@media (width > 1900px) {
+	.saveGameContentContainer {
+			width: 600px;
+			height: 310px;
+	
+		.mainText {
+			font-size: 4rem;
+		}
+	
+		.slotsContainer {
+	
+			.slotName {
+				width: 165px;
+				height: 40px;
+				font-size: 2.2rem;
+			}
+		}
+
+		.input {
+			width: 270px;
+			height: 55px;
+			padding: 0.5rem 1rem 0rem 1rem;
+			font-size: 3rem;
+			
+			&::placeholder {
+				font-size: 2.5rem;
+			}
+		}
+	
+		.btnsContainer {
+	
+			.btnSaveGame, .btnCancelSave {
+				font-size: 3.5rem;
+			}
+		}
+	}
+}
+
+
+@media (width > 2500px) {
+	.saveGameContentContainer {
+			width: 850px;
+			height: 430px;
+	
+		.mainText {
+			font-size: 5rem;
+		}
+	
+		.slotsContainer {
+	
+			.slotName {
+				width: 235px;
+				height: 60px;
+				font-size: 3.1rem;
+			}
+		}
+
+		.input {
+			width: 290px;
+			height: 60px;
+			padding: 0.7rem 1rem 0rem 1rem;
+			font-size: 3.2rem;
+			
+			&::placeholder {
+				font-size: 3rem;
+			}
+		}
+	
+		.btnsContainer {
+	
+			.btnSaveGame, .btnCancelSave {
+				font-size: 4.5rem;
+			}
+		}
+	}
+}
+
+
+
+@media (width > 3800px) {
+	.saveGameContentContainer {
+			width: 1350px;
+			height: 650px;
+			border: 3px solid $orange;
+	
+		.mainText {
+			font-size: 8.5rem;
+			margin-top: 3rem;
+		}
+	
+		.slotsContainer {
+			margin-top: 3rem;
+
+			.slotName {
+				width: 370px;
+				height: 80px;
+				font-size: 5rem;
+				border-radius: 14px;
+			}
+			
+			.btnHighlighted {
+				border: 5px solid $orange;
+			}
+		}
+
+		.input {
+			width: 420px;
+			height: 90px;
+			padding: 0.7rem 1rem 0rem 1rem;
+			font-size: 5.5rem;
+			border-radius: 35px;
+			margin-top: 0.5rem;
+			
+			&::placeholder {
+				font-size: 4.5rem;
+			}
+		}
+	
+		.btnsContainer {
+	
+			.btnSaveGame, .btnCancelSave {
+				font-size: 7rem;
+			}
+		}
+	}
+}
+
+
+
+@media (width < 1300px) {
+	.saveGameContentContainer {
+			width: 500px;
+			height: 290px;
+	
+		.mainText {
+			font-size: 3rem;
+		}
+	
+		.slotsContainer {
+	
+			.slotName {
+				width: 135px;
+				height: 35px;
+				font-size: 1.8rem;
+			}
+		}
+
+		.input {
+			width: 200px;
+			height: 45px;
+			padding: 0rem 1rem 0rem 1rem;
+			font-size: 2.2rem;
+			
+			&::placeholder {
+				font-size: 1.9rem;
+			}
+		}
+	
+		.btnsContainer {
+
+			.btnSaveGame, .btnCancelSave {
+				font-size: 2.8rem;
+			}
+		}
+	}
+}
+
+
+@media (width < 1050px) {
+	.saveGameContentContainer {
+			width: 600px;
+			height: 350px;
+	
+		.mainText {
+			font-size: 4rem;
+		}
+	
+		.slotsContainer {
+	
+			.slotName {
+				width: 170px;
+				height: 50px;
+				font-size: 2.3rem;
+			}
+		}
+
+		.input {
+			width: 300px;
+			height: 60px;
+			padding: 0rem 1rem 0rem 1rem;
+			font-size: 3.3rem;
+			
+			&::placeholder {
+				font-size: 2.5rem;
+			}
+		}
+	
+		.btnsContainer {
+
+			.btnSaveGame, .btnCancelSave {
+				font-size: 3.8rem;
 			}
 		}
 	}

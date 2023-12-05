@@ -27,3 +27,56 @@
 		}
 	}
 }
+
+
+
+//  MEDIA QUERIES
+
+@media (width < 1200px) {
+	.mainContainer {
+		flex-wrap: nowrap;
+		width: 0%;
+		height: 0%;
+	}
+}
+
+@media (width < 1050px) {
+	.mainContainer {
+		flex-wrap: nowrap;
+	
+		.pieceContainer {
+
+			img {
+				width: 3.56vw;
+			}
+		}
+	}	
+}
+
+
+@media (width < 950px) {
+	.mainContainer {
+		flex-wrap: nowrap;
+	
+		.pieceContainer {
+
+			img {
+				width: 4.02862vw;
+			}
+		}
+	}	
+}
+
+
+@media (width < 800px) {
+	.mainContainer {
+		flex-wrap: nowrap;
+	
+		.pieceContainer {
+
+			img {
+				width: 5.46vw;
+			}
+		}
+	}	
+}

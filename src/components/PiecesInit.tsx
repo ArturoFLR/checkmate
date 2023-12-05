@@ -152,11 +152,179 @@ function PiecesInit( {animate, piecesColor}: PiecesInitProps ) {
 		return animationsCoordinates;
 	}
 
+
+	function checkPieceTypeBySquare ( square: string ) {											// Used to return the type of the piece based on the square it is in, to apply the correct value to its animation adjust value in the "animatePieces" function.
+		const squareLetter = square[7];
+		const squareNumber = Number(square[8]);
+
+		if (squareNumber === 2) {
+			return "P";
+		} else if (squareNumber === 7) {
+			return "p";
+		} else if (squareNumber === 1 && (squareLetter === "d" || squareLetter === "e")) {
+			return "KQ";
+		} else if (squareNumber === 8 && (squareLetter === "d" || squareLetter === "e")) {
+			return "kq";
+		} else if (squareNumber === 1 && (squareLetter === "a" || squareLetter === "b" || squareLetter === "c" || squareLetter === "f" || squareLetter === "g" || squareLetter === "h")) {
+			return "RKB";
+		} else if (squareNumber === 8 && (squareLetter === "a" || squareLetter === "b" || squareLetter === "c" || squareLetter === "f" || squareLetter === "g" || squareLetter === "h")) {
+			return "rkb";
+		} 
+	}
+
+
 	function animatePieces () {
 		const animationData = getAnimationsCoordinates();
 		let timer = 0;
+		const screenWidth = window.innerWidth;									// Used to adjust the animation to different resolutions.
+		let animationAdjust = 0;
+
 
 		animationData.map( (element) => {
+
+			if (screenWidth >= 1900 && screenWidth < 1920) {
+
+				if (checkPieceTypeBySquare(element.piece.id) === "P") {
+					animationAdjust = 0.5;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "KQ" || checkPieceTypeBySquare(element.piece.id) === "kq") {
+					animationAdjust = 0;
+				}  else if (checkPieceTypeBySquare(element.piece.id) === "RKB" || checkPieceTypeBySquare(element.piece.id) === "rkb") {
+					animationAdjust = 0.5;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "p") {
+					animationAdjust = 0.8;
+				}
+			}
+
+			if (screenWidth >= 1920 && screenWidth < 2500) {
+
+				if (checkPieceTypeBySquare(element.piece.id) === "P") {
+					animationAdjust = 3.5;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "KQ" || checkPieceTypeBySquare(element.piece.id) === "kq") {
+					animationAdjust = 0.8;
+				}  else if (checkPieceTypeBySquare(element.piece.id) === "RKB" || checkPieceTypeBySquare(element.piece.id) === "rkb") {
+					animationAdjust = 1.5;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "p") {
+					animationAdjust = 3;
+				}
+			}
+
+			if (screenWidth >= 2500 && screenWidth < 3800) {
+
+				if (checkPieceTypeBySquare(element.piece.id) === "P") {
+					animationAdjust = 8.5;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "KQ" || checkPieceTypeBySquare(element.piece.id) === "kq") {
+					animationAdjust = 2.2;
+				}  else if (checkPieceTypeBySquare(element.piece.id) === "RKB" || checkPieceTypeBySquare(element.piece.id) === "rkb") {
+					animationAdjust = 3.95;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "p") {
+					animationAdjust = 8.3;
+				}
+			}
+
+			if (screenWidth >= 3800) {
+
+				if (checkPieceTypeBySquare(element.piece.id) === "P") {
+					animationAdjust = 18;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "KQ" || checkPieceTypeBySquare(element.piece.id) === "kq") {
+					animationAdjust = 5;
+				}  else if (checkPieceTypeBySquare(element.piece.id) === "RKB" || checkPieceTypeBySquare(element.piece.id) === "rkb") {
+					animationAdjust = 8.79;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "p") {
+					animationAdjust = 18;
+				}
+			}
+
+			if (screenWidth < 1500 && screenWidth >= 1300) {
+
+				if (checkPieceTypeBySquare(element.piece.id) === "P") {
+					animationAdjust = 0.5;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "KQ" || checkPieceTypeBySquare(element.piece.id) === "kq") {
+					animationAdjust = 0;
+				}  else if (checkPieceTypeBySquare(element.piece.id) === "RKB" || checkPieceTypeBySquare(element.piece.id) === "rkb") {
+					animationAdjust = 0.5;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "p") {
+					animationAdjust = 0.8;
+				}
+			}
+
+			if (screenWidth < 1300 && screenWidth >= 1200) {
+
+				if (checkPieceTypeBySquare(element.piece.id) === "P") {
+					animationAdjust = -0.6;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "KQ" || checkPieceTypeBySquare(element.piece.id) === "kq") {
+					animationAdjust = 0;
+				}  else if (checkPieceTypeBySquare(element.piece.id) === "RKB" || checkPieceTypeBySquare(element.piece.id) === "rkb") {
+					animationAdjust = -0.2;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "p") {
+					animationAdjust = -0.6;
+				}
+			}
+
+			if (screenWidth < 1200 && screenWidth >= 1050) {
+
+				if (checkPieceTypeBySquare(element.piece.id) === "P") {
+					animationAdjust = 0.6;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "KQ" || checkPieceTypeBySquare(element.piece.id) === "kq") {
+					animationAdjust = 0;
+				}  else if (checkPieceTypeBySquare(element.piece.id) === "RKB" || checkPieceTypeBySquare(element.piece.id) === "rkb") {
+					animationAdjust = 0.48;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "p") {
+					animationAdjust = 0.6;
+				}
+			}
+
+			if (screenWidth < 1050 && screenWidth >= 950) {
+
+				if (checkPieceTypeBySquare(element.piece.id) === "P") {
+					animationAdjust = -1.6;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "KQ" || checkPieceTypeBySquare(element.piece.id) === "kq") {
+					animationAdjust = -0.5;
+				}  else if (checkPieceTypeBySquare(element.piece.id) === "RKB" || checkPieceTypeBySquare(element.piece.id) === "rkb") {
+					animationAdjust = -0.48;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "p") {
+					animationAdjust = -1.6;
+				}
+			}
+
+			if (screenWidth < 950 && screenWidth >= 800) {
+
+				if (checkPieceTypeBySquare(element.piece.id) === "P") {
+					animationAdjust = -1;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "KQ" || checkPieceTypeBySquare(element.piece.id) === "kq") {
+					animationAdjust = -0.3;
+				}  else if (checkPieceTypeBySquare(element.piece.id) === "RKB" || checkPieceTypeBySquare(element.piece.id) === "rkb") {
+					animationAdjust = -0.3;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "p") {
+					animationAdjust = -1;
+				}
+			}
+
+			if (screenWidth < 800) {
+
+				if (checkPieceTypeBySquare(element.piece.id) === "P") {
+					animationAdjust = -0.3;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "KQ" || checkPieceTypeBySquare(element.piece.id) === "kq") {
+					animationAdjust = 0;
+				}  else if (checkPieceTypeBySquare(element.piece.id) === "RKB" || checkPieceTypeBySquare(element.piece.id) === "rkb") {
+					animationAdjust = 0;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "p") {
+					animationAdjust = -0.2;
+				}
+			}
+
+			if (screenWidth < 450) {
+
+				if (checkPieceTypeBySquare(element.piece.id) === "P") {
+					animationAdjust = -0.3;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "KQ" || checkPieceTypeBySquare(element.piece.id) === "kq") {
+					animationAdjust = 0;
+				}  else if (checkPieceTypeBySquare(element.piece.id) === "RKB" || checkPieceTypeBySquare(element.piece.id) === "rkb") {
+					animationAdjust = 0;
+				} else if (checkPieceTypeBySquare(element.piece.id) === "p") {
+					animationAdjust = -0.2;
+				}
+			}
+
 			const keyframes = [
 				{
 					position: "absolute",
@@ -166,7 +334,7 @@ function PiecesInit( {animate, piecesColor}: PiecesInitProps ) {
 				},
 				{
 					position: "absolute",
-					top: element.targetCoordinates.top + "px",
+					top: (element.targetCoordinates.top + animationAdjust) + "px",
 					left: element.targetCoordinates.left + (element.targetCoordinates.width / 4) + "px",				// The width of the destination square is divided by 4 before adding it so that the piece is right in the center of the square.
 					offset: 1
 				}

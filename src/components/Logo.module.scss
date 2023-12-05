@@ -6,3 +6,110 @@
 		font-family: 'Bungee Spice', cursive;
 	}
 }
+
+//  MEDIA QUERIES
+
+@media (width > 1900px) {
+	.mainContainer {
+	
+		h1 {
+			font-size: 6.4rem;
+		}
+	}
+}
+
+@media (width > 2500px) {
+	.mainContainer {
+	
+		h1 {
+			font-size: 8.4rem;
+		}
+	}
+}
+
+@media (width > 3800px) {
+	.mainContainer {
+	
+		h1 {
+			font-size: 12.7rem;
+		}
+	}
+}
+
+@media (width < 1500px) {
+	.mainContainer {
+	
+		h1 {
+			font-size: 4.4rem;
+		}
+	}
+}
+
+@media (width < 1300px) {
+	.mainContainer {
+	
+		h1 {
+			font-size: 4rem;
+		}
+	}
+}
+
+@media (width < 1200px) {
+	.mainContainer {
+	
+		h1 {
+			font-size: 3.5rem;
+		}
+	}
+}
+
+@media (width < 1050px) {
+	.mainContainer {
+		padding: 1rem 0rem 4rem 0rem;
+
+		h1 {
+			font-size: 7rem;
+		}
+	}
+}
+
+@media (width < 700px) {
+	.mainContainer {
+		padding: 1rem 0rem 4rem 4rem;
+
+		h1 {
+			font-size: 6rem;
+		}
+	}
+}
+
+@media (width < 520px) {
+	.mainContainer {
+		padding: 1rem 0rem 4rem 4rem;
+
+		h1 {
+			font-size: 5rem;
+		}
+	}
+}
+
+
+@media (width < 450px) {
+	.mainContainer {
+		padding: 1rem 0rem 4rem 4rem;
+
+		h1 {
+			font-size: 4rem;
+		}
+	}
+}
+
+@media (width < 350px) {
+	.mainContainer {
+		padding: 1rem 0rem 4rem 4rem;
+
+		h1 {
+			font-size: 3.5rem;
+		}
+	}
+}

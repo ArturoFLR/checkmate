@@ -39,6 +39,7 @@ function Board( {showPieces}: BoardProps) {
 
 	const squaresToClean = generateSquares(piecesData.pieces, false);				// This variable contains all the squares on the board. It is used to pass it as an argument to the "resetGameState" function, which is in the "utils" folder. Board uses this function to reset all variables and styles when there is a connection error and the player decides to exit the game. It is declared here and not within the functions that use it because it uses a global variable and gives an error if you try to access it from a sub-function.
 
+	
 
 	function newTurnChecks () {												// Perform the necessary checks at the beginning of a turn, such as activating the pawn transformation animations, or activating the AI if the game is a single player.
 		
@@ -73,11 +74,14 @@ function Board( {showPieces}: BoardProps) {
 
 	function changeLoadingDialogVisibility( visible: boolean ) {						// This function is used to pop up a "loading" dialog in the "PlayerData" component without changing the gameState, as it generates logic errors in the endgame.
 		const loadingDialogElement = document.getElementById("loadingDialog") as HTMLDivElement;
+		const loadingDialogElement2 = document.getElementById("loadingDialogMobile") as HTMLDivElement;					// loading Dialog Element 2 contains the AI dialog in the mobile version, which have a different "id" to avoid conflicts and errors.
 
 		if (visible) {
 			loadingDialogElement.classList.remove(styles2.dialogHidden);
+			loadingDialogElement2.classList.remove(styles2.dialogHidden);
 		} else {
 			loadingDialogElement.classList.add(styles2.dialogHidden);
+			loadingDialogElement2.classList.add(styles2.dialogHidden);
 		}
 	}
 
@@ -491,7 +495,6 @@ function Board( {showPieces}: BoardProps) {
 
 
 		// CHECK DRAW BY THREEFOLD REPETITION
-		console.log(previousPlaysListData.previousPlaysList);
 		if (threefoldRepetition) {
 			setGameState("gameDrawThreefoldRepetition");
 			endgame = true;

@@ -40,9 +40,7 @@ export async function getBestMove (playerTurn: PlayerTurnType) {
 			targetSquare: targetSquareString,
 		};
 
-		console.log(response.data);
 		return aiMove;
-		
 	} catch (err) {
 		throw new Error((err as Error).message);
 	}
