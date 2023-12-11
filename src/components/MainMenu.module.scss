@@ -342,37 +342,37 @@
 
 @media (width < 1050px) {
 
-	.mainContainer {
-		width: 100%;
-		height: 100%;
-		margin-top: 3rem;
-	}
-
 	.btnNewGame, .btnLoadGame, .btnPlayerVsComputer, .btnOnePlayer, .btnBack, .btnSelect {
-		width: 93%;
-		height: 45px;
-		font-size: 2.8rem;
-		margin-top: 1.3rem;
+		width: 98%;
+		height: 35px;
+		font-size: 2.2rem;
+		margin-top: 1rem;
+	}
+	
+	.leftFormatter, .rigthFormatter {
+		width: 40%;
 	}
 	
 	.leftFormatter {
-		left: -13%;
+		transform: rotate(160deg);
+		left: -15%;
 	}
 	
 	.rigthFormatter {
-		right: -13%;
+		transform: rotate(-160deg);
+		right: -15%;
 	}
 	
 	.loadGameContainer {
 	
 		.loadGameGameList {
-			margin-top: 1rem;
+			margin: 0rem;
 		}
 	
 		.slotWithData, .emptySlot {
-			width: 33%;
-			height: 17px;
-			font-size: 1.8rem;
+			width: 38%;
+			height: 15px;
+			font-size: 1.55rem;
 			margin-top: 0.7rem;
 		}
 	}

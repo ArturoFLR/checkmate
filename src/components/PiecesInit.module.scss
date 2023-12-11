@@ -41,42 +41,14 @@
 }
 
 @media (width < 1050px) {
+
 	.mainContainer {
-		flex-wrap: nowrap;
 	
 		.pieceContainer {
-
-			img {
-				width: 3.56vw;
-			}
-		}
-	}	
-}
-
-
-@media (width < 950px) {
-	.mainContainer {
-		flex-wrap: nowrap;
 	
-		.pieceContainer {
-
 			img {
-				width: 4.02862vw;
+				width: 5.47vh;
 			}
 		}
-	}	
-}
-
-
-@media (width < 800px) {
-	.mainContainer {
-		flex-wrap: nowrap;
-	
-		.pieceContainer {
-
-			img {
-				width: 5.46vw;
-			}
-		}
-	}	
+	}
 }

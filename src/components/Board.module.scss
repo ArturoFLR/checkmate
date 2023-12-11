@@ -746,35 +746,60 @@
 }
 
 
-@media (width < 1250px) {
+
+@media (width < 1050px) and (height < 829px) {
 
 	.boardContainer {
-		width: 87vh;
-		height: 87vh;
+		width: 95vh;
+		height: 95vh;
+	}
+
+	.axiosErrorContainer {
+	
+		.axiosErrorOptionsContainer {
+			width: 550px;
+			height: 200px;	
+		}
+	
+		p {
+			font-size: 3rem;
+	
+			span {
+				font-size: 2.4rem;
+			}
+		}
+	
+		.btnAxiosError {
+			font-size: 3rem;
+		}
 	}
 }
 
-
-@media (width < 1050px) {
-
-	.boardContainer {
-		width: 62vw;
-		height: 62vw;
-	}
-}
 
 @media (width < 950px) {
 
 	.boardContainer {
-		width: 70vw;
-		height: 70vw;
+		width: 99dvh;
+		height: 99dvh;
 	}
-}
 
-@media (width < 800px) and (orientation: portrait) {
-
-	.boardContainer {
-		width: 95vw;
-		height: 95vw;
+	.axiosErrorContainer {
+	
+		.axiosErrorOptionsContainer {
+			width: 550px;
+			height: 200px;	
+		}
+	
+		p {
+			font-size: 3rem;
+	
+			span {
+				font-size: 2.4rem;
+			}
+		}
+	
+		.btnAxiosError {
+			font-size: 3rem;
+		}
 	}
 }

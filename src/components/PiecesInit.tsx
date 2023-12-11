@@ -260,7 +260,7 @@ function PiecesInit( {animate, piecesColor}: PiecesInitProps ) {
 				}
 			}
 
-			if (screenWidth < 1200 && screenWidth >= 1050) {
+			if (screenWidth < 1200 && screenWidth >= 1025) {
 
 				if (checkPieceTypeBySquare(element.piece.id) === "P") {
 					animationAdjust = 0.6;
@@ -273,16 +273,16 @@ function PiecesInit( {animate, piecesColor}: PiecesInitProps ) {
 				}
 			}
 
-			if (screenWidth < 1050 && screenWidth >= 950) {
+			if (screenWidth < 1025 && screenWidth >= 950) {
 
 				if (checkPieceTypeBySquare(element.piece.id) === "P") {
-					animationAdjust = -1.6;
+					animationAdjust = 0;
 				} else if (checkPieceTypeBySquare(element.piece.id) === "KQ" || checkPieceTypeBySquare(element.piece.id) === "kq") {
-					animationAdjust = -0.5;
+					animationAdjust = 0;
 				}  else if (checkPieceTypeBySquare(element.piece.id) === "RKB" || checkPieceTypeBySquare(element.piece.id) === "rkb") {
-					animationAdjust = -0.48;
+					animationAdjust = 0.1;
 				} else if (checkPieceTypeBySquare(element.piece.id) === "p") {
-					animationAdjust = -1.6;
+					animationAdjust = -0.3;
 				}
 			}
 

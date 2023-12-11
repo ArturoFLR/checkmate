@@ -700,246 +700,98 @@
 
 @media (width < 1050px) {
 	
-.mainContainer {
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: space-around;
-	align-items: center;
-	align-content: center;
-	width: 100%;
-	margin-top: 3rem;
-}
-
-.player2Container, .player1Container {
-	width: 40%;
-	height: 40px;
-	font-size: 2rem;
-
-	.dialogContainer {
-		top: -110%;
-		right: 15%;
-		width: 25%;
-
-		.dialogEmoji {
-			width: 45%;
-		}
-	}
-}
-
-.player1Container {
-	margin: 3rem 0rem 3.8rem 0rem ;
-	order: 3;
-}
-
-.player2Container {
-	margin: 3rem 0rem 3.8rem 0rem ;
-	order: 2;
-}
-
-
-.playerHighlighted {								// Highlights the player who is about to move.
-
-	.dialogContainer {
-		top: -110%;
-		right: 15%;
-		width: 25%;
-
-		.dialogEmoji {
-			width: 34%;
-		}
-	}
-
-	.dialogLoadingContainer {
-
-		.dialogEmoji {
-			width: 34%;
-		}
-	}
-}
-
-.btnExitSaveGameContainer {
-	display: flex;
-	justify-content: space-between;
-	position: fixed;
-	bottom: 0%;
-	order: 1;
-	width: 50%;
-	padding: 1rem;
-	margin-top: 0rem;
-
-	.btnExitGame, .btnSaveGame {									// General styles for buttons. More specific styles for confirmation buttons are given below.
-		width: 45%;
-		height: 50px;
-		border-radius: 50%;
-		font-size: 3rem;
-		box-shadow: 0px 0px 7px 3px;
-	}
-
-	.btnExitGame {
-		margin-top: 0rem;
-	}
-
-	.leftFormatter, .rigthFormatter {
-		display: none;
-	}
-}
-
-.exitConfirmMainContainer {
-
-	.exitConfirmOptionsContainer {
-
-		width: 400px;
-		height: 150px;	
-	}
-
-	p {
-		font-size: 3rem;
-	}
-
-	.btnExitGame {
-		font-size: 3rem;
-	}
-}
-
-.hidden {
-	display: none;
-}
-
-.saveHidden {
-	display: none;
-}
-}
-
-
-@media (width < 950px) {
-	
-	.mainContainer {
-		margin-top: 2.25rem;
-	}
-	
-	.player2Container, .player1Container {
-		height: 33px;
-		font-size: 1.8rem;
-	
-		.dialogContainer {
-			top: -130%;
-			right: 15%;
-	
-			.dialogEmoji {
-				margin-right: 0.3rem;
-				width: 41%;
-			}
-		}
-	}
-	
-	.player1Container {
-		margin: 3rem 0rem 3rem 0rem ;
-	}
-	
-	.player2Container {
-		margin: 3rem 0rem 3rem 0rem ;
-	}
-	
-	
-	.playerHighlighted {								// Highlights the player who is about to move.
-	
-		.dialogContainer {
-			top: -110%;
-			right: 15%;
-	
-			.dialogEmoji {
-				margin-top: 0.2rem;
-				width: 32%;
-			}
-		}
-	
-		.dialogLoadingContainer {
-	
-			.dialogEmoji {
-				margin-top: 0.2rem;
-				width: 30%;
-			}
-		}
-	}
-}
-
-
-@media (width < 860px) {
-	
-	.mainContainer {
-		margin-top: 0rem;
-	}
-	
-	.player2Container, .player1Container {
-		height: 30px;
-		font-size: 1.5rem;
-	}
-	
-	.player1Container {
-		margin: 5rem 0rem 2.9rem 0rem ;
-	}
-	
-	.player2Container {
-		margin: 5rem 0rem 2.9rem 0rem ;
-	}
-}
-
-@media (width < 770px) {
-	
-	.mainContainer {
-		justify-content: space-between;
-	}
-	
-	.player2Container, .player1Container {
-		width: 37%;
+	.computerContainer, .player2Container, .player1Container {
+		width: 75%;
 		height: 35px;
-		font-size: 2rem;
+		padding: 0.7rem 25% 0.7rem 1rem;
+		font-size: 1.7rem;
+	
+		img {
+			width: 35%;
+		}
 	
 		.dialogContainer {
-			top: -115%;
-			right: 14%;
-			scale: 1.3;
+			top: -120%;
+			right: 19%;
+			width: 25%;
+			height: 100%;
+			scale: 1.4;
 	
 			.dialogEmoji {
-				width: 45%;
+				width: 52%;
 			}
-		}
-	}
-	
-	.player1Container {
-		margin: 5.5rem 0rem 3.5rem 0rem ;
-		order: 3;
-	}
-	
-	.player2Container {
-		margin: 5.5rem 0rem 3.5rem 0rem ;
-		order: 2;
-	}
-	
-	
-	.playerHighlighted {								// Highlights the player who is about to move.
-	
-		.dialogContainer {
-			top: -125%;
-			right: 15%;
 		}
 	
 		.dialogLoadingContainer {
 	
 			.dialogEmoji {
-				width: 34%;
+				width: 40%;
+			}
+		}
+	}
+	
+	.player1Container {
+		margin: 9rem 0rem 6rem 0rem ;
+	}
+	
+	.playerHighlighted {								// Highlights the player who is about to move.
+		
+		.dialogContainer {
+	
+			.dialogEmoji {
+				width: 40%;
+				margin-right: 0.2rem;
+			}
+		}
+
+		.dialogLoadingContainer {
+			top: -140%;
+
+			.dialogEmoji {
+				width: 38%;
+				margin-right: 0.2rem;
+				margin-top: 0.1rem;
 			}
 		}
 	}
 	
 	.btnExitSaveGameContainer {
-		bottom: 2%;
-		left: 20%;
-		width: 60%;
+		margin-top: 2rem;
 	
 		.btnExitGame, .btnSaveGame {									// General styles for buttons. More specific styles for confirmation buttons are given below.
-			overflow: hidden;
-			height: 55px;
+			width: 80%;
+			height: 50px;
+			font-size: 2.7rem;
+		}
+	
+		.leftFormatter, .rigthFormatter {
+			top: -10%;
+			width: 25%;
+			height: 140%;
+		}
+		
+		.leftFormatter {
+			left: -5%;
+		}
+		
+		.rigthFormatter {
+			right: -5%;
+		}
+	}
+	
+	.exitConfirmMainContainer {
+	
+		.exitConfirmOptionsContainer {
+			width: 400px;
+			height: 150px;	
+		}
+	
+		p {
+			font-size: 3rem;
+		}
+	
+		.btnExitGame {
+			font-size: 3rem;
 		}
 	}
 }

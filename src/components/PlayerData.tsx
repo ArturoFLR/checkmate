@@ -7,11 +7,7 @@ import generateSquares from "../utils/generateSquares";
 import SaveGame from "./SaveGame";
 
 
-type PlayerDateProps = 	{
-	version: "desktop" | "mobile"
-}
-
-function PlayerData( {version}: PlayerDateProps) {
+function PlayerData () {
 	const [playerTurnData, gameStateData] = useGameStateContext();
 	const {gameState, setGameState} = gameStateData;
 	const playerTurn = playerTurnData.playerTurn;
@@ -36,21 +32,7 @@ function PlayerData( {version}: PlayerDateProps) {
 		if ((element.id[0] === "k" || element.id[0] === "K" ) && element.isCheck) isAnyPlayerChecked = true;
 	});
 
-	let idNames = {
-		exitGame: "exitGame",
-		saveGame: "saveGame",
-		dialog: "loadingDialog"
-	};
 
-	if (version === "mobile") {
-		idNames = {
-			exitGame: "exitGameMobile",
-			saveGame: "saveGameMobile",
-			dialog: "loadingDialogMobile"
-		};
-	} 
-
-	const saveGameVersion = version;
 
 	function generateDialogVisibility () {													// It is used to control the visibility of the AI speech bubbles, returning ".dialogHide" or "null" as a class.
 		let dialogClass: string | null = styles.dialogHidden;
@@ -94,7 +76,7 @@ function PlayerData( {version}: PlayerDateProps) {
 	}
 
 	function handleExitGameClick () {
-		const exitGameDialog = document.getElementById(idNames.exitGame) as HTMLDivElement;
+		const exitGameDialog = document.getElementById("exitGame") as HTMLDivElement;
 		exitGameDialog.classList.remove(styles.hidden);
 	}
 
@@ -105,12 +87,12 @@ function PlayerData( {version}: PlayerDateProps) {
 	}
 
 	function handleCancelExitGame () {
-		const exitGameDialog = document.getElementById(idNames.exitGame) as HTMLDivElement;
+		const exitGameDialog = document.getElementById("exitGame") as HTMLDivElement;
 		exitGameDialog.classList.add(styles.hidden);
 	}
 
 	function handleSaveGameClick () {
-		const saveGameDialog = document.getElementById(idNames.saveGame) as HTMLDivElement;
+		const saveGameDialog = document.getElementById("saveGame") as HTMLDivElement;
 		saveGameDialog.classList.remove(styles.saveHidden);
 	}
 
@@ -128,7 +110,7 @@ function PlayerData( {version}: PlayerDateProps) {
 
 				{/* The following div is used to display the AI's "loading" dialog. Its visibility is controlled from the "Board" component, since there is no specific state for "loading". */}
 
-				<div className={`${styles.dialogLoadingContainer} ${styles.dialogContainer} ${styles.dialogHidden}`} id={idNames.dialog}>	
+				<div className={`${styles.dialogLoadingContainer} ${styles.dialogContainer} ${styles.dialogHidden}`} id="loadingDialog">	
 					<img className={styles.dialogEmoji} alt="aiEmoji" src="images/emojis/loading.gif" />
 				</div>
 
@@ -152,7 +134,7 @@ function PlayerData( {version}: PlayerDateProps) {
 				<div className={styles.rigthFormatter} ></div>
 			</div>
 
-			<div className={`${styles.exitConfirmMainContainer} ${styles.hidden}`} id={idNames.exitGame}>
+			<div className={`${styles.exitConfirmMainContainer} ${styles.hidden}`} id="exitGame">
 				<div className={styles.exitConfirmOptionsContainer} >
 					<p>Do you really want to quit?</p>
 
@@ -166,8 +148,8 @@ function PlayerData( {version}: PlayerDateProps) {
 				</div>
 			</div>
 			
-			<div className={`${styles.saveGameContainer} ${styles.saveHidden}`} id={idNames.saveGame}>				{/* It is made visible by the "PlayerData" component, and made invisible again by the "SaveGame" component. */}		
-				<SaveGame version={saveGameVersion} />		
+			<div className={`${styles.saveGameContainer} ${styles.saveHidden}`} id="saveGame">				{/* It is made visible by the "PlayerData" component, and made invisible again by the "SaveGame" component. */}		
+				<SaveGame />		
 			</div>
 
 		</div>

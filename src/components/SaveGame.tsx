@@ -30,11 +30,8 @@ export type SavedGameType = {
     playerTurn: PlayerTurnType;
 }
 
-type SaveGameProps = {
-	version: "desktop" | "mobile"
-}
 
-function SaveGame( {version}: SaveGameProps ) {																						// This component is hidden using CSS. The "PlayerData" component makes it appear, and "SaveGame" hides itself again.
+function SaveGame () {																						// This component is hidden using CSS. The "PlayerData" component makes it appear, and "SaveGame" hides itself again.
 	const [playerTurnData, gameStateData] = useGameStateContext();		
 	let slotsHighlightAnimTimeout: number;
 	let inputHighlightAnimTimeout: number;
@@ -42,22 +39,6 @@ function SaveGame( {version}: SaveGameProps ) {																						// This com
 	let saveGameDialogCloseTiemout: number;
 
 	let selectedSlot: string = "";																				// Set by the "handleSlotClick" function, and used to save the slot selected by the user.
-
-	let idNames = {
-		input: "userInput",
-		btnOk: "btnOk",
-		btnCancel: "btnCancel",
-		slotsContainer: "slotsContainer",
-	};
-
-	if (version === "mobile") {
-		idNames = {
-			input: "userInputMobile",
-			btnOk: "btnOkMobile",
-			btnCancel: "btnCancelMobile",
-			slotsContainer: "slotsContainerMobile",
-		};
-	}
 
 
 	function loadExistingGameNames () {																			// Returns button elements with the appropriate name for each slot ("empty" if the slot is empty)
@@ -83,7 +64,7 @@ function SaveGame( {version}: SaveGameProps ) {																						// This com
 		}
 
 		return (
-			<div className={styles.slotsContainer} id={idNames.slotsContainer}>
+			<div className={styles.slotsContainer} id="slotsContainer">
 				<button type="button" className={styles.slotName} onClick={handleSlotClick} id="checkMateSave1">
 					{
 						save1Name
@@ -107,7 +88,7 @@ function SaveGame( {version}: SaveGameProps ) {																						// This com
 
 	function handleSlotClick (event: React.MouseEvent<HTMLButtonElement>) {
 		const clickedSlot = event.target as HTMLButtonElement;
-		const inputElement = document.getElementById(idNames.input) as HTMLInputElement;
+		const inputElement = document.getElementById("userInput") as HTMLInputElement;
 
 		selectedSlot = clickedSlot.id;
 		removeHighlightedSlotStyles();
@@ -126,11 +107,11 @@ function SaveGame( {version}: SaveGameProps ) {																						// This com
 	function handleConfirmSaveGame () {
 		
 		if (selectedSlot) {																		// The user must have selected a save slot.
-			const inputElement = document.getElementById(idNames.input) as HTMLInputElement;
+			const inputElement = document.getElementById("userInput") as HTMLInputElement;
 
 			if (validateUserInput()) {															// The text entered by the user must be valid.
-				const okBtn = document.getElementById(idNames.btnOk) as HTMLButtonElement;
-				const cancelBtn = document.getElementById(idNames.btnCancel) as HTMLButtonElement;
+				const okBtn = document.getElementById("btnOk") as HTMLButtonElement;
+				const cancelBtn = document.getElementById("btnCancel") as HTMLButtonElement;
 				const userName = inputElement.value;
 				const capitalizedUserName = capitalizeText(userName);					// Capitalizes user-entered text to prevent it from having all uppercase characters and taking up too much pixel space.
 
@@ -172,7 +153,7 @@ function SaveGame( {version}: SaveGameProps ) {																						// This com
 			}
 
 		} else {																						// If the user has not selected any slot, a warning animation is activated on the slot container.
-			const slotsContainer = document.getElementById(idNames.slotsContainer) as HTMLDivElement;
+			const slotsContainer = document.getElementById("slotsContainer") as HTMLDivElement;
 			slotsContainer.classList.add(styles.slotsContainerHighlighted);
 			slotsHighlightAnimTimeout = setTimeout( () => {
 				slotsContainer.classList.remove(styles.slotsContainerHighlighted);
@@ -181,15 +162,10 @@ function SaveGame( {version}: SaveGameProps ) {																						// This com
 	}
 
 	function handleCancelSaveGame () {																	// Hides the "SaveGame" component and resets its variables to the initial state.
-		if (version === "mobile") {
-			const saveGameDialog = document.getElementById("saveGameMobile") as HTMLDivElement;
-			saveGameDialog.classList.add(styles2.saveHidden);
-		} else {
-			const saveGameDialog = document.getElementById("saveGame") as HTMLDivElement;
-			saveGameDialog.classList.add(styles2.saveHidden);
-		}
+		const saveGameDialog = document.getElementById("saveGame") as HTMLDivElement;
+		saveGameDialog.classList.add(styles2.saveHidden);
 
-		const inputElement = document.getElementById(idNames.input) as HTMLInputElement;
+		const inputElement = document.getElementById("userInput") as HTMLInputElement;
 		inputElement.value = "";
 		inputElement.disabled= true;
 		selectedSlot = "";
@@ -202,7 +178,7 @@ function SaveGame( {version}: SaveGameProps ) {																						// This com
 	}
 
 	function validateUserInput () {																		// At the moment it only checks that the user has entered something.
-		const inputElement = document.getElementById(idNames.input) as HTMLInputElement;
+		const inputElement = document.getElementById("userInput") as HTMLInputElement;
 		const inputText = inputElement.value;
 
 		if (inputText) {
@@ -213,19 +189,13 @@ function SaveGame( {version}: SaveGameProps ) {																						// This com
 	}
 
 	function animateSavedGame () {
-		let saveGameDialog:  HTMLDivElement;					// This <div> is created by the "PlayerData" component and contains the "SaveGame" component. It is used here to make "SaveGame" disappear.
-		
-		if (version === "mobile") {
-			saveGameDialog = document.getElementById("saveGameMobile") as HTMLDivElement;
-		} else {
-			saveGameDialog = document.getElementById("saveGame") as HTMLDivElement;					
-		}
+		const saveGameDialog = document.getElementById("saveGame") as HTMLDivElement;						// This <div> is created by the "PlayerData" component and contains the "SaveGame" component. It is used here to make "SaveGame" disappear.
 
 		const slotToAnimate = document.getElementById(selectedSlot) as HTMLButtonElement;
-		const inputElement = document.getElementById(idNames.input) as HTMLInputElement;
+		const inputElement = document.getElementById("userInput") as HTMLInputElement;
 		
-		const okBtn = document.getElementById(idNames.btnOk) as HTMLButtonElement;
-		const cancelBtn = document.getElementById(idNames.btnCancel) as HTMLButtonElement;
+		const okBtn = document.getElementById("btnOk") as HTMLButtonElement;
+		const cancelBtn = document.getElementById("btnCancel") as HTMLButtonElement;
 		const oldName = slotToAnimate.innerText;
 		const oldNameArray = Array.from(oldName);
 		const newName = inputElement.value;
@@ -285,16 +255,16 @@ function SaveGame( {version}: SaveGameProps ) {																						// This com
 
 			{loadExistingGameNames()}
 
-			<input className={styles.input} type="text"inputMode="text" id={idNames.input} placeholder="Enter new name" maxLength={9} onKeyDown={handleEnterKeyPress} disabled></input>
+			<input className={styles.input} type="text"inputMode="text" id="userInput" placeholder="Enter new name" maxLength={9} onKeyDown={handleEnterKeyPress} disabled></input>
 
 			<div className={styles.btnsContainer}>
-				<button className={styles.btnSaveGame} type="button" onClick={handleConfirmSaveGame} id={idNames.btnOk}>
+				<button className={styles.btnSaveGame} type="button" onClick={handleConfirmSaveGame} id="btnOk">
 					Ok
 					<div className={styles.leftFormatter} ></div>
 					<div className={styles.rigthFormatter} ></div>
 				</button>
 
-				<button className={styles.btnCancelSave} type="button" onClick={handleCancelSaveGame} id={idNames.btnCancel}>
+				<button className={styles.btnCancelSave} type="button" onClick={handleCancelSaveGame} id="btnCancel">
 					Cancel
 					<div className={styles.leftFormatter} ></div>
 					<div className={styles.rigthFormatter} ></div>
