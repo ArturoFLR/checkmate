@@ -129,7 +129,7 @@ function SelectPlayer () {
 						</div>
 					</div>
 
-					<input className={styles.playerInfoInput} maxLength={9} id="playerInfoInput" placeholder="Enter your name" onKeyDown={handleP1EnterKeyPress}></input>
+					<input className={styles.playerInfoInput} maxLength={9} id="playerInfoInput" placeholder="Enter your name" onKeyDown={handleP1EnterKeyPress} autoComplete="off"></input>
 					<button type="button" className={styles.playerInfobtnOk} onClick={handlePlayer1OkClick}>Ok!</button>
 				</div>
 			</div>
@@ -147,7 +147,7 @@ function SelectPlayer () {
 						<Slideshow  player="p1"/ >
 					</div>
 
-					<input className={styles.playerInfoInput} maxLength={9} id="playerInfoInput" placeholder="Enter your name" onKeyDown={handleP1EnterKeyPress}></input>
+					<input className={styles.playerInfoInput} maxLength={9} id="playerInfoInput" placeholder="Enter your name" onKeyDown={handleP1EnterKeyPress} autoComplete="off"></input>
 					<button type="button" className={styles.playerInfobtnOk} onClick={handlePlayer1OkClick}>Ok!</button>
 				</div>
 			</div>
@@ -165,7 +165,7 @@ function SelectPlayer () {
 						<Slideshow  player="p2"/ >
 					</div>
 
-					<input className={styles.playerInfoInput} maxLength={9} id="playerInfoInput" placeholder="Enter your name" onKeyDown={handleP2EnterKeyPress}></input>
+					<input className={styles.playerInfoInput} maxLength={9} id="playerInfoInput" placeholder="Enter your name" onKeyDown={handleP2EnterKeyPress} autoComplete="off"></input>
 					<button type="button" className={styles.playerInfobtnOk} onClick={handlePlayer2OkClick} >Ok!</button>
 				</div>
 			</div>

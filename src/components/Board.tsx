@@ -492,24 +492,6 @@ function Board( {showPieces}: BoardProps) {
 		let blackKing: PiecesType;
 		isAIThinkingData.setIsAIThinking(false);
 
-		removePendingDieAnimation();													// Fixes pending dead animation bug.
-
-
-		// CHECK DRAW BY THREEFOLD REPETITION
-		if (threefoldRepetition) {
-			setGameState("gameDrawThreefoldRepetition");
-			endgame = true;
-		}
-
-		// End of game due to captured king.
-
-		if (areKingsAlive.w === false) {
-			setGameState("gameWinP2");
-			endgame = true;
-		} else if (areKingsAlive.b === false) {
-			setGameState("gameWinP1");
-			endgame = true;
-		}
 
 		// CHECK IF THERE IS A WHITE PAWN ON LINE 8 OR A BLACK ONE ON LINE 1: TransformPiece.
 
@@ -529,6 +511,30 @@ function Board( {showPieces}: BoardProps) {
 				isPlayerChoosingPiece = true;																	// The "SelectPiece" component will re-execute this "preEndturnCheks" function when the piece has been chosen, resetting this variable to "false".
 			}
 		}
+
+
+		// if (!pawnToTransform) {
+		// 	removePendingDieAnimation();													// Fixes pending dead animation bug. It is only used if no piece is going to transform this turn, since otherwise it generates a bug in which if a piece has been captured by the pawn when moving to the last square of the board, this captured piece becomes visible again while the pawn player selects a new piece.
+		// }
+
+
+		// CHECK DRAW BY THREEFOLD REPETITION
+		if (threefoldRepetition) {
+			setGameState("gameDrawThreefoldRepetition");
+			endgame = true;
+		}
+
+
+		// End of game due to captured king.
+
+		if (areKingsAlive.w === false) {
+			setGameState("gameWinP2");
+			endgame = true;
+		} else if (areKingsAlive.b === false) {
+			setGameState("gameWinP1");
+			endgame = true;
+		}
+
 
 		// Stores the objects of the kings. They are saved so we can use their "animateKingDying" method if necessary.
 
@@ -552,6 +558,7 @@ function Board( {showPieces}: BoardProps) {
 					endgame = true;
 
 					waitForKingToDieTimeout = setTimeout( () => {
+						removePendingDieAnimation();
 						setGameState("gameWinP2");
 					}, 8500);
 					
@@ -560,6 +567,7 @@ function Board( {showPieces}: BoardProps) {
 					endgame = true;
 
 					waitForKingToDieTimeout = setTimeout( () => {
+						removePendingDieAnimation();
 						setGameState("gameWinP2");
 					}, 8500);
 				}
@@ -571,6 +579,7 @@ function Board( {showPieces}: BoardProps) {
 					endgame = true;
 
 					waitForKingToDieTimeout = setTimeout( () => {
+						removePendingDieAnimation();
 						setGameState("gameWinP1");
 					}, 8500);
 				} else if (!canPlayerRevertCheck("b")) {
@@ -578,6 +587,7 @@ function Board( {showPieces}: BoardProps) {
 					endgame = true;
 
 					waitForKingToDieTimeout = setTimeout( () => {
+						removePendingDieAnimation();
 						setGameState("gameWinP1");
 					}, 8500);
 				}
@@ -589,6 +599,7 @@ function Board( {showPieces}: BoardProps) {
 		// CHECK IF WE ARE ON TURN 100 OR MORE AND THE TURN WAS NOT ENDED WITH A CHECK TO A KING: DRAW BY THE 50 MOVES RULE.
 
 		if (endgame === false && isPlayerChoosingPiece === false && fiftyTurnsRule && isAnyKingChecked.w === false && isAnyKingChecked.b === false) {
+			removePendingDieAnimation();
 			setGameState("gameDraw50Moves");
 			endgame = true;
 		}
@@ -600,6 +611,7 @@ function Board( {showPieces}: BoardProps) {
 			const {w, b} = testHasPlayersPossibleMoves();
 
 			if ((isAnyKingChecked.w === false && w === false) || (isAnyKingChecked.b === false && b === false)) {
+				removePendingDieAnimation();
 				setGameState("gameDrawStalemate");
 				endgame = true;
 			}
@@ -609,12 +621,14 @@ function Board( {showPieces}: BoardProps) {
 
 		if (endgame === false && isPlayerChoosingPiece === false) {
 			if (testDeadPosition()) {
+				removePendingDieAnimation();
 				setGameState("gameDrawDeadPosition");
 				endgame = true;
 			}
 		}
 
 		if (endgame === false && isPlayerChoosingPiece === false) {
+			removePendingDieAnimation();
 			endTurn();
 		}
 	}
