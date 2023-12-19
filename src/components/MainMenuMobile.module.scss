@@ -1,0 +1,213 @@
+@use "./colors" as *;
+
+@keyframes mobileMenuAnim {
+	0% {
+		transform: rotateY(-90deg);
+	}
+	100% {
+		transform: rotateY(0deg);
+	}
+}
+
+.btnMobileMenu {
+	position: absolute;
+	top: 2rem;
+	left: 1rem;
+	width: 70px;
+	filter: brightness(0) saturate(100%) invert(81%) sepia(68%) saturate(6562%) hue-rotate(358deg) brightness(104%) contrast(107%);
+	cursor: pointer;
+
+	&:hover {
+		filter: brightness(0) saturate(100%) invert(88%) sepia(14%) saturate(1295%) hue-rotate(340deg) brightness(92%) contrast(104%);
+	}
+}
+
+.mobileMainMenuContainer {
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100lvh;
+	background-color: $dialogsBackground;
+	z-index: 1;
+
+	.mobileMainMenuContent {
+		position: relative;
+		width: 75vw;
+		height: 40lvh;
+		overflow: hidden;
+		border: 3px solid $orange;
+		background-color: $menuPanel;
+		padding: 2rem;
+		padding-top: 9rem;
+		animation: mobileMenuAnim 1s;
+
+		.btnCloseMobileMenu {
+			position: absolute;
+			top: 2rem;
+			left: 2rem;
+			width: 45px;
+			filter: brightness(0) saturate(100%) invert(81%) sepia(68%) saturate(6562%) hue-rotate(358deg) brightness(104%) contrast(107%);
+			cursor: pointer;
+
+			&:hover {
+				filter: brightness(0) saturate(100%) invert(88%) sepia(14%) saturate(1295%) hue-rotate(340deg) brightness(92%) contrast(104%);
+			}
+		}
+	}
+}
+
+.hide {
+	display: none;
+}
+
+
+
+
+//  MEDIA QUERIES
+
+@media (width > 1050px) or (orientation: landscape) {
+
+	.btnMobileMenu {
+		display: none;
+	}
+}
+
+@media (width < 860px) and (orientation: portrait) {
+
+	.mobileMainMenuContainer {
+	
+		.mobileMainMenuContent {
+			width: 83vw;
+			height: 45lvh;
+		}
+	}
+}
+
+
+@media (width < 801px) and (orientation: portrait) {
+
+	.btnMobileMenu {
+		top: 2rem;
+		left: 2rem;
+		width: 60px;
+	}
+}
+
+@media (width < 769px) and (orientation: portrait) {
+
+	.btnMobileMenu {
+		width: 50px;
+	}
+
+	.mobileMainMenuContainer {
+	
+		.mobileMainMenuContent {
+			width: 85vw;
+			height: 45lvh;
+			padding-top: 6.3rem;
+
+			.btnCloseMobileMenu {
+				width: 40px;
+			}
+		}
+	}
+}
+
+@media (width < 450px) and (orientation: portrait) {
+
+	.btnMobileMenu {
+		top: 1rem;
+		left: 1rem;
+		width: 40px;
+	}
+
+	.mobileMainMenuContainer {
+	
+		.mobileMainMenuContent {
+			width: 97vw;
+			height: 42lvh;
+			padding-top: 5rem;
+
+			.btnCloseMobileMenu {
+				top: 1rem;
+				left: 1rem;
+				width: 30px;
+			}
+		}
+	}
+}
+
+@media (width < 450px) and (orientation: portrait) and (height < 890px) {
+
+	.mobileMainMenuContainer {
+	
+		.mobileMainMenuContent {
+			height: 51lvh;
+		}
+	}
+}
+
+
+@media (width < 394px) and (orientation: portrait) {
+
+	.mobileMainMenuContainer {
+	
+		.mobileMainMenuContent {
+			width: 97vw;
+			height: 44lvh;
+			padding-top: 5rem;
+
+			.btnCloseMobileMenu {
+				top: 1rem;
+				left: 1rem;
+				width: 30px;
+			}
+		}
+	}
+}
+
+
+@media (width < 376px) and (orientation: portrait) and (height < 810px) {
+
+	.mobileMainMenuContainer {
+	
+		.mobileMainMenuContent {
+			width: 97vw;
+			height: 53lvh;
+			padding-top: 5rem;
+
+			.btnCloseMobileMenu {
+				top: 1rem;
+				left: 1rem;
+				width: 30px;
+			}
+		}
+	}
+}
+
+
+@media (width < 340px) and (orientation: portrait) {
+
+	.btnMobileMenu {
+		top: 1rem;
+		left: 1rem;
+		width: 30px;
+	}
+
+	.mobileMainMenuContainer {
+	
+		.mobileMainMenuContent {
+			width: 97vw;
+			height: 59lvh;
+			padding-top: 4rem;
+
+			.btnCloseMobileMenu {
+				width: 25px;
+			}
+		}
+	}
+}

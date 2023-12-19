@@ -40,14 +40,27 @@
 	}
 }
 
-@media (width < 1050px) {
+@media (width < 1050px) and (orientation: portrait) {
 
 	.mainContainer {
 	
 		.pieceContainer {
 	
 			img {
-				width: 5.47vh;
+				width: 5.65dvw;
+			}
+		}
+	}
+}
+
+@media (width < 500px) and (orientation: portrait) {
+
+	.mainContainer {
+	
+		.pieceContainer {
+	
+			img {
+				width: 5.59dvw;
 			}
 		}
 	}

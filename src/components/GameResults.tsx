@@ -31,8 +31,8 @@ function GameResults() {
 										: <img className={styles.winnerPortrait} alt="Player portrait" src={player2Data.portrait} ></img>
 								}
 
-								<img alt="fireworks" className={`${styles.fireworkGround} ${styles.firework}`} src ="../../public/images/fireworks/ground.gif"></img>
-								<img alt="fireworks" className={`${styles.fireworkGround2} ${styles.firework}`} src ="../../public/images/fireworks/ground.gif"></img>
+								<img alt="fireworks" className={`${styles.fireworkGround} ${styles.firework}`} src ="images/fireworks/ground.gif"></img>
+								<img alt="fireworks" className={`${styles.fireworkGround2} ${styles.firework}`} src ="images/fireworks/ground.gif"></img>
 							</div>
 
 							<div className={styles.winnerNameContainer}>

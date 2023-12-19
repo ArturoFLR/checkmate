@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import generateSquares from "../utils/generateSquares";
 import styles from "./Board.module.scss";
 import styles2 from "./PlayerData.module.scss";
+import styles3 from "./PlayerDataMobile.module.scss";
 import { completeTurnData, enPassantTargetData, halfTurnData, isAIGameData, isAIThinkingData, isPieceDyingData, pawnToTransformData, piecesData, previousPlaysListData, selectedPieceData, transformedPieceToAnimateData } from "../globals/gameData";
 import { useGameStateContext } from "../context/GameStateContext";
 import SelectPiece from "./SelectPiece";
@@ -74,11 +75,14 @@ function Board( {showPieces}: BoardProps) {
 
 	function changeLoadingDialogVisibility( visible: boolean ) {						// This function is used to pop up a "loading" dialog in the "PlayerData" component without changing the gameState, as it generates logic errors in the endgame.
 		const loadingDialogElement = document.getElementById("loadingDialog") as HTMLDivElement;
+		const loadingDialogElementMobile = document.getElementById("loadingDialogMobile") as HTMLDivElement;
 	
 		if (visible) {
 			loadingDialogElement.classList.remove(styles2.dialogHidden);
+			loadingDialogElementMobile.classList.remove(styles3.dialogHidden);
 		} else {
 			loadingDialogElement.classList.add(styles2.dialogHidden);
+			loadingDialogElementMobile.classList.add(styles3.dialogHidden);
 		}
 	}
 

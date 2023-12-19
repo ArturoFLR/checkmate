@@ -1,0 +1,336 @@
+@use "./colors" as *;
+
+.btnExitSaveGameContainer {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	margin-top: 2rem;
+	text-align: center;
+
+	.btnExitGame, .btnSaveGame {									// General styles for buttons. More specific styles for confirmation buttons are given below.
+		width: 57%;
+		background-color: $menuBtnBackground;
+		font-size: 3rem;
+		font-family: 'Shadows Into Light', cursive;
+		font-weight: 600;
+		color: $orange;
+		border: none;
+		cursor: pointer;
+		transition-property: background-color transform;
+		transition-duration: 0.7s;
+	
+		&:hover {
+			background-color: $menuBtnBackgroundHovered;
+			transform: rotate(-2deg);
+		}
+	}
+
+	.btnExitGame {
+		margin-top: 1.5rem;
+	}
+
+	.leftFormatter, .rigthFormatter {
+		position: absolute;
+		top: 0%;
+		width: 12%;
+		height: 120%;
+		background-color: $menuPanel;
+	}
+	
+	.leftFormatter {
+		transform: rotate(155deg);
+		left: 17%;
+	}
+	
+	.rigthFormatter {
+		transform: rotate(-155deg);
+		right: 17%;
+	}
+}
+
+.exitConfirmMainContainer {
+	position: fixed;
+	top: 0%;
+	left: 0%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	background-color: $dialogsBackground;
+	z-index: 1;
+
+	.exitConfirmOptionsContainer {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-around;
+		align-items: center;
+		width: 300px;
+		height: 120px;	
+		background-color: $black;
+		border: 2px solid $orange;
+	}
+
+	p {
+		color: $orange;
+		font-family: 'Tilt Neon', sans-serif;
+		font-size: 2.2rem;
+		width: 100%;
+		text-align: center;
+	}
+
+	.btnExitGame {
+		width: 17%;
+		border: 0rem;
+		background-color: transparent;
+		color: $orange;
+		font-family: 'Mohave', sans-serif;
+		font-size: 2.5rem;
+		cursor: pointer;
+
+		&:hover {
+			color: $orangeButtonHovered;
+			scale: 1.2;
+		}
+	}
+}
+
+.saveGameContainer {
+	position: fixed;
+	top: 0%;
+	left: 0%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	background-color: $dialogsBackground;
+	z-index: 1;
+}
+
+.hidden {
+	display: none;
+}
+
+.saveHidden {
+	display: none;
+}
+
+
+
+//  MEDIA QUERIES
+
+@media (width < 1050px) and (orientation: portrait) {
+
+	.btnExitSaveGameContainer {
+		margin-top: 4rem;
+	
+		.btnExitGame, .btnSaveGame {									// General styles for buttons. More specific styles for confirmation buttons are given below.
+			width: 75%;
+			font-size: 6rem;
+			margin-top: 2.5rem;
+		}
+
+		.btnExitGame {
+			margin-bottom: 2rem;
+		}
+	
+		.leftFormatter, .rigthFormatter {
+			top: -10%;
+			width: 22%;
+			height: 150%;
+		}
+		
+		.leftFormatter {
+			left: 0%;
+		}
+		
+		.rigthFormatter {
+			right: 0%;
+		}
+	}
+	
+	.exitConfirmMainContainer {
+	
+		.exitConfirmOptionsContainer {
+			width: 660px;
+			height: 260px;	
+		}
+	
+		p {
+			font-size: 5rem;
+		}
+	
+		.btnExitGame {
+			font-size: 5rem;
+		}
+	}
+}
+
+
+@media (width < 860px) and (orientation: portrait) {
+	
+	.btnExitSaveGameContainer {
+	
+		.btnExitGame, .btnSaveGame {									// General styles for buttons. More specific styles for confirmation buttons are given below.
+			width: 90%;
+		}
+	}
+	
+	.exitConfirmMainContainer {
+	
+		.exitConfirmOptionsContainer {
+			width: 600px;
+			height: 230px;	
+		}
+	
+		p {
+			font-size: 4rem;
+		}
+	}
+}
+
+
+@media (width < 801px) and (orientation: portrait) {
+	
+	.btnExitSaveGameContainer {
+		margin-top: 5.5rem;
+	
+		.btnExitGame {
+			margin-bottom: 2rem;
+		}
+	}
+}
+
+
+@media (width < 769px) and (orientation: portrait) {
+
+	.btnExitSaveGameContainer {
+		margin-top: 5rem;
+	
+		.btnExitGame, .btnSaveGame {									// General styles for buttons. More specific styles for confirmation buttons are given below.
+			width: 72%;
+			font-size: 4.5rem;
+			margin-top: 3rem;
+		}
+	}
+	
+	.exitConfirmMainContainer {
+	
+		.exitConfirmOptionsContainer {
+			width: 500px;
+			height: 200px;	
+		}
+	
+		p {
+			font-size: 3.5rem;
+		}
+	
+		.btnExitGame {
+			font-size: 4rem;
+		}
+	}
+}
+
+@media (width < 450px) and (orientation: portrait) {
+
+	.btnExitSaveGameContainer {
+		margin-top: 4rem;
+	
+		.btnExitGame, .btnSaveGame {									// General styles for buttons. More specific styles for confirmation buttons are given below.
+			width: 99%;
+			font-size: 4.5rem;
+			margin-top: 2.5rem;
+		}
+
+		.leftFormatter {
+			left: -7%;
+		}
+		
+		.rigthFormatter {
+			right: -7%;
+		}
+	}
+	
+	.exitConfirmMainContainer {
+	
+		.exitConfirmOptionsContainer {
+			width: 93vw;
+			height: 18lvh;	
+		}
+	
+		p {
+			font-size: 3rem;
+		}
+	
+		.btnExitGame {
+			font-size: 3.7rem;
+		}
+	}
+}
+
+
+@media (width < 394px) and (orientation: portrait) {
+
+	.btnExitSaveGameContainer {
+		margin-top: 3.7rem;
+	
+		.btnExitGame, .btnSaveGame {									// General styles for buttons. More specific styles for confirmation buttons are given below.
+			font-size: 4rem;
+			margin-top: 2.5rem;
+		}
+
+		.leftFormatter {
+			left: -6%;
+		}
+		
+		.rigthFormatter {
+			right: -6%;
+		}
+	}
+
+	.exitConfirmMainContainer {
+	
+		.exitConfirmOptionsContainer {
+			width: 93vw;
+			height: 17lvh;	
+		}
+	
+		p {
+			font-size: 2.5rem;
+		}
+	
+		.btnExitGame {
+			font-size: 3rem;
+		}
+	}
+}
+
+
+@media (width < 340px) and (orientation: portrait) {
+
+	.btnExitSaveGameContainer {
+		margin-top: 3rem;
+	
+		.btnExitGame, .btnSaveGame {									// General styles for buttons. More specific styles for confirmation buttons are given below.
+			font-size: 3rem;
+			margin-top: 2rem;
+		}
+	}
+
+	.exitConfirmMainContainer {
+	
+		.exitConfirmOptionsContainer {
+			width: 93vw;
+			height: 20lvh;	
+		}
+	
+		p {
+			font-size: 2.2rem;
+		}
+	
+		.btnExitGame {
+			font-size: 2.5rem;
+		}
+	}
+}

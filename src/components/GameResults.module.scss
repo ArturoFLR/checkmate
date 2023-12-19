@@ -808,7 +808,7 @@
 }
 
 
-@media (width < 1050px) {
+@media (width < 1050px) and (orientation: landscape) {
 
 	.winnerContainer {
 		
@@ -841,3 +841,535 @@
 		}
 	}
 }
+
+
+
+
+
+
+
+
+@media (width < 1050px) and (orientation: portrait) {
+
+	.winnerContainer {
+		width: 550px;
+		height: 800px;
+		
+		.winnerPortraitContainer {
+	
+			.fireworkGround {
+				top: 28%;
+				left: 42%;
+				scale: 1.6;
+			}
+	
+			.fireworkGround2 {
+				top: 28%;
+				left: 19%;
+				scale: 1.6;
+			}
+		}
+	
+	
+		.winnerNameContainer {
+			margin-top: 4rem;
+	
+			.winsText {
+				font-size: 12rem;
+				margin-top: 2rem;
+			}
+	
+			.winnerName {
+				font-size: 5rem;
+			}
+		}
+	}
+	
+	.btnContinue {
+		width: 250px;
+		height: 75px;
+		margin-top: 4rem;
+		font-size: 3.6rem;
+		border: 8px solid $gameResultsBtnBorder;
+	}
+	
+	
+	.drawContainer {
+		width: 550px;
+		height: 750px;
+	}
+	
+	.playersContainer {
+		height: 380px;
+	}
+	
+	.drawTitleContainer {
+		margin-top: 8rem;
+
+		.drawText {
+			font-size: 12rem;
+		}
+	
+		.drawTypeText {
+			font-size: 5.5rem;
+		}
+	}
+}
+
+
+@media (width < 860px) and (orientation: portrait) {
+
+	.winnerContainer {
+		width: 480px;
+		height: 730px;
+		
+		.winnerPortraitContainer {
+	
+			.fireworkGround {
+				top: 28%;
+				left: 43%;
+				scale: 1.6;
+			}
+	
+			.fireworkGround2 {
+				top: 28%;
+				left: 9%;
+				scale: 1.6;
+			}
+		}
+		
+		.winnerNameContainer {
+			margin-top: 3rem;
+	
+			.winsText {
+				font-size: 11rem;
+				margin-top: 2rem;
+			}
+	
+			.winnerName {
+				font-size: 4.5rem;
+			}
+		}
+	}
+	
+	.btnContinue {
+		width: 250px;
+		height: 75px;
+		margin-top: 3rem;
+		font-size: 3rem;
+		border: 7px solid $gameResultsBtnBorder;
+	}
+	
+	
+	.drawContainer {
+		width: 500px;
+		height: 700px;
+	}
+	
+	.playersContainer {
+		height: 350px;
+	}
+	
+	.drawTitleContainer {
+		margin-top: 7rem;
+
+		.drawText {
+			font-size: 11rem;
+		}
+	
+		.drawTypeText {
+			font-size: 5rem;
+		}
+	}
+}
+
+
+@media (width < 801px) and (orientation: portrait) {
+
+	.winnerContainer {
+		
+		.winnerPortraitContainer {
+	
+			.fireworkGround {
+				top: 29%;
+				left: 42%;
+			}
+	
+			.fireworkGround2 {
+				top: 29%;
+				left: 7%;
+			}
+		}
+	}
+}
+
+
+@media (width < 769px) and (orientation: portrait) {
+
+	.winnerContainer {
+		width: 350px;
+		height: 650px;
+		
+		.winnerPortraitContainer {
+	
+			.fireworkGround {
+				top: 26%;
+				left: 41%;
+				scale: 1.5;
+			}
+	
+			.fireworkGround2 {
+				top: 26%;
+				left: 7%;
+				scale: 1.5;
+			}
+		}
+		
+		.winnerNameContainer {
+			margin-top: 3rem;
+	
+			.winsText {
+				font-size: 10rem;
+				margin-top: 1.5rem;
+			}
+	
+			.winnerName {
+				font-size: 4rem;
+			}
+		}
+	}
+	
+	.btnContinue {
+		width: 220px;
+		height: 65px;
+		margin-top: 3rem;
+		font-size: 2.5rem;
+	}
+	
+	
+	.drawContainer {
+		width: 450px;
+		height: 580px;
+	}
+	
+	.playersContainer {
+		height: 300px;
+	}
+	
+	.drawTitleContainer {
+		margin-top: 4rem;
+
+		.drawText {
+			font-size: 10rem;
+		}
+	
+		.drawTypeText {
+			font-size: 4rem;
+		}
+	}
+}
+
+
+@media (width < 450px) and (orientation: portrait) {
+
+	.winnerContainer {
+		width: 300px;
+		height: 600px;
+		
+		.winnerPortraitContainer {
+	
+			.fireworkGround {
+				top: 23%;
+				left: 30%;
+				scale: 1.3;
+			}
+	
+			.fireworkGround2 {
+				top: 23%;
+				left: -22%;
+				scale: 1.3;
+			}
+		}
+		
+		.winnerNameContainer {
+			margin-top: 3rem;
+	
+			.winsText {
+				font-size: 8.5rem;
+				margin-top: 1.5rem;
+			}
+	
+			.winnerName {
+				font-size: 4rem;
+			}
+		}
+	}
+	
+	.btnContinue {
+		width: 200px;
+		height: 55px;
+		margin-top: 3rem;
+		font-size: 2rem;
+	}
+	
+	
+	.drawContainer {
+		width: 300px;
+		height: 450px;
+	}
+	
+	.playersContainer {
+		height: 200px;
+
+		.player1Container {
+			.sparks {
+				top: 26%;
+				right: -41%;
+				width: 80%;
+			}
+		}
+	}
+	
+	.drawTitleContainer {
+		margin-top: 4rem;
+
+		.drawText {
+			font-size: 8.5rem;
+		}
+	
+		.drawTypeText {
+			font-size: 3rem;
+		}
+	}
+}
+
+
+@media (width < 429px) and (orientation: portrait) {
+
+	.winnerContainer {
+		width: 230px;
+		height: 490px;
+		
+		.winnerPortraitContainer {
+	
+			.fireworkGround {
+				top: 24%;
+				left: 29%;
+				scale: 1.2;
+			}
+	
+			.fireworkGround2 {
+				top: 24%;
+				left: -21%;
+				scale: 1.2;
+			}
+		}
+		
+		.winnerNameContainer {
+			margin-top: 2.5rem;
+	
+			.winsText {
+				font-size: 7.3rem;
+				margin-top: 1.2rem;
+			}
+	
+			.winnerName {
+				font-size: 3.5rem;
+			}
+		}
+	}
+	
+	.btnContinue {
+		width: 160px;
+		height: 50px;
+		margin-top: 2.5rem;
+		font-size: 1.8rem;
+		border: 5px solid $gameResultsBtnBorder;
+	}
+	
+	
+	.drawContainer {
+		width: 280px;
+		height: 400px;
+	}
+	
+	.playersContainer {
+		height: 180px;
+
+		.player1Container {
+			.sparks {
+				top: 26%;
+				right: -41%;
+				width: 80%;
+			}
+		}
+	}
+	
+	.drawTitleContainer {
+		margin-top: 4rem;
+
+		.drawText {
+			font-size: 7.3rem;
+		}
+	
+		.drawTypeText {
+			font-size: 2.5rem;
+		}
+	}
+}
+
+
+@media (width < 415px) and (orientation: portrait) {
+
+	.winnerContainer {
+		
+		.winnerPortraitContainer {
+	
+			.fireworkGround {
+				top: 22%;
+				left: 23%;
+				scale: 1;
+			}
+	
+			.fireworkGround2 {
+				top: 22%;
+				left: -19%;
+				scale: 1;
+			}
+		}
+	}
+}
+
+
+@media (width < 394px) and (orientation: portrait) {
+
+	.winnerContainer {
+		
+		.winnerPortraitContainer {
+	
+			.fireworkGround {
+				top: 21%;
+				left: 20%;
+			}
+	
+			.fireworkGround2 {
+				top: 21%;
+				left: -23%;
+			}
+		}
+	}
+}
+
+
+@media (width < 376px) and (orientation: portrait) {
+
+	.winnerContainer {
+		
+		.winnerPortraitContainer {
+	
+			.fireworkGround {
+				top: 21%;
+				left: 21%;
+			}
+	
+			.fireworkGround2 {
+				top: 21%;
+				left: -26%;
+			}
+		}
+	}
+}
+
+@media (width < 376px) and (orientation: portrait) and (height < 800px) {
+
+	.winnerContainer {
+		
+		.winnerPortraitContainer {
+	
+			.fireworkGround {
+				top: 15%;
+				left: 21%;
+			}
+	
+			.fireworkGround2 {
+				top: 15%;
+				left: -27%;
+			}
+		}
+	}
+}
+
+@media (width < 340px) and (orientation: portrait) {
+
+	.winnerContainer {
+		width: 180px;
+		height: 360px;
+		
+		.winnerPortraitContainer {
+	
+			.fireworkGround {
+				top: 11%;
+				left: 12%;
+				scale: 0.9;
+			}
+	
+			.fireworkGround2 {
+				top: 11%;
+				left: -38%;
+				scale: 0.9;
+			}
+		}
+		
+		.winnerNameContainer {
+			margin-top: 1.8rem;
+	
+			.winsText {
+				font-size: 5.5rem;
+				margin-top: 0.7rem;
+			}
+	
+			.winnerName {
+				font-size: 2.8rem;
+			}
+		}
+	}
+	
+	.btnContinue {
+		width: 130px;
+		height: 42px;
+		margin-top: 1.5rem;
+		font-size: 1.5rem;
+		border-radius: 12px;
+	}
+	
+	
+	.drawContainer {
+		width: 220px;
+		height: 350px;
+	}
+	
+	.playersContainer {
+		height: 140px;
+	}
+	
+	.drawTitleContainer {
+
+		.drawText {
+			font-size: 6rem;
+		}
+	
+		.drawTypeText {
+			font-size: 2rem;
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+

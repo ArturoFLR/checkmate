@@ -264,13 +264,165 @@
 }
 
 
-@media (width < 1050px) {
+@media (width < 1050px) and (orientation: portrait) {
 	
 	.dataContainer {
-		height: 320px;
+		width: 680px;
+		height: 450px;
+	
+		h2 {
+			margin-top: 2rem;
+			font-size: 6.5rem;
+		}
+	
+		.piecesGalleryContainer {
+			margin-top: 5rem;
+
+			.pieceContainer {
+				height: 170px;
+				scale: 1.1;
+			}
+
+			.pieceSelected {
+				scale: 1.3;
+			}
+		}
+	
+		.btnConfirm {
+			margin-top: 4rem;
+			font-size: 7rem;
+		}
+	}
+}
+
+
+@media (width < 860px) and (orientation: portrait) {
+	
+	.dataContainer {
+		width: 640px;
+		height: 440px;
+	
+		h2 {
+			font-size: 6rem;
+		}
+	
+		.piecesGalleryContainer {
+
+			.pieceContainer {
+				height: 165px;
+			}
+		}
+	
+		.btnConfirm {
+			font-size: 6.5rem;
+		}
+	}
+}
+
+
+@media (width < 450px) and (orientation: portrait) {
+	
+	.dataContainer {
+		justify-content: space-between;
+		width: 95vw;
+		height: 33lvh;
+	
+		h2 {
+			font-size: 4.5rem;
+			margin-top: 1.5rem;
+		}
+	
+		.piecesGalleryContainer {
+			margin-top: 3rem;
+
+			.pieceContainer {
+				height: 105px;
+			}
+		}
+	
+		.btnConfirm {
+			font-size: 5rem;
+			margin: 2rem 0rem 1rem 0rem;
+		}
+	}
+}
+
+
+@media (width < 450px) and (orientation: portrait) and (height < 855px) {
+	
+	.dataContainer {
+		width: 95vw;
+		height: 40lvh;
+	}
+}
+
+@media (width < 450px) and (orientation: portrait) and (height < 700px) {
+	
+	.dataContainer {
+		width: 95vw;
+		height: 45lvh;
+	}
+}
+
+
+@media (width < 394px) and (orientation: portrait) {
+	
+	.dataContainer {
+		height: 33lvh;
+	
+		h2 {
+			font-size: 4rem;
+		}
+	
+		.piecesGalleryContainer {
+			margin-top: 3rem;
+
+			.pieceContainer {
+				height: 95px;
+			}
+		}
+	
+		.btnConfirm {
+			font-size: 4.5rem;
+			margin: 2rem 0rem 1rem 0rem;
+		}
+	}
+}
+
+@media (width < 376px) and (orientation: portrait) {
+	
+	.dataContainer {
+		height: 34lvh;
+	}
+}
+
+@media (width < 376px) and (orientation: portrait) and (height < 810px) {
+	
+	.dataContainer {
+		height: 41lvh;
+	}
+}
+
+@media (width < 340px) and (orientation: portrait) {
+	
+	.dataContainer {
+		height: 52lvh;
+	
+		h2 {
+			font-size: 3.5rem;
+		}
+	
+		.piecesGalleryContainer {
+			margin-top: 2rem;
+
+			.pieceContainer {
+				height: 80px;
+			}
+		}
 	
 		.btnConfirm {
 			font-size: 4rem;
+			margin: 1.5rem 0rem 1rem 0rem;
 		}
 	}
 }

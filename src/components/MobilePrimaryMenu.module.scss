@@ -1,0 +1,344 @@
+@use "./colors" as *;
+
+@keyframes highlighting {
+	0% {
+		scale: 1;
+	}
+	50% {
+		scale: 1.2;
+	}
+	100% {
+		scale: 1;
+	}
+}
+
+
+.mainContainer {
+	position: relative;
+	width: 100%;
+	height: 40lvh;
+	overflow: hidden;
+}
+
+.newGameContainer, .loadGameContainer, .playerVsComputerContainer, .onePlayerContainer, .backContainer {
+	width: 100%;
+	text-align: center;
+
+}
+
+.btnNewGame, .btnLoadGame, .btnPlayerVsComputer, .btnOnePlayer, .btnBack, .btnSelect {
+	width: 80%;
+	height: 50px;
+	background-color: $menuBtnBackground;
+	font-size: 3rem;
+	font-family: 'Shadows Into Light', cursive;
+	font-weight: 600;
+	color: $orange;
+	border: none;
+	margin-top: 1.5rem;
+	cursor: pointer;
+}
+
+.btnNewGame, .btnLoadGame, .btnPlayerVsComputer, .btnOnePlayer, .btnBack {
+	transition-property: background-color transform;
+	transition-duration: 0.7s;
+
+	&:hover {
+		background-color: $menuBtnBackgroundHovered;
+		transform: rotate(-2deg);
+	}
+}
+
+.leftFormatter, .rigthFormatter {
+	position: absolute;
+	top: 0%;
+	width: 30%;
+	height: 100%;
+	background-color: $menuPanel;
+}
+
+.leftFormatter {
+	transform: rotate(155deg);
+	left: -3%;
+}
+
+.rigthFormatter {
+	transform: rotate(-155deg);
+	right: -3%;
+}
+
+.loadGameContainer {
+
+	.loadGameGameList {
+		display: flex;
+		flex-direction: column;
+		margin-top: 1rem;
+	}
+
+	.higlightSlots {
+		animation: highlighting 0.4s;
+	}
+
+	.slotWithData, .emptySlot {
+		height: 18px;
+		margin: auto;
+		margin-top: 0.45rem;
+		font-size: 1.6rem;
+		width: 25%;
+		font-family: 'Tilt Neon', sans-serif;
+	}
+
+	.slotWithData {
+		cursor: pointer;
+		color: $orange;
+		transition-property: color scale;
+		transition-duration: 0.3s;
+
+		&:hover {
+			color: $orangeButtonHovered;
+			scale: 1.2;
+		}
+	}
+
+	.emptySlot {
+		color: $winnerNameAndAxiosText;
+	}
+
+	.slotHighlighted {
+		scale: 1.2;
+		border-bottom: 2px solid $targetSquareWithPice;
+	}
+
+	.btnSelect {
+
+		&:hover {
+			background-color: $menuBtnBackgroundHovered;
+			transform: rotate(0deg);
+		}
+	}
+}
+
+
+
+
+//  MEDIA QUERIES
+
+@media (width < 1050px) and (orientation: portrait) {
+
+	.mainContainer {
+		width: 100%;
+		height: 40lvh;
+	}
+
+	.btnNewGame, .btnLoadGame, .btnPlayerVsComputer, .btnOnePlayer, .btnBack, .btnSelect {
+		width: 98%;
+		height: 60px;
+		font-size: 4rem;
+		margin-top: 1.5rem;
+	}
+	
+	.leftFormatter, .rigthFormatter {
+		width: 40%;
+	}
+	
+	.leftFormatter {
+		transform: rotate(160deg);
+		left: -15%;
+	}
+	
+	.rigthFormatter {
+		transform: rotate(-160deg);
+		right: -15%;
+	}
+	
+	.loadGameContainer {
+	
+		.loadGameGameList {
+			margin-bottom: 1rem;
+		}
+	
+		.slotWithData, .emptySlot {
+			width: 33%;
+			height: 27px;
+			font-size: 2.8rem;
+			margin-top: 1.8rem;
+		}
+	}
+}
+
+
+@media (width < 860px) and (orientation: portrait) {
+
+	.btnNewGame, .btnLoadGame, .btnPlayerVsComputer, .btnOnePlayer, .btnBack, .btnSelect {
+		height: 65px;
+		font-size: 4.2rem;
+		margin-top: 1.6rem;
+	}
+	
+	.loadGameContainer {
+	
+		.slotWithData, .emptySlot {
+			height: 28px;
+		}
+	}
+}
+
+
+@media (width < 769px) and (orientation: portrait) {
+
+	.btnNewGame, .btnLoadGame, .btnPlayerVsComputer, .btnOnePlayer, .btnBack, .btnSelect {
+		height: 50px;
+		font-size: 3rem;
+		margin-top: 1.5rem;
+	}
+	
+	.loadGameContainer {
+	
+		.loadGameGameList {
+			margin-bottom: 1rem;
+		}
+	
+		.slotWithData, .emptySlot {
+			width: 32%;
+			height: 25px;
+			font-size: 2.5rem;
+			margin-top: 1.5rem;
+		}
+	}
+}
+
+
+@media (width < 450px) and (orientation: portrait) {
+
+	.mainContainer {
+		height: 38lvh;
+	}
+
+	.btnNewGame, .btnLoadGame, .btnPlayerVsComputer, .btnOnePlayer, .btnBack, .btnSelect {
+		width: 98%;
+		height: 45px;
+		font-size: 3rem;
+		margin-top: 1.5rem;
+	}
+	
+	.leftFormatter, .rigthFormatter {
+		width: 40%;
+		height: 120%;
+	}
+	
+	.leftFormatter {
+		transform: rotate(160deg);
+		left: -20%;
+	}
+	
+	.rigthFormatter {
+		transform: rotate(-160deg);
+		right: -20%;
+	}
+	
+	.loadGameContainer {
+	
+		.loadGameGameList {
+			margin-bottom: 1rem;
+		}
+	
+		.slotWithData, .emptySlot {
+			width: 42%;
+			height: 21px;
+			font-size: 2rem;
+			margin-top: 1.5rem;
+		}
+	}
+}
+
+@media (width < 450px) and (orientation: portrait) and (height < 890px) {
+
+	.mainContainer {
+		height: 45lvh;
+	}
+}
+
+
+@media (width < 394px) and (orientation: portrait) {
+
+	.mainContainer {
+		height: 35lvh;
+	}
+
+	.btnNewGame, .btnLoadGame, .btnPlayerVsComputer, .btnOnePlayer, .btnBack, .btnSelect {
+		width: 95%;
+		height: 40px;
+		font-size: 2.5rem;
+		margin-top: 1.2rem;
+	}
+	
+	.leftFormatter {
+		left: -18%;
+	}
+	
+	.rigthFormatter {
+		right: -18%;
+	}
+	
+	.loadGameContainer {
+	
+		.loadGameGameList {
+			margin-bottom: 1rem;
+		}
+	
+		.slotWithData, .emptySlot {
+			width: 40%;
+			height: 18px;
+			font-size: 1.8rem;
+			margin-top: 1.2rem;
+		}
+	}
+}
+
+@media (width < 376px) and (orientation: portrait) {
+
+	.loadGameContainer {
+	
+		.slotWithData, .emptySlot {
+			height: 17px;
+			font-size: 1.6rem;
+			margin-top: 1.1rem;
+		}
+	}
+}
+
+@media (width < 376px) and (orientation: portrait) and (height < 810px) {
+
+	.mainContainer {
+		height: 45lvh;
+	}
+}
+
+
+@media (width < 340px) and (orientation: portrait) {
+
+	.mainContainer {
+		height: 53lvh;
+	}
+
+	.btnNewGame, .btnLoadGame, .btnPlayerVsComputer, .btnOnePlayer, .btnBack, .btnSelect {
+		width: 95%;
+		height: 35px;
+		font-size: 2rem;
+		margin-top: 1rem;
+	}
+	
+	.loadGameContainer {
+	
+		.loadGameGameList {
+			margin-bottom: 0.5rem;
+		}
+	
+		.slotWithData, .emptySlot {
+			width: 40%;
+			height: 15px;
+			font-size: 1.4rem;
+			margin-top: 0.8rem;
+		}
+	}
+}

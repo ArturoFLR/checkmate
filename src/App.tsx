@@ -6,12 +6,14 @@ import PlayerData from "./components/PlayerData";
 import Logo from "./components/Logo";
 import PiecesInit from "./components/PiecesInit";
 import { useGameStateContext } from "./context/GameStateContext";
+import MainMenuMobile from "./components/MainMenuMobile";
+import PlayerDataMobile from "./components/PlayerDataMobile";
 
 function App() {
 
 	const [, gameStateData] = useGameStateContext();
 	const gameState = gameStateData.gameState; 					//  Tells the App component what phase the game is in, so it can render the appropriate child  components.
-
+	
 
 	return (
 		<div className={styles.mainContainer}>
@@ -21,6 +23,19 @@ function App() {
 					? <SelectPlayer />
 					: null
 			}
+
+			<MainMenuMobile />
+
+			<div className={styles.logoMobileContainer}>
+				<Logo />
+			</div>
+
+			{
+				gameState !== "preGame" && gameState !== "select1Player" && gameState !== "select2Players"
+					? <PlayerDataMobile /> 
+					: null
+			}
+
 			<main className={styles.gameZoneContainer}>
 				{
 					gameState === "preGame" || gameState === "select1Player" || gameState === "select2Players" || gameState === "gameIntro1P" || gameState === "gameIntro2P"
@@ -83,8 +98,8 @@ function App() {
 
 			<div className={styles.rotateWarningContainer}>
 				<div className={styles.rotateWarningContent}>
-					<h2><span>CHECKMATE!</span> only works in landscape mode.</h2>
-					<h3>Please, turn your device. </h3>
+					<p><span className={styles.checkmate}>Checkmate!</span> works in <span className={styles.portrait}>portrait</span> mode.</p>
+					<p>Please, rotate your device</p>
 				</div>
 			</div>
 

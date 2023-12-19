@@ -172,18 +172,27 @@ function animateMove ( this: Piece, targetSquare: string) {
 		animationAdjust = 20.7;
 	}
 
+	const windowWidth = window.innerWidth;
+	const windowMode = screen.orientation.type;
+	
+	let pieceWidth = "5.007vh";
+
+	if (windowWidth < 1050 && windowMode[0] === "p") {											// If the resolution is less than 1050 and we are in "portrait" mode, the size of the board changes, therefore, the size of the pieces must also change.
+		pieceWidth = "5.65dvw";
+	}
+
 	const keyframes = [
 		{
 			position: "absolute",
 			top: animationsCoordinates.pieceCoordinates.top + "px",
 			left: animationsCoordinates.pieceCoordinates.left + "px",
-			width: "5.007vh",
+			width: pieceWidth,
 		},
 		{
 			position: "absolute",
 			top: (animationsCoordinates.targetCoordinates.top + (animationsCoordinates.targetCoordinates.height / animationAdjust)) + "px",
 			left: animationsCoordinates.targetCoordinates.left + (animationsCoordinates.targetCoordinates.width / 4) + "px",				// The width of the destination square is divided by 4 before adding it so that the piece is right in the center of the square.
-			width: "5.007vh",
+			width: pieceWidth,
 		}
 	];
 	

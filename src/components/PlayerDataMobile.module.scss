@@ -1,0 +1,450 @@
+@use "./colors" as *;
+
+@keyframes playerActiveContainer {
+	0% {
+		border: 1px solid $orange;
+		scale: 1;
+	}
+	100% {
+		border: 4px solid $orange;
+		scale: 1.2;
+	}
+}
+
+@keyframes playerActiveImage {
+	0% {
+		border: 1px solid $orange;
+		scale: 1;
+	}
+	100% {
+		border: 2px solid $orange;
+		scale: 1.2;
+	}
+}
+
+@keyframes playerNoActiveContainer {
+	0% {
+		border: 4px solid $orange;
+		scale: 1.2;
+	}
+	100% {
+		border: 1px solid $orange;
+		scale: 1;
+	}
+}
+
+@keyframes playerNoActiveImage {
+	0% {
+		border: 2px solid $orange;
+		scale: 1.2;
+	}
+	100% {
+		border: 1px solid $orange;
+		scale: 1;
+	}
+}
+
+@keyframes maintainDialogBorder {
+	0% {
+		border: 0px solid $orange;
+	}
+	100% {
+		border: 0px solid $orange;
+	}
+}
+
+.mainContainer {
+	display: none;
+	width: 100%;
+}
+
+.computerContainer, .player2Container, .player1Container {
+	position: relative;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	width: 70%;
+	height: 55px;
+	padding: 1rem 25% 1rem 1.5rem;
+	color: $playerDataNames;
+	font-size: 2.7rem;
+	font-family: 'Tilt Neon', sans-serif;
+	background-color: $black;
+	border: 1px solid $orange;
+	border-radius: 15px;
+
+	img {
+		position: absolute;
+		right: -2%;
+		width: 25%;
+		border-radius: 50%;
+		border: 2px solid $orange;
+	}
+
+	.dialogContainer {
+		position: absolute;
+		top: -78%;
+		right: 12%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 25%;
+		height: 100%;
+		background-image: url("@/images/emojis/dialog_frame.png");
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: 40%;
+
+		.dialogEmoji {
+			position: static;
+			margin-bottom: 10%;
+			width: 50%;
+			border: 1px solid $orange;
+		}
+	}
+
+	.dialogLoadingContainer {
+
+		.dialogEmoji {
+			width: 40%;
+			border: 1px solid $orange;
+		}
+	}
+
+	.dialogHidden {
+		display: none;
+	}
+}
+
+.player1Container {
+	margin: 8rem 0rem 6rem 0rem ;
+}
+
+.playerHighlighted {								// Highlights the player who is about to move.
+	animation: playerActiveContainer 0.5s forwards;
+
+	img {
+		animation: playerActiveImage 0.5s forwards;
+	}
+
+	.dialogContainer {
+
+		.dialogEmoji {
+			width: 40%;
+			animation: maintainDialogBorder 0.2s forwards;
+		}
+	}
+}
+
+.playerNoHighlight {
+	animation: playerNoActiveContainer 0.5s;
+
+	img {
+		animation: playerNoActiveImage 0.5s;
+	}
+}
+
+.hidden {
+	display: none;
+}
+
+
+
+
+//  MEDIA QUERIES
+
+@media (width < 1050px) and (orientation: portrait) {
+
+	.mainContainer {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		align-items: center;
+		width: 90%;
+	}
+
+	.computerContainer, .player2Container, .player1Container {
+	width: 40%;
+	height: 55px;
+	font-size: 3rem;
+
+	img {
+		right: -2%;
+		width: 29%;
+	}
+
+	.dialogContainer {
+		top: -105%;
+		right: 12%;
+		width: 25%;
+		height: 100%;
+		scale: 1.1;
+
+		.dialogEmoji {
+			margin: 0% 4% 8% 0%;
+			width: 45%;
+		}
+	}
+
+	.dialogLoadingContainer {
+
+		.dialogEmoji {
+			width: 40%;
+		}
+	}
+	}
+
+	.player1Container, .player2Container {
+		margin: 0rem 0rem 8rem 0rem ;
+	}
+
+	.playerHighlighted {								// Highlights the player who is about to move.
+
+		.dialogContainer {
+			top: -130%;
+
+			.dialogEmoji {
+				width: 34%;
+				margin: 0% 6% 8% 0%;
+			}
+		}
+	}
+}
+
+
+
+@media (width < 860px) and (orientation: portrait) {
+
+	.mainContainer {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		align-items: center;
+		width: 93%;
+	}
+
+	.computerContainer, .player2Container, .player1Container {
+	width: 42%;
+	height: 50px;
+	font-size: 2.5rem;
+
+	img {
+		right: -2%;
+		width: 33%;
+	}
+
+	.dialogContainer {
+		top: -115%;
+		right: 16%;
+		scale: 1.2;
+
+		.dialogEmoji {
+			width: 46%;
+		}
+	}
+	}
+
+	.player1Container, .player2Container {
+		margin: 2rem 0rem 8rem 0rem ;
+	}
+
+	.playerHighlighted {								// Highlights the player who is about to move.
+
+		.dialogContainer {
+			top: -130%;
+
+			.dialogEmoji {
+				width: 34%;
+				margin: 0% 6% 8% 0%;
+			}
+		}
+	}
+}
+
+
+@media (width < 769px) and (orientation: portrait) {
+
+	@keyframes playerActiveContainer {
+		0% {
+			border: 1px solid $orange;
+			scale: 1;
+		}
+		100% {
+			border: 3px solid $orange;
+			scale: 1.2;
+		}
+	}
+	
+	@keyframes playerNoActiveContainer {
+		0% {
+			border: 3px solid $orange;
+			scale: 1.2;
+		}
+		100% {
+			border: 1px solid $orange;
+			scale: 1;
+		}
+	}
+
+
+	.computerContainer, .player2Container, .player1Container {
+	height: 43px;
+	font-size: 2.4rem;
+
+	img {
+		right: 0%;
+		width: 29%;
+	}
+
+	.dialogContainer {
+		top: -120%;
+		right: 14%;
+		scale: 1.2;
+
+		.dialogEmoji {
+			width: 44%;
+		}
+	}
+	}	
+
+	.player1Container, .player2Container {
+		margin: 0rem 0rem 6.5rem 0rem ;
+	}
+
+	.playerHighlighted {								// Highlights the player who is about to move.
+
+		.dialogContainer {
+			top: -135%;
+
+			.dialogEmoji {
+				width: 34%;
+				margin: 0% 6% 8% 0%;
+			}
+		}
+	}
+}
+
+
+@media (width < 450px) and (orientation: portrait) {
+
+	.mainContainer {
+		justify-content: space-between;
+		width: 91.5%;
+		padding-right: 1.8rem;
+	}
+
+	.computerContainer, .player2Container, .player1Container {
+	width: 45%;
+	height: 27px;
+	font-size: 1.42rem;
+
+	img {
+		right: -6.5%;
+		width: 29%;
+	}
+
+	.dialogContainer {
+		top: -115%;
+		right: 10%;
+		scale: 1.4;
+
+		.dialogEmoji {
+			width: 46%;
+		}
+	}
+
+	.dialogLoadingContainer {
+
+		.dialogEmoji {
+			width: 40%;
+		}
+	}
+	}
+
+	.player1Container, .player2Container {
+		margin: 4rem 0rem 0rem 0rem ;
+	}
+
+	.playerHighlighted {								// Highlights the player who is about to move.
+
+		.dialogContainer {
+			top: -130%;
+
+			.dialogEmoji {
+				width: 34%;
+				margin: 0% 6% 8% 0%;
+			}
+		}
+	}
+}
+
+
+@media (width < 394px) and (orientation: portrait) {
+
+	.computerContainer, .player2Container, .player1Container {
+		width: 45.5%;
+		height: 25px;
+		font-size: 1.3rem;
+
+		.dialogContainer {
+			top: -115%;
+			right: 10%;
+			scale: 1.4;
+
+			.dialogEmoji {
+				width: 47.8%;
+			}
+		}
+	}
+
+	.player1Container, .player2Container {
+		margin: 4rem 0rem 0rem 0rem ;
+	}
+
+	.playerHighlighted {								// Highlights the player who is about to move.
+
+		.dialogContainer {
+			top: -140%;
+			right: 8%;
+
+			.dialogEmoji {
+				width: 40%;
+				margin: 0% 6% 8% 0%;
+			}
+		}
+	}
+}
+
+
+@media (width < 376px) and (orientation: portrait) {
+
+	.computerContainer, .player2Container, .player1Container {
+		height: 24px;
+		font-size: 1.2rem;
+
+		.dialogContainer {
+			top: -115%;
+			right: 9%;
+		}
+	}
+}
+
+
+@media (width < 340px) and (orientation: portrait) {
+
+	.computerContainer, .player2Container, .player1Container {
+		height: 20px;
+		font-size: 1.05rem;
+		padding: 0.7rem 25% 0.7rem 0.6rem;
+
+		.dialogContainer {
+			top: -110%;
+			right: 9%;
+			scale: 1.4;
+		}
+	}
+
+	.player1Container, .player2Container {
+		margin: 1.5rem 0rem -2.76rem 0rem ;
+	}
+}
