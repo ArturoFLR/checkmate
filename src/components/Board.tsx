@@ -852,15 +852,15 @@ function Board( {showPieces}: BoardProps) {
 
 			<div className={`${styles.axiosErrorContainer} ${styles.hidden}`} id="axiosErrorContainer">
 				<div className={styles.axiosErrorOptionsContainer} >
-					<p>Oops! The AI server is not responding... <span>Please, check your network connection</span></p>
+					<p>Ups! El servidor de IA no responde... <span>Por favor, comprueba tu conexión.</span></p>
 					
 
 					<button className={styles.btnAxiosError} type="button" onClick={handleRetryClick}>
-						Retry
+						Reintentar
 					</button>
 
 					<button className={styles.btnAxiosError} type="button" onClick={handleExitGameClick}>
-						Exit Game
+						Salir
 					</button>
 				</div>
 			</div>

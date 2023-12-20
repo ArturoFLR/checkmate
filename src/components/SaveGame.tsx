@@ -43,13 +43,13 @@ function SaveGame () {																						// This component is hidden using CS
 
 	function loadExistingGameNames () {																			// Returns button elements with the appropriate name for each slot ("empty" if the slot is empty)
 		const save1 = localStorage.getItem("checkMateSave1");
-		let save1Name: string = "Empty";
+		let save1Name: string = "Vacía";
 
 		const save2 = localStorage.getItem("checkMateSave2");
-		let save2Name: string = "Empty";
+		let save2Name: string = "Vacía";
 
 		const save3 = localStorage.getItem("checkMateSave3");
-		let save3Name: string = "Empty";
+		let save3Name: string = "Vacía";
 
 		if (save1) {
 			save1Name = JSON.parse(save1).userName;
@@ -250,12 +250,12 @@ function SaveGame () {																						// This component is hidden using CS
 	return (
 		<div className={styles.saveGameContentContainer} >
 			<p className={styles.mainText}>
-				Select a slot
+				Selecciona una partida
 			</p>
 
 			{loadExistingGameNames()}
 
-			<input className={styles.input} type="text"inputMode="text" id="userInput" placeholder="Enter new name" maxLength={9} onKeyDown={handleEnterKeyPress} disabled></input>
+			<input className={styles.input} type="text"inputMode="text" id="userInput" placeholder="Introduce nombre" maxLength={9} onKeyDown={handleEnterKeyPress} disabled></input>
 
 			<div className={styles.btnsContainer}>
 				<button className={styles.btnSaveGame} type="button" onClick={handleConfirmSaveGame} id="btnOk">
@@ -265,7 +265,7 @@ function SaveGame () {																						// This component is hidden using CS
 				</button>
 
 				<button className={styles.btnCancelSave} type="button" onClick={handleCancelSaveGame} id="btnCancel">
-					Cancel
+					Cancelar
 					<div className={styles.leftFormatter} ></div>
 					<div className={styles.rigthFormatter} ></div>
 				</button>

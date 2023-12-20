@@ -138,11 +138,12 @@
 	position: relative;
 	overflow: hidden;
 	width: 100%;
-	margin-top: 2rem;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
 	text-align: center;
 
 	.btnExitGame, .btnSaveGame {									// General styles for buttons. More specific styles for confirmation buttons are given below.
-		width: 57%;
+		width: 58%;
 		background-color: $menuBtnBackground;
 		font-size: 3rem;
 		font-family: 'Shadows Into Light', cursive;
@@ -199,7 +200,7 @@
 		flex-wrap: wrap;
 		justify-content: space-around;
 		align-items: center;
-		width: 300px;
+		width: 330px;
 		height: 120px;	
 		background-color: $black;
 		border: 2px solid $orange;
@@ -327,7 +328,7 @@
 	.exitConfirmMainContainer {
 	
 		.exitConfirmOptionsContainer {
-			width: 400px;
+			width: 430px;
 			height: 150px;	
 		}
 	
@@ -540,7 +541,7 @@
 	.exitConfirmMainContainer {
 	
 		.exitConfirmOptionsContainer {
-			width: 400px;
+			width: 430px;
 			height: 150px;	
 		}
 	
@@ -678,7 +679,7 @@
 		margin-top: 3rem;
 	
 		.btnExitGame, .btnSaveGame {									// General styles for buttons. More specific styles for confirmation buttons are given below.
-			width: 70%;
+			width: 73%;
 			height: 40px;
 			font-size: 2.3rem;
 		}

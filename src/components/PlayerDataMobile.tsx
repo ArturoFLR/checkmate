@@ -76,7 +76,7 @@ function PlayerDataMobile () {
 
 			<div className={`${styles.player2Container} ${player2HighlightedClass}`} >
 				<p>{player2Data.name}</p>
-				<img alt="Player 2 portrait" src={player2Data.portrait} />
+				<img alt="Retrato del jugador 2" src={player2Data.portrait} />
 
 				<div className={`${styles.dialogContainer} ${generateDialogVisibility()}`} id="normalDialog">
 					{generateAiEmojis()}
@@ -92,7 +92,7 @@ function PlayerDataMobile () {
 
 			<div className={`${styles.player1Container} ${player1HighlightedClass}`} >
 				<p>{player1Data.name}</p>
-				<img alt="Player 1 portrait" src={player1Data.portrait} />
+				<img alt="Retrato del jugador 1" src={player1Data.portrait} />
 			</div>
 
 		</div>

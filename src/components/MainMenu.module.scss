@@ -27,7 +27,7 @@
 }
 
 .btnNewGame, .btnLoadGame, .btnPlayerVsComputer, .btnOnePlayer, .btnBack, .btnSelect {
-	width: 80%;
+	width: 90%;
 	height: 50px;
 	background-color: $menuBtnBackground;
 	font-size: 3rem;
@@ -59,12 +59,12 @@
 
 .leftFormatter {
 	transform: rotate(155deg);
-	left: -3%;
+	left: -8%;
 }
 
 .rigthFormatter {
 	transform: rotate(-155deg);
-	right: -3%;
+	right: -8%;
 }
 
 .loadGameContainer {
@@ -125,7 +125,7 @@
 
 @media (width > 1900px) {
 	.btnNewGame, .btnLoadGame, .btnPlayerVsComputer, .btnOnePlayer, .btnBack, .btnSelect {
-		width: 85%;
+		width: 93%;
 		height: 70px;
 		font-size: 3.6rem;
 		margin-top: 1.7rem;
@@ -136,11 +136,11 @@
 	}
 	
 	.leftFormatter {
-		left: -15%;
+		left: -18%;
 	}
 	
 	.rigthFormatter {
-		right: -15%;
+		right: -18%;
 	}
 	
 	.loadGameContainer {
@@ -150,7 +150,7 @@
 		}
 	
 		.slotWithData, .emptySlot {
-			width: 28%;
+			width: 33%;
 			height: 20px;
 			font-size: 2rem;
 		}
@@ -161,7 +161,7 @@
 
 @media (width > 2500px) {
 	.btnNewGame, .btnLoadGame, .btnPlayerVsComputer, .btnOnePlayer, .btnBack, .btnSelect {
-		width: 87%;
+		width: 92%;
 		height: 80px;
 		font-size: 4.6rem;
 		margin-top: 1.7rem;
@@ -172,11 +172,11 @@
 	}
 	
 	.leftFormatter {
-		left: -15%;
+		left: -17%;
 	}
 	
 	.rigthFormatter {
-		right: -15%;
+		right: -17%;
 	}
 	
 	.loadGameContainer {
@@ -186,7 +186,7 @@
 		}
 	
 		.slotWithData, .emptySlot {
-			width: 31%;
+			width: 36%;
 			height: 29px;
 			font-size: 3rem;
 			margin-top: 1.2rem;
@@ -222,9 +222,9 @@
 		}
 	
 		.slotWithData, .emptySlot {
-			width: 33%;
-			height: 44px;
-			font-size: 4.7rem;
+			width: 37%;
+			height: 42px;
+			font-size: 4.4rem;
 			margin-top: 2rem;
 		}
 	}
@@ -234,7 +234,7 @@
 
 @media (width < 1500px) {
 	.btnNewGame, .btnLoadGame, .btnPlayerVsComputer, .btnOnePlayer, .btnBack, .btnSelect {
-		width: 89%;
+		width: 95%;
 		height: 50px;
 		font-size: 2.6rem;
 		margin-top: 1.2rem;
@@ -245,11 +245,11 @@
 	}
 	
 	.leftFormatter {
-		left: -13%;
+		left: -14%;
 	}
 	
 	.rigthFormatter {
-		right: -13%;
+		right: -14%;
 	}
 	
 	.loadGameContainer {
@@ -259,9 +259,9 @@
 		}
 	
 		.slotWithData, .emptySlot {
-			width: 33%;
+			width: 35%;
 			height: 17px;
-			font-size: 1.7rem;
+			font-size: 1.5rem;
 			margin-top: 0.5rem;
 		}
 	}
@@ -270,7 +270,7 @@
 
 @media (width < 1300px) {
 	.btnNewGame, .btnLoadGame, .btnPlayerVsComputer, .btnOnePlayer, .btnBack, .btnSelect {
-		width: 89%;
+		width: 94%;
 		height: 40px;
 		font-size: 2.3rem;
 		margin-top: 1rem;
@@ -281,11 +281,11 @@
 	}
 	
 	.leftFormatter {
-		left: -13%;
+		left: -15%;
 	}
 	
 	.rigthFormatter {
-		right: -13%;
+		right: -15%;
 	}
 	
 	.loadGameContainer {
@@ -295,8 +295,8 @@
 		}
 	
 		.slotWithData, .emptySlot {
-			width: 33%;
-			height: 17px;
+			width: 38%;
+			height: 15px;
 			font-size: 1.5rem;
 			margin-top: 0.5rem;
 		}
@@ -306,7 +306,7 @@
 
 @media (width < 1200px) {
 	.btnNewGame, .btnLoadGame, .btnPlayerVsComputer, .btnOnePlayer, .btnBack, .btnSelect {
-		width: 93%;
+		width: 98%;
 		height: 35px;
 		font-size: 2rem;
 		margin-top: 1rem;
@@ -317,11 +317,11 @@
 	}
 	
 	.leftFormatter {
-		left: -7%;
+		left: -9%;
 	}
 	
 	.rigthFormatter {
-		right: -7%;
+		right: -9%;
 	}
 	
 	.loadGameContainer {
@@ -331,9 +331,9 @@
 		}
 	
 		.slotWithData, .emptySlot {
-			width: 33%;
-			height: 15px;
-			font-size: 1.35rem;
+			width: 39%;
+			height: 14px;
+			font-size: 1.34rem;
 			margin-top: 0.6rem;
 		}
 	}

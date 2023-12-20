@@ -41,20 +41,20 @@ function GameResults() {
 										? (
 											<>
 												<p className={styles.winnerName}>{player1Data.name + " "}</p>
-												<p className={styles.winsText}>WINS!</p>
+												<p className={styles.winsText}>¡GANA!</p>
 											</>
 										)
 										: (
 											<>
 												<p className={styles.winnerName}>{player2Data.name + " "}</p>
-												<p className={styles.winsText}>WINS!</p>
+												<p className={styles.winsText}>¡GANA!</p>
 											</>
 										)
 								}
 
 							</div>
 
-							<button type="button" className={styles.btnContinue} onClick={handleContinueClick}>Continue</button>	
+							<button type="button" className={styles.btnContinue} onClick={handleContinueClick}>Continuar</button>	
 						</div>
 					)
 					: (
@@ -74,34 +74,34 @@ function GameResults() {
 							</div>
 
 							<div className={styles.drawTitleContainer}> 
-								<p className={styles.drawText} >Draw!</p>
+								<p className={styles.drawText} >Tablas</p>
 
 								{
 									gameState === "gameDraw50Moves"
-										? <p className={styles.drawTypeText} >-50 Moves Rule-</p>
+										? <p className={styles.drawTypeText} >-Regla 50 Movimientos-</p>
 										: null
 								}
 
 								{
 									gameState === "gameDrawStalemate"
-										? <p className={styles.drawTypeText} >-Stalemate-</p>
+										? <p className={styles.drawTypeText} >-Ahogado-</p>
 										: null
 								}
 
 								{
 									gameState === "gameDrawDeadPosition"
-										? <p className={styles.drawTypeText} >-Dead Position-</p>
+										? <p className={styles.drawTypeText} >-Material Insuficiente-</p>
 										: null
 								}
 
 								{
 									gameState === "gameDrawThreefoldRepetition"
-										? <p className={styles.drawTypeText} >-Threefold Repetition-</p>
+										? <p className={styles.drawTypeText} >-Triple Repetición-</p>
 										: null
 								}
 							</div>
 
-							<button type="button" className={styles.btnContinue} onClick={handleContinueClick}>Continue</button>	
+							<button type="button" className={styles.btnContinue} onClick={handleContinueClick}>Continuar</button>	
 						</div>
 					)
 			}

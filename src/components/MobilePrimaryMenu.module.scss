@@ -175,6 +175,14 @@
 		margin-top: 1.6rem;
 	}
 	
+	.leftFormatter {
+		left: -19%;
+	}
+	
+	.rigthFormatter {
+		right: -19%;
+	}
+
 	.loadGameContainer {
 	
 		.slotWithData, .emptySlot {
@@ -190,6 +198,14 @@
 		height: 50px;
 		font-size: 3rem;
 		margin-top: 1.5rem;
+	}
+
+	.leftFormatter {
+		left: -15%;
+	}
+	
+	.rigthFormatter {
+		right: -15%;
 	}
 	
 	.loadGameContainer {
@@ -215,7 +231,7 @@
 	}
 
 	.btnNewGame, .btnLoadGame, .btnPlayerVsComputer, .btnOnePlayer, .btnBack, .btnSelect {
-		width: 98%;
+		width: 100%;
 		height: 45px;
 		font-size: 3rem;
 		margin-top: 1.5rem;
@@ -228,12 +244,12 @@
 	
 	.leftFormatter {
 		transform: rotate(160deg);
-		left: -20%;
+		left: -21%;
 	}
 	
 	.rigthFormatter {
 		transform: rotate(-160deg);
-		right: -20%;
+		right: -21%;
 	}
 	
 	.loadGameContainer {

@@ -98,8 +98,8 @@ function App() {
 
 			<div className={styles.rotateWarningContainer}>
 				<div className={styles.rotateWarningContent}>
-					<p><span className={styles.checkmate}>Checkmate!</span> works in <span className={styles.portrait}>portrait</span> mode.</p>
-					<p>Please, rotate your device</p>
+					<p><span className={styles.checkmate}>Checkmate!</span> funciona en modo <span className={styles.portrait}>retrato</span>.</p>
+					<p>Por favor, gira el dispositivo.</p>
 				</div>
 			</div>
 

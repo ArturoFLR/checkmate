@@ -20,13 +20,13 @@ function SaveGameMobile () {																						// This component is hidden us
 
 	function loadExistingGameNames () {																			// Returns button elements with the appropriate name for each slot ("empty" if the slot is empty)
 		const save1 = localStorage.getItem("checkMateSave1Mobile");
-		let save1Name: string = "Empty";
+		let save1Name: string = "Vacía";
 
 		const save2 = localStorage.getItem("checkMateSave2Mobile");
-		let save2Name: string = "Empty";
+		let save2Name: string = "Vacía";
 
 		const save3 = localStorage.getItem("checkMateSave3Mobile");
-		let save3Name: string = "Empty";
+		let save3Name: string = "Vacía";
 
 		if (save1) {
 			save1Name = JSON.parse(save1).userName;
@@ -227,12 +227,12 @@ function SaveGameMobile () {																						// This component is hidden us
 	return (
 		<div className={styles.saveGameContentContainer} >
 			<p className={styles.mainText}>
-				Select a slot
+				Selecciona una partida
 			</p>
 
 			{loadExistingGameNames()}
 
-			<input className={styles.input} type="text"inputMode="text" id="userInputMobile" placeholder="Enter new name" maxLength={9} onKeyDown={handleEnterKeyPress} disabled></input>
+			<input className={styles.input} type="text"inputMode="text" id="userInputMobile" placeholder="Introduce nombre" maxLength={9} onKeyDown={handleEnterKeyPress} disabled></input>
 
 			<div className={styles.btnsContainer}>
 				<button className={styles.btnSaveGame} type="button" onClick={handleConfirmSaveGame} id="btnOkMobile">
@@ -242,7 +242,7 @@ function SaveGameMobile () {																						// This component is hidden us
 				</button>
 
 				<button className={styles.btnCancelSave} type="button" onClick={handleCancelSaveGame} id="btnCancelMobile">
-					Cancel
+					Cancelar
 					<div className={styles.leftFormatter} ></div>
 					<div className={styles.rigthFormatter} ></div>
 				</button>

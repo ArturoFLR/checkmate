@@ -223,11 +223,11 @@ function MobilePrimaryMenu() {
 		return (
 			<div className={styles.mainContainer} >
 				<div className={styles.newGameContainer}>
-					<button type="button" className={styles.btnNewGame} onClick={handleNewGameClick} >NEW GAME</button>
+					<button type="button" className={styles.btnNewGame} onClick={handleNewGameClick} >NUEVA PARTIDA</button>
 				</div>
 	
 				<div className={styles.loadGameContainer}>
-					<button type="button" className={styles.btnLoadGame} onClick={handleLoadGameClick} >LOAD GAME</button>
+					<button type="button" className={styles.btnLoadGame} onClick={handleLoadGameClick} >CARGAR</button>
 				</div>
 
 				<div className={styles.leftFormatter} ></div>
@@ -238,31 +238,31 @@ function MobilePrimaryMenu() {
 		return (
 			<div className={styles.mainContainer} >
 				<div className={styles.newGameContainer}>
-					<button type="button" className={styles.btnNewGame} onClick={handleNewGameClick} >NEW GAME</button>
+					<button type="button" className={styles.btnNewGame} onClick={handleNewGameClick} >NUEVA PARTIDA</button>
 				</div>
 	
 				<div className={styles.loadGameContainer}>
-					<button type="button" className={styles.btnLoadGame} onClick={handleLoadGameClick} >LOAD GAME</button>
+					<button type="button" className={styles.btnLoadGame} onClick={handleLoadGameClick} >CARGAR</button>
 					<div className={styles.loadGameGameList} id="loadGameGameList">
 						{
 							slot1 
 								? <p className={styles.slotWithData} onClick={handleSlotClick} id="slot1">{slot1.userName}</p>
-								: <p className={styles.emptySlot} id="slot1">Empty</p>
+								: <p className={styles.emptySlot} id="slot1">Vacía</p>
 						}
 
 						{
 							slot2 
 								? <p className={styles.slotWithData} onClick={handleSlotClick} id="slot2">{slot2.userName}</p>
-								: <p className={styles.emptySlot} id="slot2">Empty</p>
+								: <p className={styles.emptySlot} id="slot2">Vacía</p>
 						}
 
 						{
 							slot3 
 								? <p className={styles.slotWithData} onClick={handleSlotClick} id="slot3">{slot3.userName}</p>
-								: <p className={styles.emptySlot} id="slot3">Empty</p>
+								: <p className={styles.emptySlot} id="slot3">Vacía</p>
 						}
 					</div>
-					<button type="button" className={styles.btnSelect} onClick={handleSelectBtnClick}>Select</button>
+					<button type="button" className={styles.btnSelect} onClick={handleSelectBtnClick}>¡ESTA!</button>
 				</div>
 
 				<div className={styles.leftFormatter} ></div>
@@ -273,15 +273,15 @@ function MobilePrimaryMenu() {
 		return (
 			<div className={styles.mainContainer} >
 				<div className={styles.playerVsComputerContainer} >
-					<button type="button" className={styles.btnPlayerVsComputer} onClick={handlePlayerVsComputerClick} >PLAYER VS COMPUTER</button>
+					<button type="button" className={styles.btnPlayerVsComputer} onClick={handlePlayerVsComputerClick} >JUGADOR VS ORDENADOR</button>
 				</div>
 
 				<div className={styles.onePlayerContainer} > 
-					<button type="button" className={styles.btnOnePlayer} onClick={handle2Players} >2 PLAYERS</button>
+					<button type="button" className={styles.btnOnePlayer} onClick={handle2Players} >2 JUGADORES</button>
 				</div>
 
 				<div className={styles.backContainer} >
-					<button type="button" className={styles.btnBack} onClick={handleBackClick} >BACK</button>
+					<button type="button" className={styles.btnBack} onClick={handleBackClick} >ATRÁS</button>
 				</div>
 
 				<div className={styles.leftFormatter} ></div>

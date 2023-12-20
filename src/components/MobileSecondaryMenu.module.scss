@@ -153,7 +153,7 @@
 	.exitConfirmMainContainer {
 	
 		.exitConfirmOptionsContainer {
-			width: 660px;
+			width: 720px;
 			height: 260px;	
 		}
 	
@@ -218,7 +218,7 @@
 	.exitConfirmMainContainer {
 	
 		.exitConfirmOptionsContainer {
-			width: 500px;
+			width: 510px;
 			height: 200px;	
 		}
 	
@@ -238,7 +238,7 @@
 		margin-top: 4rem;
 	
 		.btnExitGame, .btnSaveGame {									// General styles for buttons. More specific styles for confirmation buttons are given below.
-			width: 99%;
+			width: 100%;
 			font-size: 4.5rem;
 			margin-top: 2.5rem;
 		}
@@ -255,16 +255,16 @@
 	.exitConfirmMainContainer {
 	
 		.exitConfirmOptionsContainer {
-			width: 93vw;
-			height: 18lvh;	
+			width: 95vw;
+			height: 19lvh;	
 		}
 	
 		p {
-			font-size: 3rem;
+			font-size: 2.8rem;
 		}
 	
 		.btnExitGame {
-			font-size: 3.7rem;
+			font-size: 3.5rem;
 		}
 	}
 }
@@ -293,7 +293,7 @@
 	
 		.exitConfirmOptionsContainer {
 			width: 93vw;
-			height: 17lvh;	
+			height: 19lvh;	
 		}
 	
 		p {
@@ -322,15 +322,15 @@
 	
 		.exitConfirmOptionsContainer {
 			width: 93vw;
-			height: 20lvh;	
+			height: 22lvh;	
 		}
 	
 		p {
-			font-size: 2.2rem;
+			font-size: 2.1rem;
 		}
 	
 		.btnExitGame {
-			font-size: 2.5rem;
+			font-size: 2.4rem;
 		}
 	}
 }

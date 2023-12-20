@@ -57,7 +57,7 @@ function SelectPiece ( {preEndturnCheks}: SelectPieceProps ) {
 	return (
 		<div className={styles.mainContainer}>
 			<div className={styles.dataContainer}>
-				<h2>Choose a piece</h2>
+				<h2>Elige una pieza</h2>
 
 				<div className={styles.piecesGalleryContainer} id="piecesGalleryContainer">
 					{

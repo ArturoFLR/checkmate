@@ -537,8 +537,8 @@
 		flex-wrap: wrap;
 		justify-content: space-around;
 		align-items: center;
-		width: 420px;
-		height: 160px;	
+		width: 435px;
+		height: 180px;	
 		background-color: $black;
 		border: 2px solid $orange;
 	}
@@ -546,13 +546,13 @@
 	p {
 		color: $orange;
 		font-family: 'Tilt Neon', sans-serif;
-		font-size: 2.2rem;
+		font-size: 2.5rem;
 		width: 100%;
 		text-align: center;
 		line-height: 130%;
 
 		span {
-			font-size: 1.9rem;
+			font-size: 2.1rem;
 			color: $winnerNameAndAxiosText;
 		}
 	}
@@ -612,21 +612,21 @@
 	.axiosErrorContainer {
 	
 		.axiosErrorOptionsContainer {
-			width: 750px;
-			height: 260px;	
+			width: 762px;
+			height: 300px;	
 			border: 2px solid $orange;
 		}
 	
 		p {
-			font-size: 4rem;
+			font-size: 4.4rem;
 	
 			span {
-				font-size: 3.2rem;
+				font-size: 3.4rem;
 			}
 		}
 	
 		.btnAxiosError {
-			font-size: 4rem;
+			font-size: 4.4rem;
 	
 			&:hover {
 				scale: 1.2;
@@ -667,21 +667,21 @@
 	.axiosErrorContainer {
 	
 		.axiosErrorOptionsContainer {
-			width: 1170px;
-			height: 370px;	
+			width: 1185px;
+			height: 450px;	
 			border: 3px solid $orange;
 		}
 	
 		p {
-			font-size: 6rem;
+			font-size: 6.8rem;
 	
 			span {
-				font-size: 5rem;
+				font-size: 5.6rem;
 			}
 		}
 	
 		.btnAxiosError {
-			font-size: 6rem;
+			font-size: 6.8rem;
 	
 			&:hover {
 				scale: 1.2;
@@ -722,21 +722,21 @@
 	.axiosErrorContainer {
 	
 		.axiosErrorOptionsContainer {
-			width: 500px;
-			height: 180px;	
+			width: 507px;
+			height: 200px;	
 			border: 2px solid $orange;
 		}
 	
 		p {
-			font-size: 2.5rem;
+			font-size: 2.9rem;
 	
 			span {
-				font-size: 2rem;
+				font-size: 2.4rem;
 			}
 		}
 	
 		.btnAxiosError {
-			font-size: 2.5rem;
+			font-size: 2.9rem;
 	
 			&:hover {
 				scale: 1.2;
@@ -839,8 +839,8 @@
 	.axiosErrorContainer {
 	
 		.axiosErrorOptionsContainer {
-			width: 750px;
-			height: 350px;	
+			width: 700px;
+			height: 340px;	
 		}
 	
 		p {
@@ -863,15 +863,15 @@
 	.axiosErrorContainer {
 	
 		.axiosErrorOptionsContainer {
-			width: 670px;
+			width: 680px;
 			height: 280px;	
 		}
 	
 		p {
-			font-size: 3.4rem;
+			font-size: 3.9rem;
 	
 			span {
-				font-size: 3rem;
+				font-size: 3.2rem;
 			}
 		}
 	
@@ -896,11 +896,11 @@
 		}
 	
 		p {
-			font-size: 3rem;
+			font-size: 2.9rem;
 	
 			span {
 				display: block;
-				font-size: 2.2rem;
+				font-size: 2.4rem;
 				margin-top: 1rem;
 			}
 		}
@@ -919,10 +919,10 @@
 
 
 		p {
-			font-size: 2.5rem;
+			font-size: 2.7rem;
 	
 			span {
-				font-size: 1.9rem;
+				font-size: 2.1rem;
 			}
 		}
 	
@@ -944,7 +944,7 @@
 			font-size: 2.2rem;
 	
 			span {
-				font-size: 1.5rem;
+				font-size: 1.7rem;
 			}
 		}
 	

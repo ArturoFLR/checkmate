@@ -54,7 +54,7 @@ function SelectPlayer () {
 			player1NameInput.value = "";
 			
 			if (howManyPlayers === "select1Player") {
-				player2Data.changePlayerData("Computer", "images/portraits/Robot2.jpg");
+				player2Data.changePlayerData("Robotín", "images/portraits/Robot2.jpg");
 				setGameState("gameIntro1P");													// If there is only one player, changes the state of the parent component "App" to start the game
 			} else if (howManyPlayers === "select2Players") {
 				setPlayerDataToShow("player2");													// If there are two players, changes the state of this component to ask for player 2´s data.
@@ -107,7 +107,7 @@ function SelectPlayer () {
 			<div className={styles.mainContainer} >
 				<div className={`${styles.playerInfoContainer} ${styles.aiGamePlayerInfoContainer}`} >
 					<div className={styles.playerNumberAndPieceContainer} >
-						<p className={styles.playerInfoNumber} >Player 1</p>
+						<p className={styles.playerInfoNumber} >Jugador 1</p>
 						<img alt="White king" src="images/pieces/kingW.png" ></img>
 					</div>
 
@@ -117,7 +117,7 @@ function SelectPlayer () {
 
 					<div className={styles.difficultLevelsContainer}>
 						<div className={styles.difficultyContainer}>
-							<p  id="1" onClick={handleDifficultyClick}>Easy</p>
+							<p  id="1" onClick={handleDifficultyClick}>Fácil</p>
 						</div>
 
 						<div className={`${styles.difficultyContainer} ${styles.difficultySelected}`}>
@@ -125,11 +125,11 @@ function SelectPlayer () {
 						</div>
 
 						<div className={styles.difficultyContainer}>
-							<p id="13" onClick={handleDifficultyClick}>Hard</p>
+							<p id="13" onClick={handleDifficultyClick}>Difícil</p>
 						</div>
 					</div>
 
-					<input className={styles.playerInfoInput} maxLength={9} id="playerInfoInput" placeholder="Enter your name" onKeyDown={handleP1EnterKeyPress} autoComplete="off"></input>
+					<input className={styles.playerInfoInput} maxLength={9} id="playerInfoInput" placeholder="Tu nombre" onKeyDown={handleP1EnterKeyPress} autoComplete="off"></input>
 					<button type="button" className={styles.playerInfobtnOk} onClick={handlePlayer1OkClick}>Ok!</button>
 				</div>
 			</div>
@@ -139,7 +139,7 @@ function SelectPlayer () {
 			<div className={styles.mainContainer} >
 				<div className={styles.playerInfoContainer} >
 					<div className={styles.playerNumberAndPieceContainer} >
-						<p className={styles.playerInfoNumber} >Player 1</p>
+						<p className={styles.playerInfoNumber} >Jugador 1</p>
 						<img alt="White king" src="images/pieces/kingW.png" ></img>
 					</div>
 
@@ -147,7 +147,7 @@ function SelectPlayer () {
 						<Slideshow  player="p1"/ >
 					</div>
 
-					<input className={styles.playerInfoInput} maxLength={9} id="playerInfoInput" placeholder="Enter your name" onKeyDown={handleP1EnterKeyPress} autoComplete="off"></input>
+					<input className={styles.playerInfoInput} maxLength={9} id="playerInfoInput" placeholder="Tu nombre" onKeyDown={handleP1EnterKeyPress} autoComplete="off"></input>
 					<button type="button" className={styles.playerInfobtnOk} onClick={handlePlayer1OkClick}>Ok!</button>
 				</div>
 			</div>
@@ -157,7 +157,7 @@ function SelectPlayer () {
 			<div className={styles.mainContainer} >
 				<div className={styles.playerInfoContainer} >
 					<div className={styles.playerNumberAndPieceContainer}>
-						<p className={styles.playerInfoNumber} >Player 2</p>
+						<p className={styles.playerInfoNumber} >Jugador 2</p>
 						<img alt="Black king" src="images/pieces/kingB.png"></img>
 					</div>
 
@@ -165,7 +165,7 @@ function SelectPlayer () {
 						<Slideshow  player="p2"/ >
 					</div>
 
-					<input className={styles.playerInfoInput} maxLength={9} id="playerInfoInput" placeholder="Enter your name" onKeyDown={handleP2EnterKeyPress} autoComplete="off"></input>
+					<input className={styles.playerInfoInput} maxLength={9} id="playerInfoInput" placeholder="Tu nombre" onKeyDown={handleP2EnterKeyPress} autoComplete="off"></input>
 					<button type="button" className={styles.playerInfobtnOk} onClick={handlePlayer2OkClick} >Ok!</button>
 				</div>
 			</div>

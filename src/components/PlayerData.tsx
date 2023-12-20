@@ -123,11 +123,11 @@ function PlayerData () {
 
 			<div className={styles.btnExitSaveGameContainer}>
 				<button type="button" onClick={handleSaveGameClick} className={styles.btnSaveGame}>
-					Save Game
+					Salvar Partida
 				</button>
 
 				<button type="button" onClick={handleExitGameClick} className={styles.btnExitGame}>
-					Exit Game
+					Terminar
 				</button>
 
 				<div className={styles.leftFormatter} ></div>
@@ -136,10 +136,10 @@ function PlayerData () {
 
 			<div className={`${styles.exitConfirmMainContainer} ${styles.hidden}`} id="exitGame">
 				<div className={styles.exitConfirmOptionsContainer} >
-					<p>Do you really want to quit?</p>
+					<p>¿Quieres terminar la partida?</p>
 
 					<button className={styles.btnExitGame} type="button" onClick={handleConfirmExitGame}>
-						Yes
+						Sí
 					</button>
 
 					<button className={styles.btnExitGame} type="button" onClick={handleCancelExitGame}>
