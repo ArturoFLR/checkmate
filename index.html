@@ -3,7 +3,6 @@
 	<head>
 		<meta charset="UTF-8" name="description" content="Juego de ajedrez para uno o dos jugadores" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="manifest" href="data:application/json;base64,ew0KCSJuYW1lIjoiQ2hlY2ttYXRlISIsDQoJInNob3J0X25hbWUiOiJDaGVja21hdGUhIiwNCgkic3RhcnRfdXJsIjoiaHR0cHM6Ly9hcnR1cm9mbHIuZ2l0aHViLmlvL2NoZWNrbWF0ZS8iLA0KCSJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsDQoJImJhY2tncm91bmRfY29sb3IiOiIjMDAwMDAwIiwNCgkidGhlbWVfY29sb3IiOiIjZmZmZmZmIiwNCgkibGFuZyI6ImVzIiwNCgkic2NvcGUiOiIvIiwNCgkiaWNvbnMiOlsNCgkJew0KCQkJInNyYyI6ICJpY29ucy9wd2EvbWFuaWZlc3QtaWNvbi0xOTIubWFza2FibGUucG5nIiwNCgkJCSJzaXplcyI6ICIxOTJ4MTkyIiwNCgkJCSJ0eXBlIjogImltYWdlL3BuZyIsDQoJCQkicHVycG9zZSI6ICJhbnkiDQoJCX0sDQoJCXsNCgkJCSJzcmMiOiAiaWNvbnMvcHdhL21hbmlmZXN0LWljb24tMTkyLm1hc2thYmxlLnBuZyIsDQoJCQkic2l6ZXMiOiAiMTkyeDE5MiIsDQoJCQkidHlwZSI6ICJpbWFnZS9wbmciLA0KCQkJInB1cnBvc2UiOiAibWFza2FibGUiDQoJCX0sDQoJCXsNCgkJCSJzcmMiOiAiaWNvbnMvcHdhL21hbmlmZXN0LWljb24tNTEyLm1hc2thYmxlLnBuZyIsDQoJCQkic2l6ZXMiOiAiNTEyeDUxMiIsDQoJCQkidHlwZSI6ICJpbWFnZS9wbmciLA0KCQkJInB1cnBvc2UiOiAiYW55Ig0KCQl9LA0KCQl7DQoJCQkic3JjIjogImljb25zL3B3YS9tYW5pZmVzdC1pY29uLTUxMi5tYXNrYWJsZS5wbmciLA0KCQkJInNpemVzIjogIjUxMng1MTIiLA0KCQkJInR5cGUiOiAiaW1hZ2UvcG5nIiwNCgkJCSJwdXJwb3NlIjogIm1hc2thYmxlIg0KCQl9DQoJXQ0KfQ0K" />
 		<link rel="icon" href="icons/favicon.png" />
 
 		<link rel="apple-touch-icon" href="icons/pwa/apple-icon-180.png">
@@ -50,24 +49,12 @@
 		<link rel="apple-touch-startup-image" href="icons/pwa/apple-splash-1136-640.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
 
 		<title>CHECKMATE!</title>
-		<script type="module" crossorigin src="/checkmate/assets/index-8f719e13.js"></script>
+		<script type="module" crossorigin src="/checkmate/assets/index-4d7b823a.js"></script>
 		<link rel="stylesheet" href="/checkmate/assets/index-fa416424.css">
-	</head>
+	<link rel="manifest" href="/checkmate/manifest.webmanifest"><script id="vite-plugin-pwa:inline-sw">if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/checkmate/sw.js', { scope: '/checkmate/' })})}</script></head>
 	<body>
 		<div id="root"></div>
 
 		
-
-		<script>
-			if ("serviceWorker" in navigator) {
-				navigator.serviceWorker.register("/service-worker.js")
-					.then(reg => {
-						setInterval( () => {
-							reg.update();
-						}, 3600000);
-					});
-			}
-		</script>
-
 	</body>
 </html>
