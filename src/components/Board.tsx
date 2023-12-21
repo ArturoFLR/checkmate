@@ -104,7 +104,7 @@ function Board( {showPieces}: BoardProps) {
 						if (element.square === aiMove.originSquare) pieceToMove = element;
 					});
 
-					aiActions2Timeout = setTimeout( () => {
+					aiActions2Timeout = window.setTimeout( () => {
 						pieceToMove!.movePiece(aiMove.targetSquare);
 						
 						if (isPieceDyingData.isPieceDying === true) {
@@ -113,7 +113,7 @@ function Board( {showPieces}: BoardProps) {
 							timer = 500;
 						}
 				
-						movingPieceTimeout = setTimeout( () => {
+						movingPieceTimeout = window.setTimeout( () => {
 							changeLoadingDialogVisibility(false);
 							preEndturnCheks();
 						}, timer);	 							// Wait for the piece's animation to finish before advancing to the next turn.
@@ -557,7 +557,7 @@ function Board( {showPieces}: BoardProps) {
 					(whiteKing! as King).animateKingDying();
 					endgame = true;
 
-					waitForKingToDieTimeout = setTimeout( () => {
+					waitForKingToDieTimeout = window.setTimeout( () => {
 						removePendingDieAnimation();
 						setGameState("gameWinP2");
 					}, 8500);
@@ -566,7 +566,7 @@ function Board( {showPieces}: BoardProps) {
 					(whiteKing! as King).animateKingDying();
 					endgame = true;
 
-					waitForKingToDieTimeout = setTimeout( () => {
+					waitForKingToDieTimeout = window.setTimeout( () => {
 						removePendingDieAnimation();
 						setGameState("gameWinP2");
 					}, 8500);
@@ -578,7 +578,7 @@ function Board( {showPieces}: BoardProps) {
 					(blackKing! as King).animateKingDying();
 					endgame = true;
 
-					waitForKingToDieTimeout = setTimeout( () => {
+					waitForKingToDieTimeout = window.setTimeout( () => {
 						removePendingDieAnimation();
 						setGameState("gameWinP1");
 					}, 8500);
@@ -586,7 +586,7 @@ function Board( {showPieces}: BoardProps) {
 					(blackKing! as King).animateKingDying();
 					endgame = true;
 
-					waitForKingToDieTimeout = setTimeout( () => {
+					waitForKingToDieTimeout = window.setTimeout( () => {
 						removePendingDieAnimation();
 						setGameState("gameWinP1");
 					}, 8500);
@@ -670,7 +670,7 @@ function Board( {showPieces}: BoardProps) {
 			timer = 500;
 		}
 
-		movingPieceTimeout = setTimeout( () => preEndturnCheks(), timer);	 							// Wait for the piece's animation to finish before advancing to the next turn.
+		movingPieceTimeout = window.setTimeout( () => preEndturnCheks(), timer);	 							// Wait for the piece's animation to finish before advancing to the next turn.
 		
 	}
 
@@ -773,7 +773,7 @@ function Board( {showPieces}: BoardProps) {
 		}
 
 		if (gameState === "gameStarted1P" && playerTurn === "b" && !isAIThinkingData.isAIThinking) {
-			aiActionsTimeout = setTimeout( () => {
+			aiActionsTimeout = window.setTimeout( () => {
 				generateAiActions();
 			}, 550);
 			changeLoadingDialogVisibility(true);														// Show the "loading" dialog in "PlayerData" component.

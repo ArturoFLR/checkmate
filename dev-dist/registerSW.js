@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/checkmate/dev-sw.js?dev-sw', { scope: '/checkmate/', type: 'classic' })

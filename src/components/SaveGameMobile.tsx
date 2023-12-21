@@ -124,7 +124,7 @@ function SaveGameMobile () {																						// This component is hidden us
 
 			} else {																					// If the user has not entered a valid name for the slot, it activates a warning animation on the input.	
 				inputElement.classList.add(styles.inputHighlighted);
-				inputHighlightAnimTimeout = setTimeout( () => {
+				inputHighlightAnimTimeout = window.setTimeout( () => {
 					inputElement.classList.remove(styles.inputHighlighted);
 				}, 500);
 			}
@@ -132,7 +132,7 @@ function SaveGameMobile () {																						// This component is hidden us
 		} else {																						// If the user has not selected any slot, a warning animation is activated on the slot container.
 			const slotsContainer = document.getElementById("slotsContainerMobile") as HTMLDivElement;
 			slotsContainer.classList.add(styles.slotsContainerHighlighted);
-			slotsHighlightAnimTimeout = setTimeout( () => {
+			slotsHighlightAnimTimeout = window.setTimeout( () => {
 				slotsContainer.classList.remove(styles.slotsContainerHighlighted);
 			}, 500);
 		}
@@ -184,7 +184,7 @@ function SaveGameMobile () {																						// This component is hidden us
 
 		for (let i = 0; i < oldName.length; i++) {																// Deletes the previous text, changing it to blank spaces.
 			
-			newSlotTextAnimTimeout = setTimeout( () => {
+			newSlotTextAnimTimeout = window.setTimeout( () => {
 				oldNameArray.splice(0, 1);
 				slotToAnimate.innerText = oldNameArray.join("");
 			}, timer);
@@ -194,7 +194,7 @@ function SaveGameMobile () {																						// This component is hidden us
 
 		for (let i = 0; i < capitalizedUserName.length; i++) {												// Generates the new text, letter by letter.
 
-			newSlotTextAnimTimeout = setTimeout( () => {									
+			newSlotTextAnimTimeout = window.setTimeout( () => {									
 				animatedNewName = animatedNewName + capitalizedUserName[i];
 				slotToAnimate.innerText = animatedNewName;
 			}, timer);
@@ -202,7 +202,7 @@ function SaveGameMobile () {																						// This component is hidden us
 			timer = timer + 100;
 		}
 
-		saveGameDialogCloseTiemout = setTimeout( () => {													// Hide the component and reset its variables and styles.
+		saveGameDialogCloseTiemout = window.setTimeout( () => {													// Hide the component and reset its variables and styles.
 			saveGameDialog.classList.add(styles2.saveHidden);
 			inputElement.disabled= true;
 			selectedSlot = "";

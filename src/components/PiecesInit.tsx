@@ -431,7 +431,7 @@ function PiecesInit( {animate, piecesColor}: PiecesInitProps ) {
 			timer = timer + 150;
 		});
 
-		piecesAnimationTimeout = setTimeout( () => {
+		piecesAnimationTimeout = window.setTimeout( () => {
 			if (gameState === "gameIntro1P") {
 				setGameState("gameStarted1P");
 			} else {

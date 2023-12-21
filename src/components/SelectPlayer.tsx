@@ -35,7 +35,7 @@ function SelectPlayer () {
 	function animateInputOnError () {
 		const player1NameInput = document.getElementById("playerInfoInput") as HTMLInputElement;
 		player1NameInput.classList.add(styles.animateInputOnError);
-		inputNameErrorTimeout = setTimeout( () => {
+		inputNameErrorTimeout = window.setTimeout( () => {
 			player1NameInput.classList.remove(styles.animateInputOnError);
 		}, 501);
 	}

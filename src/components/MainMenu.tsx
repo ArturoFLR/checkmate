@@ -189,7 +189,7 @@ function MainMenu() {
 		} else {																					// If the user has not selected a slot, we apply a warning animation on the container of all slots.
 			const slots = document.getElementById("loadGameGameList") as HTMLDivElement;
 			slots.classList.add(styles.higlightSlots);
-			slotsHighLightAnimTimeout = setTimeout( () => {
+			slotsHighLightAnimTimeout = window.setTimeout( () => {
 				slots.classList.remove(styles.higlightSlots);
 			}, 500);
 		}

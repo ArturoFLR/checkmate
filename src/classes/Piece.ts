@@ -249,7 +249,7 @@ function animateTransform ( this: Piece ) {												// It is called by the "n
 	oldPawnImg.classList.add(styles.transformOldPiece);
 	newPieceElement.classList.add(styles.transformNewPiece);
 
-	transformPieceTimeout = setTimeout( () => {														// Removes placeholders and classes created by the "animateTransform" method from the piece. This Timeout is removed by the useEffect of the "Board" component.
+	transformPieceTimeout = window.setTimeout( () => {														// Removes placeholders and classes created by the "animateTransform" method from the piece. This Timeout is removed by the useEffect of the "Board" component.
 		oldPawnImg.remove();
 		newPieceElement.classList.remove(styles.transformNewPiece);
 	},2005);

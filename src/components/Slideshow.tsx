@@ -59,7 +59,7 @@ function Slideshow( {player}: SlideshowProps ) {							//	The "player" prop indi
 		const nextImageContainer = document.getElementById("nextImageContainer") as HTMLDivElement;
 		nextImageContainer.classList.add(styles.animateNextPortrait);
 
-		nextPortraitTimeout = setTimeout( () => {
+		nextPortraitTimeout = window.setTimeout( () => {
 			if (actualPortraitIndex < (noSelectedPortraitsPaths.length - 1)) {
 				setActualPortraitIndex(actualPortraitIndex + 1);
 			} else {
@@ -74,7 +74,7 @@ function Slideshow( {player}: SlideshowProps ) {							//	The "player" prop indi
 		const prevImageContainer = document.getElementById("prevImageContainer") as HTMLDivElement;
 		prevImageContainer.classList.add(styles.animatePrevPortrait);
 
-		prevPortraitTimeout = setTimeout( () => {
+		prevPortraitTimeout = window.setTimeout( () => {
 			if (actualPortraitIndex > 0) {
 				setActualPortraitIndex(actualPortraitIndex - 1);
 			} else {

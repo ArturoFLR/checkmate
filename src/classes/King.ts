@@ -371,20 +371,20 @@ function animateKingDying (this: King ): void {											// A special death ani
 	explosionImg.id = "explosionAnim";
 
 
-	kingDyingExplosionTimeout = setTimeout( () => {
+	kingDyingExplosionTimeout = window.setTimeout( () => {
 		square.classList.remove(styles.checked);
 		kingElement.classList.add(styles.kingDying);
 	}, 1000);
 
-	kingDyingExplosionTimeout = setTimeout( () => {
+	kingDyingExplosionTimeout = window.setTimeout( () => {
 		square.appendChild(explosionImg);
 	}, 5000);
 
-	kingDyingExplosionTimeout = setTimeout( () => {
+	kingDyingExplosionTimeout = window.setTimeout( () => {
 		square.classList.add(styles.withHole);
 	}, 5400);
 
-	kingDyingExplosionTimeout = setTimeout( () => {
+	kingDyingExplosionTimeout = window.setTimeout( () => {
 		explosionImg.remove();
 	}, 5930);
 
