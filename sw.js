@@ -1812,5 +1812,5 @@ function He() {
 self.skipWaiting();
 He();
 je();
-qe([{"revision":null,"url":"assets/index-4d7b823a.js"},{"revision":null,"url":"assets/index-fa416424.css"},{"revision":null,"url":"assets/workbox-window.prod.es5-a7b12eab.js"},{"revision":"5890e7bb9e932116ff944e05a334ce8d","url":"index.html"},{"revision":"d8c8838d0e55063f9b1670f91acc8128","url":"icons/pwa/manifest-icon-192.maskable.png"},{"revision":"b73c40049d9b787941b1f22af3de45dd","url":"icons/pwa/manifest-icon-512.maskable.png"},{"revision":"7a2f2a23ef97797f388b649985852fb0","url":"manifest.webmanifest"}]);
+qe([{"revision":null,"url":"assets/index-4d7b823a.js"},{"revision":null,"url":"assets/index-fa416424.css"},{"revision":null,"url":"assets/workbox-window.prod.es5-a7b12eab.js"},{"revision":"5890e7bb9e932116ff944e05a334ce8d","url":"index.html"},{"revision":"d8c8838d0e55063f9b1670f91acc8128","url":"icons/pwa/manifest-icon-192.maskable.png"},{"revision":"b73c40049d9b787941b1f22af3de45dd","url":"icons/pwa/manifest-icon-512.maskable.png"},{"revision":"12ef3f14b7cf8749044cc20dedb76615","url":"manifest.webmanifest"}]);
 Ue();
