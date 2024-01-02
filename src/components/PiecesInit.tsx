@@ -130,14 +130,14 @@ function PiecesInit( {animate, piecesColor}: PiecesInitProps ) {
 			const targetSquare = document.getElementById(element.square) as HTMLDivElement;
 			const targetSquareCoordinates = {
 				top: window.scrollY + targetSquare.getBoundingClientRect().top,
-				left: window.scrollY + targetSquare.getBoundingClientRect().left,
+				left: window.scrollX + targetSquare.getBoundingClientRect().left,
 				width: targetSquare.getBoundingClientRect().width										// The width of the destination square is necessary, because if we do not add it to the "left" property, the piece is positioned at the left edge of the square.
 			};
 
 			const pieceToMove = document.getElementById(`target ${element.square}`) as HTMLImageElement;
 			const pieceToMoveCoordinates = {
 				top: window.scrollY + pieceToMove.getBoundingClientRect().top,
-				left: window.scrollY + pieceToMove.getBoundingClientRect().left
+				left: window.scrollX + pieceToMove.getBoundingClientRect().left
 			};
 
 			const thisPieceAnimationData = {

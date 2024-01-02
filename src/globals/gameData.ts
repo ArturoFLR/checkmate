@@ -161,7 +161,7 @@ function setAiLevel ( this: AiLevelType, newAiLevel: number ) {
 }
 
 export const aiLevelData: AiLevelType = {
-	aiLevel: 8,
+	aiLevel: 6,
 	setAiLevel: setAiLevel
 };
 

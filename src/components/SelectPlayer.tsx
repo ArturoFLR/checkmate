@@ -16,7 +16,7 @@ function SelectPlayer () {
 	const howManyPlayers = gameStateData.gameState;													// The "howManyPlayers" prop is used to decide whether or not to ask to fill in player 2's data when player 1's data has been filled in. "setGameState" changes App`s GameState
 	const setGameState = gameStateData.setGameState;		
 	
-	let levelSelected = 8;
+	let levelSelected = 6;
 
 	let inputNameErrorTimeout: number;
 
@@ -121,7 +121,7 @@ function SelectPlayer () {
 						</div>
 
 						<div className={`${styles.difficultyContainer} ${styles.difficultySelected}`}>
-							<p id="8" onClick={handleDifficultyClick}>Normal</p>
+							<p id="6" onClick={handleDifficultyClick}>Normal</p>
 						</div>
 
 						<div className={styles.difficultyContainer}>
