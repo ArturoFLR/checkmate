@@ -1,27 +1,39 @@
-# React + TypeScript + Vite
+# Checkmate!
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+"Checkmate!" is a chess game for one or two players.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Created By
+**Arturo López Rosa** 
+<p>
+  <a href="mailto:jhonas29@gmail.com"><img src="https://img.shields.io/badge/e‑mail-D14836.svg?style=for-the-badge&logo=GMail&logoColor=white"/></a>
+  <a href="https://www.linkedin.com/in/arturo-lopez-rosa/"><img src="https://img.shields.io/badge/linkedin-0077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"/></a>
+</p>
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Features
 
-- Configure the top-level `parserOptions` property like this:
+- Play chess against an AI opponent or against another player 
+- Choose between different difficulty levels for the AI opponent
+- Save and load games at any time
+- Responsive design for optimal viewing on desktop and mobile devices
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+## Technologies Used
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- `React JS`
+- `TypeScript`
+- `Axios`
+- `SCSS`
+- `Workbox`
+- Stockfish API REST for AI opponent
+
+## Usage
+
+To run the application locally, follow these steps:
+
+1. Clone this repository to your local machine.
+2. Navigate to the project directory.
+3. Install dependencies using `npm install`.
+4. Start the server using `npm start`.
+5. Open your web browser and visit `http://localhost:4173/checkmate/` to access the application.
