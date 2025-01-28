@@ -321,7 +321,7 @@ function Board( {showPieces}: BoardProps) {
 		let whiteBishopsWhiteSquare = 0;
 		let whiteBishopsBlackSquare = 0;
 		let whiteQueen = 0;
-		let whitePawnsWithMoves = false;
+		let whitePawns = false;
 
 		let blackKnights = 0;														
 		let blackRooks = 0;
@@ -329,7 +329,7 @@ function Board( {showPieces}: BoardProps) {
 		let blackBishopsWhiteSquare = 0;
 		let blackBishopsBlackSquare = 0;
 		let blackQueen = 0;
-		let blackPawnsWithMoves = false;
+		let blackPawns = false;
 
 
 		piecesData.pieces.map( (element) => {
@@ -392,15 +392,11 @@ function Board( {showPieces}: BoardProps) {
 				break;
 
 			case "P":
-				if (element.possibleMoves.length >= 1) {
-					whitePawnsWithMoves = true;
-				}
+				whitePawns = true;
 				break;
 			
 			case "p":
-				if (element.possibleMoves.length >= 1) {
-					blackPawnsWithMoves = true;
-				}
+				blackPawns = true;
 				break;
 
 			default:
@@ -411,13 +407,13 @@ function Board( {showPieces}: BoardProps) {
 			
 		// Test White Player Dead Position:
 
-		if (whiteQueen === 0 && whiteRooks === 0 && whitePawnsWithMoves === false && whiteKnights === 0 && (whiteBishopsWhiteSquare === 0 || whiteBishopsBlackSquare === 0)) {
+		if (whiteQueen === 0 && whiteRooks === 0 && whitePawns === false && whiteKnights === 0 && (whiteBishopsWhiteSquare === 0 || whiteBishopsBlackSquare === 0)) {
 			possibleWhiteDeadPosition = true;
 		}
 
 		// Test Black Player Dead Position:
 
-		if (blackQueen === 0 && blackRooks === 0 && blackPawnsWithMoves === false && blackKnights === 0 && (blackBishopsWhiteSquare === 0 || blackBishopsBlackSquare === 0)) {
+		if (blackQueen === 0 && blackRooks === 0 && blackPawns === false && blackKnights === 0 && (blackBishopsWhiteSquare === 0 || blackBishopsBlackSquare === 0)) {
 			possibleBlackDeadPosition = true;
 		}
 
@@ -430,11 +426,11 @@ function Board( {showPieces}: BoardProps) {
 		// Checks Dead Position (King & Knight Vs. King):
 
 		if (possibleWhiteDeadPosition && whiteBishops === 0) {
-			if (blackQueen === 0 && blackRooks === 0 && blackPawnsWithMoves === false && blackBishops === 0 && blackKnights === 1) {
+			if (blackQueen === 0 && blackRooks === 0 && blackPawns === false && blackBishops === 0 && blackKnights === 1) {
 				return true;
 			}
 		} else if (possibleBlackDeadPosition && blackBishops === 0) {
-			if (whiteQueen === 0 && whiteRooks === 0 && whitePawnsWithMoves === false && whiteBishops === 0 && whiteKnights === 1) {
+			if (whiteQueen === 0 && whiteRooks === 0 && whitePawns === false && whiteBishops === 0 && whiteKnights === 1) {
 				return true;
 			}
 		}
