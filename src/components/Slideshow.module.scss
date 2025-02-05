@@ -1,6 +1,6 @@
 @use "./colors" as *;
 
-@keyframes nextPortraitAnim{
+@keyframes nextPortraitAnim {
 	0% {
 		right: -105%;
 	}
@@ -9,7 +9,7 @@
 	}
 }
 
-@keyframes prevPortraitAnim{
+@keyframes prevPortraitAnim {
 	0% {
 		left: -105%;
 	}
@@ -32,7 +32,9 @@
 		scale: 1.018;
 	}
 
-	.prevImageContainer, .actualImageContainer, .nextImageContainer {
+	.prevImageContainer,
+	.actualImageContainer,
+	.nextImageContainer {
 		position: absolute;
 		width: 100%;
 		border: 3px solid $orange;
@@ -43,11 +45,10 @@
 	.prevImageContainer {
 		left: -105%;
 		z-index: 1;
-
 	}
 
 	.animatePrevPortrait {
-		animation: prevPortraitAnim forwards .3s;
+		animation: prevPortraitAnim forwards 0.3s;
 	}
 
 	.actualImageContainer {
@@ -61,10 +62,11 @@
 	}
 
 	.animateNextPortrait {
-		animation: nextPortraitAnim forwards .3s;
+		animation: nextPortraitAnim forwards 0.3s;
 	}
 
-	.nextIconContainer, .prevIconContainer {
+	.nextIconContainer,
+	.prevIconContainer {
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -85,10 +87,10 @@
 		}
 
 		&:hover {
-
 			img {
 				scale: 1.3;
-				filter: invert(75%) sepia(28%) saturate(6645%) hue-rotate(359deg) brightness(104%) contrast(106%);
+				filter: invert(75%) sepia(28%) saturate(6645%) hue-rotate(359deg)
+					brightness(104%) contrast(106%);
 			}
 		}
 	}
@@ -110,21 +112,21 @@
 	}
 }
 
-
 //  MEDIA QUERIES
 
 @media (width > 1900px) {
-	
 	.imagesContainer {
-	
-		.prevImageContainer, .actualImageContainer, .nextImageContainer {
+		.prevImageContainer,
+		.actualImageContainer,
+		.nextImageContainer {
 			border: 4px solid $orange;
 		}
-	
-		.nextIconContainer, .prevIconContainer {
+
+		.nextIconContainer,
+		.prevIconContainer {
 			width: 45px;
 			height: 45px;
-	
+
 			img {
 				width: 15px;
 			}
@@ -132,19 +134,19 @@
 	}
 }
 
-
 @media (width > 2500px) {
-	
 	.imagesContainer {
-	
-		.prevImageContainer, .actualImageContainer, .nextImageContainer {
+		.prevImageContainer,
+		.actualImageContainer,
+		.nextImageContainer {
 			border: 4px solid $orange;
 		}
-	
-		.nextIconContainer, .prevIconContainer {
+
+		.nextIconContainer,
+		.prevIconContainer {
 			width: 55px;
 			height: 55px;
-	
+
 			img {
 				width: 20px;
 			}
@@ -153,17 +155,18 @@
 }
 
 @media (width > 3800px) {
-	
 	.imagesContainer {
-	
-		.prevImageContainer, .actualImageContainer, .nextImageContainer {
+		.prevImageContainer,
+		.actualImageContainer,
+		.nextImageContainer {
 			border: 6px solid $orange;
 		}
-	
-		.nextIconContainer, .prevIconContainer {
+
+		.nextIconContainer,
+		.prevIconContainer {
 			width: 85px;
 			height: 85px;
-	
+
 			img {
 				width: 30px;
 			}
@@ -171,15 +174,12 @@
 	}
 }
 
-
 @media (width < 1050px) and (orientation: portrait) {
-	
 	.imagesContainer {
-	
 		.nextIconContainer {
 			width: 60px;
 			height: 60px;
-	
+
 			img {
 				width: 20px;
 				margin-left: 0.8rem;
@@ -198,15 +198,12 @@
 	}
 }
 
-
 @media (width < 450px) and (orientation: portrait) {
-	
 	.imagesContainer {
-	
 		.nextIconContainer {
 			width: 50px;
 			height: 50px;
-	
+
 			img {
 				width: 15px;
 			}
@@ -224,13 +221,11 @@
 }
 
 @media (width < 394px) and (orientation: portrait) {
-	
 	.imagesContainer {
-	
 		.nextIconContainer {
 			width: 35px;
 			height: 35px;
-	
+
 			img {
 				width: 10px;
 				margin-left: 0.5rem;
@@ -250,13 +245,11 @@
 }
 
 @media (width < 340px) and (orientation: portrait) {
-	
 	.imagesContainer {
-	
 		.nextIconContainer {
 			width: 30px;
 			height: 30px;
-	
+
 			img {
 				width: 9px;
 			}
