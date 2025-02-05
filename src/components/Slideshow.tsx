@@ -2,6 +2,7 @@ import styles from "./Slideshow.module.scss";
 import portraitsPaths from "../data/portraitsPaths";
 import { useEffect, useState } from "react";
 import { player1Data, player2Data } from "../globals/playersData";
+import SlideshowLazyMock from "./SlideshowLazyMock";
 
 type SlideshowProps = {
 	player: "p1" | "p2";
@@ -10,6 +11,7 @@ type SlideshowProps = {
 function Slideshow({ player }: SlideshowProps) {
 	//	The "player" prop indicates which player is selecting their portrait.
 	const [actualPortraitIndex, setActualPortraitIndex] = useState(0);
+	const [isImageLoaded, setIsImageLoaded] = useState(false);
 	let actualPortraitPath: string;
 
 	let noSelectedPortraitsPaths = portraitsPaths; // Later, this variable will be defined as "portraitsPaths" minus the portrait already selected by player 1, if any
@@ -105,29 +107,42 @@ function Slideshow({ player }: SlideshowProps) {
 	});
 
 	return (
-		<div className={styles.mainContainer}>
-			<div className={styles.imagesContainer}>
-				<div className={styles.prevImageContainer} id="prevImageContainer">
-					<img alt="Portrait" src={prevPortraitPath} />
-				</div>
+		<>
+			{isImageLoaded ? null : <SlideshowLazyMock />}
+			<div className={isImageLoaded ? styles.mainContainer : styles.hide}>
+				<div className={styles.imagesContainer}>
+					<div className={styles.prevImageContainer} id="prevImageContainer">
+						<img alt="Portrait" src={prevPortraitPath} />
+					</div>
 
-				<div className={styles.actualImageContainer}>
-					<img alt="Portrait" src={actualPortraitPath} />
-				</div>
+					<div className={styles.actualImageContainer}>
+						<img
+							alt="Portrait"
+							src={actualPortraitPath}
+							onLoad={() => setIsImageLoaded(true)}
+						/>
+					</div>
 
-				<div className={styles.nextImageContainer} id="nextImageContainer">
-					<img alt="Portrait" src={nextPortraitPath} />
-				</div>
+					<div className={styles.nextImageContainer} id="nextImageContainer">
+						<img alt="Portrait" src={nextPortraitPath} />
+					</div>
 
-				<div className={styles.nextIconContainer} onClick={handleNextPortrait}>
-					<img alt="Next portrait" src="icons/icon-next.svg" />
-				</div>
+					<div
+						className={styles.nextIconContainer}
+						onClick={handleNextPortrait}
+					>
+						<img alt="Next portrait" src="icons/icon-next.svg" />
+					</div>
 
-				<div className={styles.prevIconContainer} onClick={handlePrevPortrait}>
-					<img alt="Previous portrait" src="icons/icon-previous.svg" />
+					<div
+						className={styles.prevIconContainer}
+						onClick={handlePrevPortrait}
+					>
+						<img alt="Previous portrait" src="icons/icon-previous.svg" />
+					</div>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 }
 

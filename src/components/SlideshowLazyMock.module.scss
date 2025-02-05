@@ -1,0 +1,57 @@
+@use "./colors" as *;
+
+.mainContainer {
+	width: 100%;
+	aspect-ratio: 400/560;
+}
+
+.imagesContainer {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	aspect-ratio: 400/560;
+
+	.actualImageContainer {
+		position: absolute;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		aspect-ratio: 400/560;
+		border: 3px solid $orange;
+		border-radius: 50%;
+		background-color: #282675;
+		overflow: hidden;
+
+		.iconContainer {
+			color: $orange;
+			font-size: 4rem;
+		}
+	}
+}
+
+//  MEDIA QUERIES
+
+@media (width > 1900px) {
+	.imagesContainer {
+		.actualImageContainer {
+			border: 4px solid $orange;
+		}
+	}
+}
+
+@media (width > 2500px) {
+	.imagesContainer {
+		.actualImageContainer {
+			border: 4px solid $orange;
+		}
+	}
+}
+
+@media (width > 3800px) {
+	.imagesContainer {
+		.actualImageContainer {
+			border: 6px solid $orange;
+		}
+	}
+}

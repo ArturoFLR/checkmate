@@ -10,9 +10,13 @@
     "preview": "vite preview",
     "start": "rimraf dist && npm run build && npm run preview",
     "deploy": "rimraf dist && npm run build && gh-pages -d dist",
-	"test": "cypress open"
+    "test": "cypress open"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.4.3",
+    "@mui/material": "^6.4.3",
     "axios": "^1.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
@@ -37,5 +41,8 @@
     "vite-plugin-pwa": "^0.17.4",
     "workbox-cli": "^7.0.0"
   },
-  "include": ["./node_modules/cypress", "cypress/**/*.js"]
+  "include": [
+    "./node_modules/cypress",
+    "cypress/**/*.js"
+  ]
 }
