@@ -1,5 +1,5 @@
 // MAIN COLORS
-$orange: rgb(255,165,0);
+$orange: rgb(255, 165, 0);
 $orangeButtonHovered: rgb(240, 201, 126);
 $menuPanel: rgb(4, 2, 55);
 $black: rgb(0, 0, 0);
@@ -11,9 +11,9 @@ $targetSquareWithPice: rgb(243, 95, 95);
 
 // BACKGROUNDS
 $dialogsBackground: rgba(0, 0, 0, 0.702);
-$gameResultsBtnBackground: rgb(0,102,128);
+$gameResultsBtnBackground: rgb(0, 102, 128);
 $gameResultsBtnBackgroundHovered: rgb(50, 137, 158);
-$menuBtnBackground: rgb(0,102,128);
+$menuBtnBackground: rgb(0, 102, 128);
 $menuBtnBackgroundHovered: rgb(101, 3, 3);
 $saveGameSlotsBackground: rgb(101, 130, 194);
 $saveGameSlotsHoverBackground: rgb(129, 150, 194);
@@ -27,3 +27,6 @@ $placeholderText: rgb(204, 200, 200);
 
 // BORDERS
 $gameResultsBtnBorder: rgba(0, 0, 0, 0.398);
+
+// GLOW
+$orangeGlowEffect: #ffcc00;
