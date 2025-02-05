@@ -1,5 +1,16 @@
 @use "./colors" as *;
 
+@keyframes icon-glow {
+	0% {
+		filter: drop-shadow(0px 0px 1px $orangeGlowEffect)
+			drop-shadow(0px 0px 4px $orangeGlowEffect);
+	}
+	100% {
+		filter: drop-shadow(0px 0px 11px $orangeGlowEffect)
+			drop-shadow(0px 0px 11px $orangeGlowEffect);
+	}
+}
+
 .mainContainer {
 	width: 100%;
 	aspect-ratio: 400/560;
@@ -26,6 +37,7 @@
 		.iconContainer {
 			color: $orange;
 			font-size: 4rem;
+			animation: icon-glow 0.7s linear alternate infinite;
 		}
 	}
 }
@@ -36,6 +48,10 @@
 	.imagesContainer {
 		.actualImageContainer {
 			border: 4px solid $orange;
+
+			.iconContainer {
+				font-size: 5rem;
+			}
 		}
 	}
 }
@@ -44,6 +60,10 @@
 	.imagesContainer {
 		.actualImageContainer {
 			border: 4px solid $orange;
+
+			.iconContainer {
+				font-size: 7rem;
+			}
 		}
 	}
 }
@@ -52,6 +72,10 @@
 	.imagesContainer {
 		.actualImageContainer {
 			border: 6px solid $orange;
+
+			.iconContainer {
+				font-size: 9rem;
+			}
 		}
 	}
 }
